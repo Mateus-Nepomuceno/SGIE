@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# ==============================================================================
+# .githooks/commit-msg
+# Git hook para validação de mensagens de commit (Conventional Commits adaptado)
+# ==============================================================================
+set -e
+
+GIT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo ".")
+VALIDATOR="$GIT_ROOT/scripts/commits/validate-message.sh"
+
+if [ ! -f "$VALIDATOR" ]; then
+  echo "ERRO: Script validador não encontrado em: '$VALIDATOR'" >&2
+  exit 1
+fi
+
+exec bash "$VALIDATOR" "$@"

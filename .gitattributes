@@ -1,0 +1,3 @@
+# Garantir finais de linha LF para scripts de validação e hooks Git
+.githooks/* text eol=lf
+scripts/commits/*.sh text eol=lf
