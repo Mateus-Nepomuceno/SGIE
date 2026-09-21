@@ -1,0 +1,10 @@
+line-length = 9999 
+extend-exclude = ['migrations/', 'manage.py']
+
+[lint]
+preview = true
+select = ['I', 'F', 'E', 'W', 'PL', 'PT', 'DJ']
+
+[format]
+preview = true
+quote-style = 'single'
