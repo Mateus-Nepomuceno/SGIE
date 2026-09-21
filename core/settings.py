@@ -11,7 +11,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-dev-only-secret-key')
 
 DEBUG = int(os.environ.get('DJANGO_DEBUG', default='0'))
 
-ALLOWED_HOSTS = str(os.environ.get('DJANGO_ALLOWED_HOSTS')).split(',')
+ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -23,6 +23,17 @@ INSTALLED_APPS = [
     'rest_framework',
     'usuarios',
 ]
+
+AUTH_USER_MODEL = 'usuarios.Usuario'
+
+AUTHENTICATION_BACKENDS = [
+    'usuarios.backends.EmailOrCPFBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+LOGIN_URL = 'usuarios:login'
+LOGIN_REDIRECT_URL = 'usuarios:perfil'
+LOGOUT_REDIRECT_URL = 'usuarios:login'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -93,3 +104,5 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+DEFAULT_FROM_EMAIL = 'sgie@universidade.edu.br'
