@@ -5,6 +5,10 @@ extend-exclude = ['migrations/', 'manage.py']
 preview = true
 select = ['I', 'F', 'E', 'W', 'PL', 'PT', 'DJ']
 
+[lint.per-file-ignores]
+"**/tests.py" = ["PT", "PLR2004", "PLR0913"]
+"**/tests/**" = ["PT", "PLR2004", "PLR0913"]
+
 [format]
 preview = true
 quote-style = 'single'

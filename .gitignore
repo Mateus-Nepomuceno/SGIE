@@ -16,3 +16,6 @@ venv/
 .env
 
 .ruff_cache/
+
+docs/docs_base
+.agents/
