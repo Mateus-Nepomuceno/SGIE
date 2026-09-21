@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperação de Acesso - SGIE</title>
+</head>
+<body>
+    <header>
+        <h1>Recuperação de Acesso</h1>
+        <p>Sistema de Gestão de Inscrições e Eventos Universitários</p>
+    </header>
+
+    <main>
+        {% if messages %}
+            <section aria-label="Mensagens do Sistema">
+                <ul>
+                    {% for message in messages %}
+                        <li><strong>{{ message.tags|capfirst }}:</strong> {{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </section>
+        {% endif %}
+
+        {% if etapa == 'redefinir' %}
+            <!-- Etapa 2: Inserir código de verificação e nova senha -->
+            <section>
+                <h2>Redefinir Senha com Código</h2>
+                <p>Insira o código numérico de 6 dígitos enviado para seu e-mail e defina sua nova senha.</p>
+
+                <form method="post" action="{% url 'usuarios:redefinir_senha' %}">
+                    {% csrf_token %}
+
+                    <div>
+                        <label for="id_email">E-mail Cadastrado:</label><br>
+                        <input type="email" id="id_email" name="email" value="{{ email }}" required placeholder="seu.email@universidade.edu.br">
+                    </div>
+                    <br>
+
+                    <div>
+                        <label for="id_codigo">Código de 6 Dígitos:</label><br>
+                        <input type="text" id="id_codigo" name="codigo" required maxlength="6" minlength="6" placeholder="123456" autofocus>
+                    </div>
+                    <br>
+
+                    <div>
+                        <label for="id_nova_senha">Nova Senha (Mínimo de 8 caracteres):</label><br>
+                        <input type="password" id="id_nova_senha" name="nova_senha" required minlength="8" placeholder="Digite sua nova senha">
+                    </div>
+                    <br>
+
+                    <div>
+                        <label for="id_confirmacao_senha">Confirmação da Nova Senha:</label><br>
+                        <input type="password" id="id_confirmacao_senha" name="confirmacao_senha" required minlength="8" placeholder="Repita a nova senha">
+                    </div>
+                    <br>
+
+                    <div>
+                        <button type="submit">Salvar Nova Senha</button>
+                    </div>
+                </form>
+
+                <p><a href="{% url 'usuarios:recuperar_senha' %}">Solicitar um novo código de verificação</a></p>
+            </section>
+        {% else %}
+            <!-- Etapa 1: Solicitar código por e-mail -->
+            <section>
+                <h2>Solicitar Código de Recuperação</h2>
+                <p>Informe o endereço de e-mail cadastrado na plataforma para enviarmos o código de verificação de uso único.</p>
+
+                <form method="post" action="{% url 'usuarios:recuperar_senha' %}">
+                    {% csrf_token %}
+
+                    <div>
+                        <label for="id_email_recuperacao">E-mail Cadastrado:</label><br>
+                        <input type="email" id="id_email_recuperacao" name="email" required placeholder="seu.email@universidade.edu.br" autofocus>
+                    </div>
+                    <br>
+
+                    <div>
+                        <button type="submit">Enviar Código</button>
+                    </div>
+                </form>
+            </section>
+        {% endif %}
+
+        <nav aria-label="Navegação de Retorno">
+            <hr>
+            <p><a href="{% url 'usuarios:login' %}">Voltar para a página de login</a></p>
+        </nav>
+    </main>
+</body>
+</html>

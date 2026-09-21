@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Usuário - SGIE</title>
+</head>
+<body>
+    <header>
+        <h1>Cadastro de Usuário - SGIE</h1>
+        <p>Sistema de Gestão de Inscrições e Eventos Universitários</p>
+    </header>
+
+    <main>
+        {% if messages %}
+            <section aria-label="Mensagens do Sistema">
+                <ul>
+                    {% for message in messages %}
+                        <li><strong>{{ message.tags|capfirst }}:</strong> {{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </section>
+        {% endif %}
+
+        {% if form.errors %}
+            <section aria-label="Erros no formulário">
+                <p><strong>Por favor, corrija os erros abaixo:</strong></p>
+                <ul>
+                    {% for field, errors in form.errors.items %}
+                        <li>{{ field }}: {{ errors|striptags }}</li>
+                    {% endfor %}
+                </ul>
+            </section>
+        {% endif %}
+
+        <form method="post" action="{% url 'usuarios:cadastro' %}">
+            {% csrf_token %}
+
+            <div>
+                <label for="id_nome_completo">Nome Completo:</label><br>
+                <input type="text" id="id_nome_completo" name="nome_completo" value="{{ form.nome_completo.value|default:'' }}" required minlength="3" maxlength="150" placeholder="Ex: Maria dos Santos Silva">
+                {% if form.nome_completo.errors %}<br><small>{{ form.nome_completo.errors|striptags }}</small>{% endif %}
+            </div>
+            <br>
+
+            <div>
+                <label for="id_email">E-mail Institucional ou Pessoal:</label><br>
+                <input type="email" id="id_email" name="email" value="{{ form.email.value|default:'' }}" required placeholder="Ex: maria.santos@universidade.edu.br">
+                {% if form.email.errors %}<br><small>{{ form.email.errors|striptags }}</small>{% endif %}
+            </div>
+            <br>
+
+            <div>
+                <label for="id_cpf">CPF (Cadastro de Pessoa Física):</label><br>
+                <input type="text" id="id_cpf" name="cpf" value="{{ form.cpf.value|default:'' }}" required maxlength="14" placeholder="000.000.000-00">
+                {% if form.cpf.errors %}<br><small>{{ form.cpf.errors|striptags }}</small>{% endif %}
+            </div>
+            <br>
+
+            <div>
+                <label for="id_data_nascimento">Data de Nascimento:</label><br>
+                <input type="date" id="id_data_nascimento" name="data_nascimento" value="{{ form.data_nascimento.value|default:'' }}" required>
+                {% if form.data_nascimento.errors %}<br><small>{{ form.data_nascimento.errors|striptags }}</small>{% endif %}
+            </div>
+            <br>
+
+            <div>
+                <label for="id_telefone">Número de Telefone/Celular com DDD:</label><br>
+                <input type="tel" id="id_telefone" name="telefone" value="{{ form.telefone.value|default:'' }}" required maxlength="20" placeholder="(71) 99999-9999">
+                {% if form.telefone.errors %}<br><small>{{ form.telefone.errors|striptags }}</small>{% endif %}
+            </div>
+            <br>
+
+            <div>
+                <label for="id_password1">Senha (Mínimo de 8 caracteres):</label><br>
+                <input type="password" id="id_password1" name="password1" required minlength="8" placeholder="Digite uma senha forte">
+                {% if form.password1.errors %}<br><small>{{ form.password1.errors|striptags }}</small>{% endif %}
+            </div>
+            <br>
+
+            <div>
+                <label for="id_password2">Confirmação de Senha:</label><br>
+                <input type="password" id="id_password2" name="password2" required minlength="8" placeholder="Repita a senha digitada">
+                {% if form.password2.errors %}<br><small>{{ form.password2.errors|striptags }}</small>{% endif %}
+            </div>
+            <br>
+
+            <div>
+                <button type="submit">Cadastrar</button>
+            </div>
+        </form>
+
+        <nav>
+            <p><a href="{% url 'usuarios:login' %}">Já possui uma conta? Faça login</a></p>
+        </nav>
+    </main>
+</body>
+</html>

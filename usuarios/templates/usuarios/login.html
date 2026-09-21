@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrar no SGIE</title>
+</head>
+<body>
+    <header>
+        <h1>Entrar no SGIE</h1>
+        <p>Sistema de Gestão de Inscrições e Eventos Universitários</p>
+    </header>
+
+    <main>
+        {% if messages %}
+            <section aria-label="Mensagens do Sistema">
+                <ul>
+                    {% for message in messages %}
+                        <li><strong>{{ message.tags|capfirst }}:</strong> {{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </section>
+        {% endif %}
+
+        <form method="post" action="{% url 'usuarios:login' %}">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next }}">
+
+            <div>
+                <label for="id_identificador">Identificador (E-mail ou CPF):</label><br>
+                <input type="text" id="id_identificador" name="identificador" required placeholder="Digite seu E-mail ou CPF" autofocus>
+            </div>
+            <br>
+
+            <div>
+                <label for="id_password">Senha:</label><br>
+                <input type="password" id="id_password" name="password" required placeholder="Digite sua senha">
+            </div>
+            <br>
+
+            <div>
+                <button type="submit">Entrar</button>
+            </div>
+        </form>
+
+        <section aria-label="Autenticação Integrada">
+            <hr>
+            <p>Ou acesse utilizando serviços integrados:</p>
+            <p><a href="{% url 'usuarios:google_login' %}"><strong>Entrar com Conta Google</strong></a></p>
+        </section>
+
+        <nav aria-label="Links Úteis">
+            <hr>
+            <ul>
+                <li><a href="{% url 'usuarios:recuperar_senha' %}">Esqueceu sua senha?</a></li>
+                <li><a href="{% url 'usuarios:cadastro' %}">Não tem uma conta? Cadastre-se</a></li>
+            </ul>
+        </nav>
+    </main>
+</body>
+</html>
