@@ -1,0 +1,29 @@
+{
+  "role": "",
+  "context": "",
+  "task": "",
+  "parameters": {
+    "tone": "",
+    "style": "",
+    "audience": ""
+  },
+  "output_format": "",
+  "constraints": [
+    "",
+    "",
+    "",
+	...
+  ],
+  "examples": [
+    "",
+    "",
+    "",
+	...
+  ],
+  "steps": [
+    "",
+    "",
+    "",
+	...
+  ]
+}

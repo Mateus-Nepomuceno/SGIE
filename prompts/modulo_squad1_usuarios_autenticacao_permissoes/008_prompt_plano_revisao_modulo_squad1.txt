@@ -1,0 +1,9 @@
+<task>
+elabore um plano de revisão do módulo de usuarios, autenticacao e permissoes
+</task>
+<output_file>
+PLANO_REVISAO_MODULO_USUARIOS_AUTENTICACAO_PERMISSOES.md
+</output_file>
+<output_directory>
+docs
+</output_directory>

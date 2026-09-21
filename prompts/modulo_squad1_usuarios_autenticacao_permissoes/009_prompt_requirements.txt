@@ -1,0 +1,4 @@
+<task>
+1. explique a diferença entre @file:requirements.txt e @file:requirements-dev.txt
+2. verifique o alinhamento com o módulo de usuários, autenticação e permissões e com o projeto
+</task>
