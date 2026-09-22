@@ -1,20 +1,10 @@
 #!/usr/bin/env bash
-# ==============================================================================
-# scripts/commits/validate-message.sh
-# Validador de mensagens de commit baseado em Conventional Commits adaptado
-# Referência: https://github.com/iuricode/padroes-de-commits (rev 7844cd0)
-# ==============================================================================
-
 set -e
 
-# Lista de 14 tipos permitidos na política adaptada:
 ALLOWED_TYPES="feat|fix|docs|test|build|perf|style|refactor|chore|ci|raw|cleanup|remove|revert"
 
-# Gramática estrita do cabeçalho:
-# <tipo>[(escopo)][!]: <descrição>
 STANDARD_REGEX="^(${ALLOWED_TYPES})(\([a-zA-Z0-9_.-]+\))?(!)?:\ ([^[:space:]]|[^[:space:]].*[^[:space:]])$"
 
-# Padrão para perfil legado (caso COMMIT_LEGACY_PROFILE=1):
 LEGACY_PREFIX_REGEX="^(:[a-zA-Z0-9_+-]+:|[^[:alnum:][:space:]]+)[[:space:]]+"
 
 if [ $# -lt 1 ]; then
@@ -35,7 +25,6 @@ if [ ! -r "$COMMIT_MSG_FILE" ]; then
   exit 1
 fi
 
-# Detectar caractere de comentário do Git (padrão '#')
 COMMENT_CHAR="#"
 if command -v git >/dev/null 2>&1; then
   GIT_COMMENT_CHAR=$(git config --get core.commentChar 2>/dev/null || true)
@@ -44,14 +33,12 @@ if command -v git >/dev/null 2>&1; then
   fi
 fi
 
-# Localizar a primeira linha que não seja comentário nem linha em branco
 HEADER=""
 FIRST_NON_EMPTY=""
 
 while IFS= read -r line || [ -n "$line" ]; do
   cleaned_line="${line%$'\r'}"
 
-  # Ignorar comentários do Git
   case "$cleaned_line" in
     "$COMMENT_CHAR"*)
       continue
@@ -85,9 +72,6 @@ if [[ "$TARGET_HEADER" =~ $STANDARD_REGEX ]]; then
   exit 0
 fi
 
-# ==============================================================================
-# Diagnóstico explicativo e acionável em stderr:
-# ==============================================================================
 echo "================================================================================" >&2
 echo "ERRO DE CONVENÇÃO: A mensagem de commit não segue o padrão adotado." >&2
 echo "================================================================================" >&2

@@ -1,8 +1,4 @@
 #!/usr/bin/env bash
-# ==============================================================================
-# scripts/commits/uninstall.sh
-# Desinstalador seguro com restauração de configurações e proteção de arquivos
-# ==============================================================================
 set -e
 
 GIT_DIR=$(git rev-parse --git-dir 2>/dev/null || true)
@@ -21,7 +17,6 @@ if [ -f "$MANIFEST" ]; then
   PREV_HOOKSPATH=$(grep '"previous_core_hookspath"' "$MANIFEST" | head -n1 | sed -E 's/.*"previous_core_hookspath": *"([^"]*)".*/\1/')
 fi
 
-# Restaurar core.hooksPath ao valor original
 if [ -n "$PREV_HOOKSPATH" ]; then
   git config --local core.hooksPath "$PREV_HOOKSPATH"
   echo "INFO: core.hooksPath restaurado para a configuração anterior: '$PREV_HOOKSPATH'."
@@ -30,7 +25,6 @@ else
   echo "INFO: core.hooksPath local removido (restaurando comportamento padrão do Git)."
 fi
 
-# Remover manifesto
 if [ -f "$MANIFEST" ]; then
   rm -f "$MANIFEST"
 fi

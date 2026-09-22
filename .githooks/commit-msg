@@ -1,8 +1,4 @@
 #!/usr/bin/env bash
-# ==============================================================================
-# .githooks/commit-msg
-# Git hook para validação de mensagens de commit (Conventional Commits adaptado)
-# ==============================================================================
 set -e
 
 GIT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo ".")

@@ -1,8 +1,4 @@
 #!/usr/bin/env bash
-# ==============================================================================
-# scripts/commits/test.sh
-# Suíte de testes automatizados: unitários e de integração em repositório temporário
-# ==============================================================================
 set -e
 
 GIT_ROOT=$(git rev-parse --show-toplevel 2>/dev/null || echo ".")
@@ -147,12 +143,10 @@ cp "$GIT_ROOT/scripts/commits/install.sh" scripts/commits/install.sh
 cp "$GIT_ROOT/scripts/commits/uninstall.sh" scripts/commits/uninstall.sh
 chmod +x .githooks/commit-msg scripts/commits/*.sh
 
-# Instalação inicial
 bash scripts/commits/install.sh >/dev/null 2>&1
 echo "PASS: Instalação em repositório temporário concluída"
 PASSED=$((PASSED + 1))
 
-# Idempotência
 IDEMPOTENT_OUT=$(bash scripts/commits/install.sh 2>&1)
 if [[ "$IDEMPOTENT_OUT" =~ "no-op" ]]; then
   echo "PASS: Idempotência confirmada na segunda instalação"
@@ -162,7 +156,6 @@ else
   FAILED=$((FAILED + 1))
 fi
 
-# Commit válido
 echo "teste" > teste.txt
 git add teste.txt
 if git commit -m "feat(integracao): validar commit real via hook" >/dev/null 2>&1; then
@@ -173,7 +166,6 @@ else
   FAILED=$((FAILED + 1))
 fi
 
-# Commit inválido
 echo "outro" >> teste.txt
 git add teste.txt
 HEAD_ANTES=$(git rev-parse HEAD)
@@ -191,7 +183,6 @@ else
   fi
 fi
 
-# Execução a partir de subdiretório
 mkdir -p sub/dir
 cd sub/dir
 echo "sub" > sub.txt
@@ -205,7 +196,6 @@ else
 fi
 cd "$DISPOSABLE_REPO"
 
-# Desinstalação e restauração
 bash scripts/commits/uninstall.sh >/dev/null 2>&1
 RESTORED_HOOKSPATH=$(git config --local --get core.hooksPath 2>/dev/null || echo "UNSET")
 if [ "$RESTORED_HOOKSPATH" = "UNSET" ]; then
