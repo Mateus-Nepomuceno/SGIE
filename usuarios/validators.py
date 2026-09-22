@@ -1,6 +1,7 @@
 import re
 
 from django.core.exceptions import ValidationError
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 TAMANHO_CPF = 11
@@ -10,6 +11,7 @@ PESO_BASE_DV1 = 10
 PESO_BASE_DV2 = 11
 MODULO_ONZE = 11
 VALOR_CORTE_RESTO = 10
+MAX_IDADE_ANOS = 120
 
 
 def limpar_cpf(valor: str) -> str:
@@ -60,9 +62,23 @@ def validar_cpf(valor: str) -> None:
 
 def validar_telefone(valor: str) -> None:
     """Valida formato mínimo de telefone com DDD."""
-    digitos = re.sub(r'\D', '', str(valor))
+    digitos = re.sub(r'\D', '', str(valor or ''))
     if len(digitos) < TAMANHO_MIN_TELEFONE or len(digitos) > TAMANHO_MAX_TELEFONE:
         raise ValidationError(_('O telefone informado deve conter DDD e número válido com 10 ou 11 dígitos.'), code='telefone_invalido')
+    if digitos[0] == '0' or digitos == digitos[0] * len(digitos):
+        raise ValidationError(_('O telefone informado possui um DDD ou número inválido.'), code='telefone_invalido')
+
+
+def validar_data_nascimento(valor) -> None:
+    """Valida se a data de nascimento não é futura e está dentro de um limite razoável (RF01)."""
+    if not valor:
+        return
+
+    hoje = timezone.now().date()
+    if valor > hoje:
+        raise ValidationError(_('A data de nascimento não pode ser no futuro.'), code='data_nascimento_futura')
+    if valor.year < hoje.year - MAX_IDADE_ANOS:
+        raise ValidationError(_('A data de nascimento informada é inválida.'), code='data_nascimento_invalida')
 
 
 def validar_extensao_imagem(arquivo) -> None:
