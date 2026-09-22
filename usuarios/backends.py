@@ -1,10 +1,11 @@
 from typing import override
 
 from django.contrib.auth.backends import ModelBackend
+from django.core.exceptions import ValidationError as DjangoValidationError
 from django.db.models import Q
 
 from .models import Usuario
-from .validators import limpar_cpf
+from .validators import TAMANHO_CPF, limpar_cpf
 
 
 class EmailOrCPFBackend(ModelBackend):
@@ -24,8 +25,8 @@ class EmailOrCPFBackend(ModelBackend):
         cpf_cand = limpar_cpf(identificador_str)
 
         criterios = Q(email__iexact=email_cand)
-        if cpf_cand:
-            criterios |= Q(cpf=cpf_cand) | Q(cpf=identificador_str)
+        if len(cpf_cand) == TAMANHO_CPF:
+            criterios |= Q(cpf=cpf_cand)
 
         usuario = Usuario.objects.filter(criterios).first()
 
@@ -38,5 +39,5 @@ class EmailOrCPFBackend(ModelBackend):
     def get_user(self, user_id):
         try:
             return Usuario.objects.get(pk=user_id)
-        except Usuario.DoesNotExist:
+        except (Usuario.DoesNotExist, DjangoValidationError, ValueError):
             return None
