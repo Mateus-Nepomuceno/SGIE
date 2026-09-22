@@ -11,7 +11,13 @@ from django.db import transaction
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
-from .models import CodigoRecuperacao, PapelContextual, PerfilOrganizador, Usuario
+from .models import (
+    MAX_TENTATIVAS_CODIGO,
+    CodigoRecuperacao,
+    PapelContextual,
+    PerfilOrganizador,
+    Usuario,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -103,7 +109,6 @@ class UsuarioService:
             CodigoRecuperacao.objects
             .filter(
                 usuario=usuario,
-                codigo=str(codigo).strip(),
                 utilizado=False,
             )
             .order_by('-criado_em')
@@ -111,6 +116,15 @@ class UsuarioService:
         )
 
         if not codigo_registro or not codigo_registro.is_valido():
+            raise ValidationError(_('Código de verificação inválido ou expirado.'), code='codigo_invalido')
+
+        if codigo_registro.codigo != str(codigo).strip():
+            codigo_registro.tentativas += 1
+            if codigo_registro.tentativas >= MAX_TENTATIVAS_CODIGO:
+                codigo_registro.utilizado = True
+                codigo_registro.save(update_fields=['tentativas', 'utilizado'])
+                raise ValidationError(_('Código de verificação bloqueado por excesso de tentativas.'), code='codigo_bloqueado')
+            codigo_registro.save(update_fields=['tentativas'])
             raise ValidationError(_('Código de verificação inválido ou expirado.'), code='codigo_invalido')
 
         with transaction.atomic():
@@ -152,17 +166,21 @@ class UsuarioService:
         return perfil
 
     @staticmethod
-    def obter_dados_cadastrais(usuario_id: int) -> Optional[Dict[str, Any]]:
+    def obter_dados_cadastrais(usuario_id: Union[int, str, Any]) -> Optional[Dict[str, Any]]:
         """
         Contrato público de fornecimento de dados para outros módulos (RN06).
         Consumido por Gestão de Eventos, Inscrições, Certificados e Financeiro.
         """
-        usuario = Usuario.objects.filter(pk=usuario_id, is_active=True).first()
+        try:
+            usuario = Usuario.objects.filter(pk=usuario_id, is_active=True).first()
+        except (ValidationError, ValueError):
+            return None
+
         if not usuario:
             return None
 
         return {
-            'id': usuario.id,
+            'id': str(usuario.id),
             'nome_completo': usuario.nome_completo,
             'email': usuario.email,
             'cpf': usuario.cpf_formatado,
@@ -174,7 +192,7 @@ class UsuarioService:
 
     @staticmethod
     def verificar_papel_evento(
-        usuario_ou_id: Union[Usuario, int],
+        usuario_ou_id: Union[Usuario, int, str, Any],
         evento_id: int,
         papel_esperado: Optional[str] = None,
         papel: Optional[str] = None,
@@ -187,36 +205,67 @@ class UsuarioService:
         if not papel_alvo:
             return False
 
-        usuario_id = usuario_ou_id.id if isinstance(usuario_ou_id, Usuario) else usuario_ou_id
-        return PapelContextual.objects.filter(
-            usuario_id=usuario_id,
-            evento_id=evento_id,
-            papel=papel_alvo,
-            ativo=True,
-        ).exists()
+        try:
+            ev_id = int(evento_id)
+        except (ValueError, TypeError):
+            return False
+
+        if isinstance(usuario_ou_id, Usuario):
+            if not usuario_ou_id.is_active:
+                return False
+            usuario_id = usuario_ou_id.id
+        else:
+            usuario_id = usuario_ou_id
+
+        try:
+            return PapelContextual.objects.filter(
+                usuario_id=usuario_id,
+                usuario__is_active=True,
+                evento_id=ev_id,
+                papel=papel_alvo,
+                ativo=True,
+            ).exists()
+        except (ValidationError, ValueError):
+            return False
 
     @staticmethod
     def atribuir_papel_evento(
-        usuario_ou_id: Union[Usuario, int],
+        usuario_ou_id: Union[Usuario, int, str, Any],
         evento_id: int,
         papel: str,
         ativo: bool = True,
     ) -> PapelContextual:
         """Concede ou atualiza papel contextual de um usuário em determinado evento (RN02, RN03)."""
-        usuario = usuario_ou_id if isinstance(usuario_ou_id, Usuario) else Usuario.objects.get(pk=usuario_ou_id)
+        try:
+            ev_id = int(evento_id)
+        except (ValueError, TypeError) as exc:
+            raise ValidationError(_('Identificador do evento inválido.')) from exc
 
-        papel_obj, _ = PapelContextual.objects.update_or_create(
+        if isinstance(usuario_ou_id, Usuario):
+            usuario = usuario_ou_id
+        else:
+            try:
+                usuario = Usuario.objects.get(pk=usuario_ou_id)
+            except (Usuario.DoesNotExist, ValidationError, ValueError) as exc:
+                raise ValidationError(_('Usuário inválido ou não encontrado.')) from exc
+
+        papel_obj, _criado = PapelContextual.objects.update_or_create(
             usuario=usuario,
-            evento_id=evento_id,
+            evento_id=ev_id,
             papel=papel,
             defaults={'ativo': ativo},
         )
         return papel_obj
 
     @staticmethod
-    def is_organizador_homologado(usuario_ou_id: Union[Usuario, int]) -> bool:
+    def is_organizador_homologado(usuario_ou_id: Union[Usuario, int, str, Any]) -> bool:
         """Verifica se o usuário tem permissão para criar e gerir novos eventos (RF05, RN04)."""
-        usuario = usuario_ou_id if isinstance(usuario_ou_id, Usuario) else Usuario.objects.filter(pk=usuario_ou_id).first()
+        if isinstance(usuario_ou_id, Usuario):
+            return usuario_ou_id.is_organizador()
+        try:
+            usuario = Usuario.objects.filter(pk=usuario_ou_id).first()
+        except (ValidationError, ValueError):
+            return False
         if not usuario:
             return False
         return usuario.is_organizador()
