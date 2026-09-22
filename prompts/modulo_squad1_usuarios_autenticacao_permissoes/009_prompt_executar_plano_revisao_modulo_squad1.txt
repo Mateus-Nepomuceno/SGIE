@@ -1,0 +1,3 @@
+<task>
+execute @file:PLANO_REVISAO_MODULO_USUARIOS_AUTENTICACAO_PERMISSOES.md
+</task>

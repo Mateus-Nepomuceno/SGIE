@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Usuário - SGIE</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Cadastro de Usuário - SGIE</h1>
+            <p>Sistema de Gestão de Inscrições e Eventos Universitários</p>
+        </header>
+
+        <main>
+            <div id="mensagem-alerta" style="display: none;"></div>
+
+            <form id="form-cadastro" novalidate>
+                <div class="form-group">
+                    <label for="id_nome_completo">Nome Completo:</label>
+                    <input type="text" id="id_nome_completo" name="nome_completo" required minlength="3" maxlength="150" placeholder="Ex: Maria dos Santos Silva">
+                </div>
+
+                <div class="form-group">
+                    <label for="id_email">E-mail Institucional ou Pessoal:</label>
+                    <input type="email" id="id_email" name="email" required placeholder="Ex: maria.santos@universidade.edu.br">
+                </div>
+
+                <div class="form-group">
+                    <label for="id_cpf">CPF (Cadastro de Pessoa Física):</label>
+                    <input type="text" id="id_cpf" name="cpf" required maxlength="14" placeholder="000.000.000-00">
+                </div>
+
+                <div class="form-group">
+                    <label for="id_data_nascimento">Data de Nascimento:</label>
+                    <input type="date" id="id_data_nascimento" name="data_nascimento" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_telefone">Número de Telefone/Celular com DDD:</label>
+                    <input type="tel" id="id_telefone" name="telefone" required maxlength="20" placeholder="(71) 99999-9999">
+                </div>
+
+                <div class="form-group">
+                    <label for="id_password">Senha (Mínimo de 8 caracteres):</label>
+                    <input type="password" id="id_password" name="password" required minlength="8" placeholder="Digite uma senha forte">
+                </div>
+
+                <div class="form-group">
+                    <label for="id_confirmacao_senha">Confirmação de Senha:</label>
+                    <input type="password" id="id_confirmacao_senha" name="confirmacao_senha" required minlength="8" placeholder="Repita a senha digitada">
+                </div>
+
+                <div class="form-group" style="margin-top: 1.5rem;">
+                    <button type="submit" id="btn-cadastrar">Cadastrar</button>
+                </div>
+            </form>
+
+            <nav class="links">
+                <p><a href="login.html">Já possui uma conta? Faça login</a></p>
+            </nav>
+        </main>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const formCadastro = document.getElementById('form-cadastro');
+            const btnCadastrar = document.getElementById('btn-cadastrar');
+            const inputCpf = document.getElementById('id_cpf');
+            const inputTelefone = document.getElementById('id_telefone');
+
+            inputCpf.addEventListener('input', (e) => {
+                e.target.value = mascaraCPF(e.target.value);
+            });
+
+            inputTelefone.addEventListener('input', (e) => {
+                e.target.value = mascaraTelefone(e.target.value);
+            });
+
+            formCadastro.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                clearAlert('mensagem-alerta');
+
+                const nome_completo = document.getElementById('id_nome_completo').value.trim();
+                const email = document.getElementById('id_email').value.trim();
+                const cpf = inputCpf.value.trim();
+                const data_nascimento = document.getElementById('id_data_nascimento').value;
+                const telefone = inputTelefone.value.trim();
+                const password = document.getElementById('id_password').value;
+                const confirmacao_senha = document.getElementById('id_confirmacao_senha').value;
+
+                if (!nome_completo || !email || !cpf || !data_nascimento || !telefone || !password) {
+                    showAlert('mensagem-alerta', 'Por favor, preencha todos os campos obrigatórios.', 'warning');
+                    return;
+                }
+
+                if (password.length < 8) {
+                    showAlert('mensagem-alerta', 'A senha deve conter no mínimo 8 caracteres.', 'warning');
+                    return;
+                }
+
+                if (password !== confirmacao_senha) {
+                    showAlert('mensagem-alerta', 'As senhas informadas não coincidem.', 'warning');
+                    return;
+                }
+
+                btnCadastrar.disabled = true;
+                btnCadastrar.textContent = 'Enviando cadastro...';
+
+                try {
+                    const response = await fetch(`${API_BASE_URL}/usuarios/`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            nome_completo,
+                            email,
+                            cpf,
+                            data_nascimento,
+                            telefone,
+                            password,
+                            confirmacao_senha
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.status === 201) {
+                        showAlert('mensagem-alerta', 'Cadastro realizado com sucesso! Redirecionando para a tela de login...', 'success');
+                        setTimeout(() => {
+                            window.location.href = 'login.html';
+                        }, 1500);
+                    } else {
+                        showAlert('mensagem-alerta', data, 'danger');
+                    }
+                } catch (err) {
+                    console.error(err);
+                    showAlert('mensagem-alerta', 'Erro ao conectar à API. Verifique sua conexão e tente novamente.', 'danger');
+                } finally {
+                    btnCadastrar.disabled = false;
+                    btnCadastrar.textContent = 'Cadastrar';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

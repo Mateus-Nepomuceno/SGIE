@@ -1,0 +1,6 @@
+<task>
+realize a implementação completa e definitiva do módulo de usuários, autenticação e permissões, presente em @folder:usuarios/
+</task>
+<rules>
+1. após a implementação, gere um arquivo MOSTRA_LEGENDA_MODULO_USUARIOS.md composto por todos os códigos do módulo e suas respectivas legendas imediatamentw após que descrevem os termos e os trechos
+</rules>

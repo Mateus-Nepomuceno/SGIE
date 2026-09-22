@@ -1,0 +1,13 @@
+<task>
+elabore uma lista de todos os artefatos que devem compor o diretório @folder:docs para a implementação do módulo de usuários, autenticação e permissões
+</task>
+<rules>
+1. os artefatos devem ser em .md
+2. os artefatos devem seguir o padrão de nomenclatura: letras maiusculas e underscore no lugar de espaço
+</rules>
+<output_file>
+LISTA_ARTEFATOS.md
+</output_file>
+<output_directory>
+docs
+</output_directory>
