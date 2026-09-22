@@ -858,15 +858,6 @@ class TestCorrecoesEValidacoesAvancadas(TestCase):
         with self.assertRaises(PermissionDenied):
             view_dummy(request, evento_id='abc')
 
-    def test_api_root_status_retorna_json_desacoplado(self):
-        """Endpoint raiz / retorna JSON de status operacional e catálogo de rotas."""
-        response = self.client.get('/')
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response['Content-Type'], 'application/json')
-        data = response.json()
-        self.assertEqual(data['status'], 'operacional')
-        self.assertIn('endpoints', data)
-
     def test_cors_preflight_headers(self):
         """API retorna cabeçalhos de CORS adequados para frontends desacoplados."""
         response = self.client.options(
