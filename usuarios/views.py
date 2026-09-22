@@ -1,193 +1,80 @@
-from django.contrib import messages
-from django.contrib.auth import login as auth_login
-from django.contrib.auth import logout as auth_logout
-from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ValidationError
-from django.http import HttpRequest, HttpResponse
-from django.shortcuts import redirect, render
 from django.utils.translation import gettext_lazy as _
-from rest_framework import status, viewsets
+from rest_framework import serializers, status, viewsets
+from rest_framework.decorators import action
+from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework_simplejwt.views import TokenObtainPairView
 
-from .forms import (
-    AtualizarUsuarioForm,
-    AutenticacaoForm,
-    CadastroUsuarioForm,
-    PerfilOrganizadorForm,
-    RecuperarSenhaForm,
-    RedefinirSenhaForm,
-)
-from .models import PapelContextual, PerfilOrganizador, Usuario
-from .permissions import IsSelfOrAdmin
+from .models import Papel, PapelContextual, PerfilOrganizador, Usuario
+from .permissions import IsPapelContextualManagerOrReadOnly, IsSelfOrAdmin
 from .serializers import (
+    CustomTokenObtainPairSerializer,
     DadosCadastraisSerializer,
     PapelContextualSerializer,
     PerfilOrganizadorSerializer,
+    RedefinirSenhaSerializer,
+    SolicitarRecuperacaoSenhaSerializer,
     UsuarioCadastroSerializer,
     UsuarioSerializer,
+    UsuarioUpdateSerializer,
 )
 from .services import UsuarioService
 
-# ==========================================
-# Views Web Tradicionais (Django MTV)
-# ==========================================
 
-
-def cadastro_view(request: HttpRequest) -> HttpResponse:
-    """Tela e processamento de cadastro de novos usuários (RF01, RN01)."""
-    if request.user.is_authenticated:
-        return redirect('usuarios:perfil')
-
-    if request.method == 'POST':
-        form = CadastroUsuarioForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, _('Cadastro realizado com sucesso! Faça login para acessar o sistema.'))
-            return redirect('usuarios:login')
-    else:
-        form = CadastroUsuarioForm()
-
-    return render(request, 'usuarios/cadastro.html', {'form': form})
-
-
-def login_view(request: HttpRequest) -> HttpResponse:
-    """Tela e processamento de login híbrido por E-mail ou CPF (RF02)."""
-    if request.user.is_authenticated:
-        return redirect('usuarios:perfil')
-
-    next_url = request.POST.get('next') or request.GET.get('next') or 'usuarios:perfil'
-
-    if request.method == 'POST':
-        form = AutenticacaoForm(request.POST)
-        if form.is_valid():
-            identificador = form.cleaned_data['identificador']
-            password = form.cleaned_data['password']
-
-            usuario = UsuarioService.autenticar_usuario(request, identificador, password)
-            if usuario is not None:
-                auth_login(request, usuario)
-                messages.success(request, _('Bem-vindo(a), %(nome)s!') % {'nome': usuario.nome_completo})
-                return redirect(next_url)
-            else:
-                messages.error(request, _('Identificador (E-mail ou CPF) ou senha inválidos.'))
-    else:
-        form = AutenticacaoForm()
-
-    return render(request, 'usuarios/login.html', {'form': form, 'next': next_url})
-
-
-def logout_view(request: HttpRequest) -> HttpResponse:
-    """Encerra a sessão HTTP autenticada."""
-    auth_logout(request)
-    messages.info(request, _('Você encerrou sua sessão com segurança.'))
-    return redirect('usuarios:login')
-
-
-def recuperar_senha_view(request: HttpRequest) -> HttpResponse:
-    """Etapa 1 da recuperação de acesso: envio de código de 6 dígitos por e-mail (RF03)."""
-    if request.method == 'POST':
-        form = RecuperarSenhaForm(request.POST)
-        if form.is_valid():
-            email = form.cleaned_data['email']
-            UsuarioService.gerar_codigo_recuperacao(email)
-            request.session['recuperacao_email'] = email
-            messages.info(request, _('Se o e-mail informado constar em nossa base de dados, um código de verificação de 6 dígitos foi enviado.'))
-            return redirect('usuarios:redefinir_senha')
-    else:
-        form = RecuperarSenhaForm()
-
-    return render(request, 'usuarios/recuperar_senha.html', {'form': form, 'etapa': 'solicitar'})
-
-
-def redefinir_senha_view(request: HttpRequest) -> HttpResponse:
-    """Etapa 2 da recuperação de acesso: validação do código e nova senha (RF03)."""
-    email_sessao = request.session.get('recuperacao_email', '')
-
-    if request.method == 'POST':
-        form = RedefinirSenhaForm(request.POST)
-        email = request.POST.get('email', email_sessao).strip().lower()
-
-        if form.is_valid():
-            codigo = form.cleaned_data['codigo']
-            nova_senha = form.cleaned_data['nova_senha']
-            try:
-                UsuarioService.redefinir_senha_com_codigo(email, codigo, nova_senha)
-                messages.success(request, _('Senha atualizada com sucesso! Efetue login com sua nova senha.'))
-                request.session.pop('recuperacao_email', None)
-                return redirect('usuarios:login')
-            except ValidationError as e:
-                msg = e.message if hasattr(e, 'message') else str(e)
-                messages.error(request, msg)
-    else:
-        form = RedefinirSenhaForm()
-
-    return render(
-        request,
-        'usuarios/recuperar_senha.html',
-        {'form': form, 'etapa': 'redefinir', 'email': email_sessao},
-    )
-
-
-@login_required
-def perfil_view(request: HttpRequest) -> HttpResponse:
+class CustomTokenObtainPairView(TokenObtainPairView):
     """
-    Painel de perfil do usuário (RF04, RN04, RN06).
-    Exibe dados cadastrais e permite requisição e edição do perfil de organizador.
+    Endpoint de emissão de tokens JWT com suporte a login híbrido (E-mail ou CPF) (RF02).
+    Retorna access token, refresh token e os dados essenciais do usuário.
     """
-    usuario = request.user
-    perfil_org = getattr(usuario, 'perfil_organizador', None)
 
-    form_usuario = AtualizarUsuarioForm(instance=usuario)
-    form_org = PerfilOrganizadorForm(instance=perfil_org)
-
-    if request.method == 'POST':
-        acao = request.POST.get('acao')
-        if acao == 'salvar_dados':
-            form_usuario = AtualizarUsuarioForm(request.POST, instance=usuario)
-            if form_usuario.is_valid():
-                form_usuario.save()
-                messages.success(request, _('Seus dados cadastrais foram atualizados com sucesso.'))
-                return redirect('usuarios:perfil')
-        elif acao == 'salvar_organizador':
-            form_org = PerfilOrganizadorForm(request.POST, request.FILES, instance=perfil_org)
-            if form_org.is_valid():
-                org = form_org.save(commit=False)
-                org.usuario = usuario
-                org.save()
-                messages.success(request, _('Perfil de organizador salvo com sucesso!'))
-                return redirect('usuarios:perfil')
-
-    return render(
-        request,
-        'usuarios/perfil.html',
-        {
-            'usuario': usuario,
-            'perfil_org': perfil_org,
-            'form_usuario': form_usuario,
-            'form_org': form_org,
-        },
-    )
+    serializer_class = CustomTokenObtainPairSerializer
 
 
-def google_login_view(request: HttpRequest) -> HttpResponse:
+class SolicitarRecuperacaoSenhaAPIView(APIView):
     """
-    Ponto de entrada / simulação de autenticação Google OAuth2 (RF02).
-    Em ambiente de desenvolvimento e testes, fornece uma rota estável para o fluxo federado.
+    Endpoint para solicitação de código de 6 dígitos para recuperação de senha (RF03).
+    Acesso público (AllowAny).
     """
-    messages.info(request, _('Autenticação Google OAuth2: Redirecionando para login seguro...'))
-    # Fluxo federado: direciona para login ou formulário complementar conforme RF02
-    return redirect('usuarios:login')
+
+    permission_classes = [AllowAny]
+
+    @staticmethod
+    def post(request):
+        serializer = SolicitarRecuperacaoSenhaSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(
+            {'detail': _('Se o e-mail informado constar em nossa base de dados, um código de verificação de 6 dígitos foi enviado.')},
+            status=status.HTTP_200_OK,
+        )
 
 
-# ==========================================
-# ViewSets e Endpoints API REST (DRF)
-# ==========================================
+class RedefinirSenhaAPIView(APIView):
+    """
+    Endpoint para validação do código de 6 dígitos e definição da nova senha (RF03).
+    Acesso público (AllowAny).
+    """
+
+    permission_classes = [AllowAny]
+
+    @staticmethod
+    def post(request):
+        serializer = RedefinirSenhaSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(
+            {'detail': _('Senha atualizada com sucesso! Efetue login com sua nova senha.')},
+            status=status.HTTP_200_OK,
+        )
 
 
 class UsuarioViewSet(viewsets.ModelViewSet):
-    """API REST para consulta e gerenciamento de usuários."""
+    """
+    API REST para consulta, cadastro e gerenciamento de usuários (RF01, RN01).
+    Permite cadastro anônimo (create) e operações restritas ao próprio usuário ou admin.
+    """
 
     queryset = Usuario.objects.all().order_by('id')
     serializer_class = UsuarioSerializer
@@ -200,36 +87,108 @@ class UsuarioViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == 'create':
             return UsuarioCadastroSerializer
+        if self.action in {'update', 'partial_update'}:
+            return UsuarioUpdateSerializer
         return UsuarioSerializer
+
+    @action(detail=False, methods=['get', 'put', 'patch'], permission_classes=[IsAuthenticated])
+    def me(self, request):
+        """Consulta e atualização do perfil do usuário atualmente autenticado via JWT."""
+        usuario = request.user
+        if request.method == 'GET':
+            serializer = self.get_serializer(usuario)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        partial = request.method == 'PATCH'
+        serializer = UsuarioUpdateSerializer(usuario, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(self.get_serializer(usuario).data, status=status.HTTP_200_OK)
 
 
 class PerfilOrganizadorViewSet(viewsets.ModelViewSet):
-    """API REST para perfis de organizadores."""
+    """
+    API REST para perfis estendidos de organizadores (RF04, RN04).
+    Suporta envio multipart/form-data para upload de foto de perfil e banner visual.
+    """
 
     queryset = PerfilOrganizador.objects.select_related('usuario').all().order_by('id')
     serializer_class = PerfilOrganizadorSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsSelfOrAdmin]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]
 
     def perform_create(self, serializer):
+        if PerfilOrganizador.objects.filter(usuario=self.request.user).exists():
+            raise serializers.ValidationError({'detail': _('Usuário já possui um perfil de organizador cadastrado.')})
         serializer.save(usuario=self.request.user)
+
+    @action(
+        detail=False,
+        methods=['get', 'post', 'put', 'patch'],
+        permission_classes=[IsAuthenticated],
+        parser_classes=[MultiPartParser, FormParser, JSONParser],
+    )
+    def me(self, request):
+        """Consulta, criação ou atualização do perfil de organizador do usuário autenticado."""
+        perfil = getattr(request.user, 'perfil_organizador', None)
+
+        if request.method == 'GET':
+            if not perfil:
+                return Response(
+                    {'detail': _('Perfil de organizador ainda não preenchido.')},
+                    status=status.HTTP_404_NOT_FOUND,
+                )
+            serializer = self.get_serializer(perfil)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        if perfil:
+            serializer = self.get_serializer(perfil, data=request.data, partial=True)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(usuario=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class PapelContextualViewSet(viewsets.ModelViewSet):
-    """API REST para verificação e concessão de papéis contextuais por evento (RN03)."""
+    """API REST para verificação e concessão de papéis contextuais por evento (RN03, RN05)."""
 
     queryset = PapelContextual.objects.select_related('usuario').all().order_by('id')
     serializer_class = PapelContextualSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsPapelContextualManagerOrReadOnly]
 
     def get_queryset(self):
         qs = super().get_queryset()
         evento_id = self.request.query_params.get('evento_id')
         if evento_id:
-            qs = qs.filter(evento_id=evento_id)
+            try:
+                ev_id = int(evento_id)
+                qs = qs.filter(evento_id=ev_id)
+            except (ValueError, TypeError):
+                return qs.none()
         usuario_id = self.request.query_params.get('usuario_id')
         if usuario_id:
-            qs = qs.filter(usuario_id=usuario_id)
+            try:
+                qs = qs.filter(usuario_id=usuario_id)
+            except (ValueError, TypeError):
+                return qs.none()
         return qs
+
+    def perform_create(self, serializer):
+        user = self.request.user
+        solicitado_usuario = serializer.validated_data.get('usuario')
+        solicitado_papel = serializer.validated_data.get('papel')
+
+        if not (user.is_staff or user.is_superuser or user.is_organizador()):
+            if solicitado_usuario != user:
+                raise serializers.ValidationError({'usuario': _('Você só pode solicitar papéis para sua própria conta.')})
+            if solicitado_papel not in {Papel.PARTICIPANTE, Papel.VOLUNTARIO, Papel.SUPORTE}:
+                raise serializers.ValidationError({'papel': _('Papéis de Organizador, Avaliador e Autor exigem homologação.')})
+
+        serializer.save()
 
 
 class DadosCadastraisAPIView(APIView):
@@ -243,7 +202,7 @@ class DadosCadastraisAPIView(APIView):
     def get(self, request, pk=None):
         self.check_permissions(request)
         usuario_id = pk or request.user.id
-        dados = UsuarioService.obter_dados_cadastrais(int(usuario_id))
+        dados = UsuarioService.obter_dados_cadastrais(usuario_id)
         if not dados:
             return Response({'detail': _('Usuário não encontrado.')}, status=status.HTTP_404_NOT_FOUND)
         serializer = DadosCadastraisSerializer(dados)
