@@ -1,5 +1,5 @@
 line-length = 9999 
-extend-exclude = ['migrations/', 'manage.py']
+extend-exclude = ['migrations/', '**/migrations/**', 'manage.py']
 
 [lint]
 preview = true
