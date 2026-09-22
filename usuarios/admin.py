@@ -2,12 +2,16 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import gettext_lazy as _
 
+from .forms import UsuarioCreationForm, UsuarioChangeForm
 from .models import CodigoRecuperacao, PapelContextual, PerfilOrganizador, Usuario
 
 
 @admin.register(Usuario)
 class UsuarioAdmin(BaseUserAdmin):
     """Administração customizada para o modelo Usuario."""
+
+    form = UsuarioChangeForm
+    add_form = UsuarioCreationForm
 
     list_display = [
         'id',
@@ -52,7 +56,8 @@ class UsuarioAdmin(BaseUserAdmin):
                     'nome_completo',
                     'data_nascimento',
                     'telefone',
-                    'password',
+                    'password1',
+                    'password2',
                 ),
             },
         ),
@@ -93,10 +98,10 @@ class CodigoRecuperacaoAdmin(admin.ModelAdmin):
     """Administração dos códigos de recuperação emitidos."""
 
     list_select_related = ['usuario']
-    list_display = ['id', 'usuario', 'codigo', 'canal', 'criado_em', 'expira_em', 'utilizado', 'valido_agora']
+    list_display = ['id', 'usuario', 'codigo', 'canal', 'tentativas', 'criado_em', 'expira_em', 'utilizado', 'valido_agora']
     list_filter = ['utilizado', 'canal']
     search_fields = ['usuario__email', 'usuario__cpf', 'codigo']
-    readonly_fields = ['criado_em', 'expira_em', 'codigo']
+    readonly_fields = ['criado_em', 'expira_em', 'codigo', 'tentativas']
 
     @admin.display(description=_('Válido no Momento'), boolean=True)
     @staticmethod
