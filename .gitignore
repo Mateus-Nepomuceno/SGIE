@@ -17,5 +17,11 @@ venv/
 
 .ruff_cache/
 
-docs/docs_base
+**/docs/docs_base
 .agents/
+
+.pytest_cache/
+.coverage
+htmlcov/
+
+.mypy_cache
