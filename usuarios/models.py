@@ -5,7 +5,11 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+from core.models import ModeloUUID
+
 from .validators import formatar_cpf, limpar_cpf, validar_cpf, validar_extensao_imagem
+
+MAX_TENTATIVAS_CODIGO = 3
 
 
 class UsuarioManager(BaseUserManager):
@@ -66,13 +70,12 @@ class UsuarioManager(BaseUserManager):
         )
 
 
-class Usuario(AbstractBaseUser, PermissionsMixin):
+class Usuario(AbstractBaseUser, PermissionsMixin, ModeloUUID):
     """
     Modelo Customizado de Usuário do SGIE (substitui django.contrib.auth.models.User).
-    Atende aos requisitos RF01, RF02, RN01 e RN06.
+    Atende aos requisitos RF01, RF02, RN01 e RN06. Herda chave primária UUID de ModeloUUID.
     """
 
-    id = models.BigAutoField(primary_key=True)
     nome_completo = models.CharField(_('Nome Completo'), max_length=150)
     email = models.EmailField(_('E-mail'), max_length=254, unique=True, db_index=True)
     cpf = models.CharField(_('CPF'), max_length=14, unique=True, db_index=True, validators=[validar_cpf])
@@ -116,8 +119,14 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 
     def has_role(self, evento_id: int, papel: str) -> bool:
         """Verifica se o usuário possui determinado papel ativo em um evento específico (RN03, RN05)."""
+        if not self.is_active:
+            return False
+        try:
+            ev_id = int(evento_id)
+        except (ValueError, TypeError):
+            return False
         return self.papeis_contextuais.filter(
-            evento_id=evento_id,
+            evento_id=ev_id,
             papel=papel,
             ativo=True,
         ).exists()
@@ -125,8 +134,10 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     def is_organizador(self) -> bool:
         """
         Verifica se o usuário está qualificado para atuar como Organizador/Criador de eventos (RN04).
-        Superusuários possuem permissão implícita.
+        Superusuários ativos possuem permissão implícita.
         """
+        if not self.is_active:
+            return False
         if self.is_superuser:
             return True
         perfil = getattr(self, 'perfil_organizador', None)
@@ -136,12 +147,12 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
         return f'{self.nome_completo} ({self.email})'
 
 
-class PerfilOrganizador(models.Model):
+class PerfilOrganizador(ModeloUUID):
     """
     Armazena dados adicionais para promoção de usuários a Organizadores (RF04, RN04).
+    Herda chave primária UUID de ModeloUUID.
     """
 
-    id = models.BigAutoField(primary_key=True)
     usuario = models.OneToOneField(
         Usuario,
         on_delete=models.CASCADE,
@@ -179,13 +190,12 @@ class PerfilOrganizador(models.Model):
         return f'Perfil Organizador - {self.usuario.nome_completo}'
 
 
-class CodigoRecuperacao(models.Model):
+class CodigoRecuperacao(ModeloUUID):
     """
     Código temporário de 6 dígitos gerado para recuperação de acesso (RF03).
-    Expira em 15 minutos e possui uso único.
+    Expira em 15 minutos e possui uso único. Herda chave primária UUID de ModeloUUID.
     """
 
-    id = models.BigAutoField(primary_key=True)
     usuario = models.ForeignKey(
         Usuario,
         on_delete=models.CASCADE,
@@ -197,6 +207,7 @@ class CodigoRecuperacao(models.Model):
     criado_em = models.DateTimeField(_('Criado em'), auto_now_add=True)
     expira_em = models.DateTimeField(_('Expira em'))
     utilizado = models.BooleanField(_('Utilizado'), default=False)
+    tentativas = models.PositiveSmallIntegerField(_('Tentativas Incorretas'), default=0)
 
     class Meta:
         verbose_name = _('Código de Recuperação')
@@ -214,8 +225,8 @@ class CodigoRecuperacao(models.Model):
         super().save(*args, **kwargs)
 
     def is_valido(self) -> bool:
-        """Verifica se o código não foi consumido e se ainda está no período de validade."""
-        if self.utilizado:
+        """Verifica se o código não foi consumido, não excedeu tentativas e ainda está no período de validade."""
+        if self.utilizado or self.tentativas >= MAX_TENTATIVAS_CODIGO:
             return False
         return timezone.now() <= self.expira_em
 
@@ -237,12 +248,12 @@ class Papel(models.TextChoices):
     SUPORTE = 'SUPORTE', _('Suporte')
 
 
-class PapelContextual(models.Model):
+class PapelContextual(ModeloUUID):
     """
     Tabela associativa para suportar a multiplicidade de papéis de um usuário por evento (RN03, RN05).
+    Herda chave primária UUID de ModeloUUID.
     """
 
-    id = models.BigAutoField(primary_key=True)
     usuario = models.ForeignKey(
         Usuario,
         on_delete=models.CASCADE,
