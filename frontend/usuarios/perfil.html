@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil - SGIE</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container container-wide">
+        <div class="top-bar">
+            <div>
+                <h1 style="font-size: 1.5rem; color: var(--primary);">Meu Perfil - SGIE</h1>
+                <p style="color: var(--text-muted); font-size: 0.85rem;" id="user-header-info">Carregando informações...</p>
+            </div>
+            <div>
+                <button type="button" id="btn-logout" class="btn-danger btn-small">Encerrar Sessão</button>
+            </div>
+        </div>
+
+        <main>
+            <div id="mensagem-alerta" style="display: none;"></div>
+
+            <!-- Seção 1: Dados Cadastrais Pessoais (RN06) -->
+            <section class="profile-section" aria-label="Dados Cadastrais">
+                <h2>Dados Cadastrais Pessoais</h2>
+                
+                <dl class="data-list">
+                    <dt>Identificador Único (ID):</dt>
+                    <dd id="view-id">—</dd>
+
+                    <dt>E-mail Cadastrado:</dt>
+                    <dd id="view-email">—</dd>
+
+                    <dt>CPF:</dt>
+                    <dd id="view-cpf">—</dd>
+
+                    <dt>Data de Nascimento:</dt>
+                    <dd id="view-nascimento">—</dd>
+
+                    <dt>Telefone:</dt>
+                    <dd id="view-telefone">—</dd>
+
+                    <dt>Status de Organizador:</dt>
+                    <dd id="view-status-organizador">—</dd>
+                </dl>
+
+                <h3 style="font-size: 1.1rem; margin-bottom: 0.85rem; color: var(--secondary);">Atualizar Dados Pessoais</h3>
+                <form id="form-dados-pessoais" novalidate>
+                    <div class="form-group">
+                        <label for="id_nome_completo">Nome Completo:</label>
+                        <input type="text" id="id_nome_completo" name="nome_completo" required maxlength="150">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_telefone">Telefone:</label>
+                        <input type="tel" id="id_telefone" name="telefone" required maxlength="20">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_data_nascimento">Data de Nascimento:</label>
+                        <input type="date" id="id_data_nascimento" name="data_nascimento" required>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 1.25rem;">
+                        <button type="submit" id="btn-salvar-pessoais">Salvar Alterações Pessoais</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Seção 2: Perfil Estendido de Organizador (RF04, RN04) -->
+            <section class="profile-section" aria-label="Perfil de Organizador">
+                <h2>Perfil de Organizador de Eventos</h2>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1rem;">
+                    Para atuar como <strong>Organizador</strong> no SGIE, envie sua foto de perfil, banner institucional e mini-biografia para homologação.
+                </p>
+
+                <div id="status-org-container" style="margin-bottom: 1.25rem;">
+                    <p><strong>Status do Perfil:</strong> <span id="badge-org" class="badge badge-secondary">Verificando...</span></p>
+                </div>
+
+                <div id="previews-container" style="display: none; margin-bottom: 1.5rem;">
+                    <div id="preview-foto-box" style="margin-bottom: 1rem; display: none;">
+                        <label>Foto de Perfil Atual:</label>
+                        <img id="preview-foto-img" class="preview-img" alt="Foto de perfil">
+                    </div>
+                    <div id="preview-banner-box" style="display: none;">
+                        <label>Banner Promocional Atual:</label>
+                        <img id="preview-banner-img" class="preview-img" alt="Banner promocional">
+                    </div>
+                </div>
+
+                <form id="form-organizador" novalidate>
+                    <div class="form-group">
+                        <label for="id_foto_de_perfil">Foto de Perfil (JPG, PNG ou WebP - até 5MB):</label>
+                        <input type="file" id="id_foto_de_perfil" name="foto_de_perfil" accept="image/*">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_banner">Banner Visual / Cabeçalho (JPG, PNG ou WebP - até 10MB):</label>
+                        <input type="file" id="id_banner" name="banner" accept="image/*">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_bio_do_organizador">Mini-biografia Descritiva (Até 1000 caracteres):</label>
+                        <textarea id="id_bio_do_organizador" name="bio_do_organizador" rows="4" maxlength="1000" placeholder="Apresente sua experiência acadêmica ou grupo organizador..."></textarea>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 1.25rem;">
+                        <button type="submit" id="btn-salvar-org">Atualizar Perfil de Organizador</button>
+                    </div>
+                </form>
+            </section>
+        </main>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (!isAuthenticated()) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const inputTelefone = document.getElementById('id_telefone');
+            inputTelefone.addEventListener('input', (e) => {
+                e.target.value = mascaraTelefone(e.target.value);
+            });
+
+            // Logout
+            document.getElementById('btn-logout').addEventListener('click', () => {
+                clearAuth();
+                window.location.href = 'login.html';
+            });
+
+            await carregarPerfilUsuario();
+            await carregarPerfilOrganizador();
+
+            // Salvar dados cadastrais
+            document.getElementById('form-dados-pessoais').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                clearAlert('mensagem-alerta');
+                const btn = document.getElementById('btn-salvar-pessoais');
+
+                const nome_completo = document.getElementById('id_nome_completo').value.trim();
+                const telefone = inputTelefone.value.trim();
+                const data_nascimento = document.getElementById('id_data_nascimento').value;
+
+                if (!nome_completo || !telefone || !data_nascimento) {
+                    showAlert('mensagem-alerta', 'Por favor, preencha todos os campos cadastrais.', 'warning');
+                    return;
+                }
+
+                btn.disabled = true;
+                btn.textContent = 'Salvando...';
+
+                try {
+                    const response = await apiFetch('/usuarios/me/', {
+                        method: 'PATCH',
+                        body: JSON.stringify({ nome_completo, telefone, data_nascimento })
+                    });
+
+                    const data = await response.json();
+                    if (response.ok) {
+                        showAlert('mensagem-alerta', 'Dados cadastrais atualizados com sucesso!', 'success');
+                        preencherDadosUsuario(data);
+                    } else {
+                        showAlert('mensagem-alerta', data, 'danger');
+                    }
+                } catch (err) {
+                    console.error(err);
+                    showAlert('mensagem-alerta', 'Erro ao atualizar dados cadastrais.', 'danger');
+                } finally {
+                    btn.disabled = false;
+                    btn.textContent = 'Salvar Alterações Pessoais';
+                }
+            });
+
+            // Salvar perfil de organizador
+            document.getElementById('form-organizador').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                clearAlert('mensagem-alerta');
+                const btn = document.getElementById('btn-salvar-org');
+
+                const fotoInput = document.getElementById('id_foto_de_perfil');
+                const bannerInput = document.getElementById('id_banner');
+                const bio = document.getElementById('id_bio_do_organizador').value.trim();
+
+                const formData = new FormData();
+                if (fotoInput.files[0]) {
+                    formData.append('foto_de_perfil', fotoInput.files[0]);
+                }
+                if (bannerInput.files[0]) {
+                    formData.append('banner', bannerInput.files[0]);
+                }
+                if (bio) {
+                    formData.append('bio_do_organizador', bio);
+                }
+
+                btn.disabled = true;
+                btn.textContent = 'Enviando arquivos...';
+
+                try {
+                    const response = await apiFetch('/organizadores/me/', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const data = await response.json();
+                    if (response.ok) {
+                        showAlert('mensagem-alerta', 'Perfil de organizador salvo com sucesso!', 'success');
+                        preencherDadosOrganizador(data);
+                    } else {
+                        showAlert('mensagem-alerta', data, 'danger');
+                    }
+                } catch (err) {
+                    console.error(err);
+                    showAlert('mensagem-alerta', 'Erro ao salvar perfil de organizador.', 'danger');
+                } finally {
+                    btn.disabled = false;
+                    btn.textContent = 'Atualizar Perfil de Organizador';
+                }
+            });
+        });
+
+        async function carregarPerfilUsuario() {
+            try {
+                const response = await apiFetch('/usuarios/me/');
+                if (response.ok) {
+                    const data = await response.json();
+                    preencherDadosUsuario(data);
+                } else if (response.status === 401) {
+                    clearAuth();
+                    window.location.href = 'login.html';
+                }
+            } catch (err) {
+                console.error(err);
+                showAlert('mensagem-alerta', 'Erro ao consultar perfil de usuário na API.', 'danger');
+            }
+        }
+
+        function preencherDadosUsuario(data) {
+            document.getElementById('user-header-info').textContent = `Usuário autenticado: ${data.nome_completo} (${data.email})`;
+            document.getElementById('view-id').textContent = data.id;
+            document.getElementById('view-email').textContent = data.email;
+            document.getElementById('view-cpf').textContent = data.cpf_formatado || data.cpf;
+            document.getElementById('view-nascimento').textContent = formatarDataBR(data.data_nascimento);
+            document.getElementById('view-telefone').textContent = data.telefone;
+
+            const statusOrgEl = document.getElementById('view-status-organizador');
+            if (data.organizador || data.is_organizador) {
+                statusOrgEl.innerHTML = '<span class="badge badge-success">Sim (Apto a criar eventos)</span>';
+            } else {
+                statusOrgEl.innerHTML = '<span class="badge badge-secondary">Não (Requer homologação)</span>';
+            }
+
+            document.getElementById('id_nome_completo').value = data.nome_completo || '';
+            document.getElementById('id_telefone').value = data.telefone || '';
+            document.getElementById('id_data_nascimento').value = data.data_nascimento || '';
+        }
+
+        async function carregarPerfilOrganizador() {
+            try {
+                const response = await apiFetch('/organizadores/me/');
+                const badgeOrg = document.getElementById('badge-org');
+
+                if (response.ok) {
+                    const data = await response.json();
+                    preencherDadosOrganizador(data);
+                } else if (response.status === 404) {
+                    badgeOrg.className = 'badge badge-secondary';
+                    badgeOrg.textContent = 'Não preenchido';
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        function preencherDadosOrganizador(data) {
+            const badgeOrg = document.getElementById('badge-org');
+            const previewsContainer = document.getElementById('previews-container');
+            const previewFotoBox = document.getElementById('preview-foto-box');
+            const previewFotoImg = document.getElementById('preview-foto-img');
+            const previewBannerBox = document.getElementById('preview-banner-box');
+            const previewBannerImg = document.getElementById('preview-banner-img');
+
+            if (data.homologado) {
+                badgeOrg.className = 'badge badge-success';
+                badgeOrg.textContent = 'Homologado';
+            } else {
+                badgeOrg.className = 'badge badge-warning';
+                badgeOrg.textContent = 'Aguardando Homologação';
+            }
+
+            if (data.bio_do_organizador) {
+                document.getElementById('id_bio_do_organizador').value = data.bio_do_organizador;
+            }
+
+            let temPreview = false;
+            if (data.foto_de_perfil) {
+                previewFotoImg.src = data.foto_de_perfil;
+                previewFotoBox.style.display = 'block';
+                temPreview = true;
+            }
+            if (data.banner) {
+                previewBannerImg.src = data.banner;
+                previewBannerBox.style.display = 'block';
+                temPreview = true;
+            }
+            previewsContainer.style.display = temPreview ? 'block' : 'none';
+        }
+
+        function formatarDataBR(dataIso) {
+            if (!dataIso) return '—';
+            const partes = dataIso.split('-');
+            if (partes.length === 3) {
+                return `${partes[2]}/${partes[1]}/${partes[0]}`;
+            }
+            return dataIso;
+        }
+    </script>
+</body>
+</html>

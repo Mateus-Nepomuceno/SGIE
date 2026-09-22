@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrar no SGIE</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Entrar no SGIE</h1>
+            <p>Sistema de Gestão de Inscrições e Eventos Universitários</p>
+        </header>
+
+        <main>
+            <div id="mensagem-alerta" style="display: none;"></div>
+
+            <form id="form-login" novalidate>
+                <div class="form-group">
+                    <label for="id_identificador">Identificador (E-mail ou CPF):</label>
+                    <input type="text" id="id_identificador" name="identificador" required placeholder="Digite seu E-mail ou CPF" autofocus autocomplete="username">
+                </div>
+
+                <div class="form-group">
+                    <label for="id_password">Senha:</label>
+                    <input type="password" id="id_password" name="password" required placeholder="Digite sua senha" autocomplete="current-password">
+                </div>
+
+                <div class="form-group" style="margin-top: 1.5rem;">
+                    <button type="submit" id="btn-entrar">Entrar</button>
+                </div>
+            </form>
+
+            <nav class="links" aria-label="Links Úteis">
+                <ul>
+                    <li><a href="recuperar_senha.html">Esqueceu sua senha?</a></li>
+                    <li><a href="cadastro.html">Não tem uma conta? Cadastre-se</a></li>
+                </ul>
+            </nav>
+        </main>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Se o usuário já estiver autenticado, redireciona diretamente ao perfil
+            if (isAuthenticated()) {
+                window.location.href = 'perfil.html';
+                return;
+            }
+
+            const formLogin = document.getElementById('form-login');
+            const btnEntrar = document.getElementById('btn-entrar');
+
+            formLogin.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                clearAlert('mensagem-alerta');
+
+                const identificador = document.getElementById('id_identificador').value.trim();
+                const password = document.getElementById('id_password').value;
+
+                if (!identificador || !password) {
+                    showAlert('mensagem-alerta', 'Por favor, informe seu identificador (E-mail ou CPF) e senha.', 'warning');
+                    return;
+                }
+
+                btnEntrar.disabled = true;
+                btnEntrar.textContent = 'Autenticando...';
+
+                try {
+                    const response = await fetch(`${API_BASE_URL}/auth/token/`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ identificador, password })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        setAuth(data);
+                        showAlert('mensagem-alerta', 'Autenticação realizada com sucesso! Redirecionando...', 'success');
+                        setTimeout(() => {
+                            window.location.href = 'perfil.html';
+                        }, 500);
+                    } else {
+                        const erro = data.detail || data.non_field_errors || 'Credenciais inválidas. Verifique seu e-mail/CPF e senha.';
+                        showAlert('mensagem-alerta', erro, 'danger');
+                    }
+                } catch (err) {
+                    console.error(err);
+                    showAlert('mensagem-alerta', 'Erro ao conectar com a API do SGIE. Verifique se o servidor está ativo.', 'danger');
+                } finally {
+                    btnEntrar.disabled = false;
+                    btnEntrar.textContent = 'Entrar';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

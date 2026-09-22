@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperação de Acesso - SGIE</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Recuperação de Acesso</h1>
+            <p>Sistema de Gestão de Inscrições e Eventos Universitários</p>
+        </header>
+
+        <main>
+            <div id="mensagem-alerta" style="display: none;"></div>
+
+            <!-- Etapa 1: Solicitar código por e-mail -->
+            <section id="secao-etapa1">
+                <h2 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--primary);">Solicitar Código de Verificação</h2>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.25rem;">
+                    Informe o endereço de e-mail cadastrado na plataforma para enviarmos um código numérico de 6 dígitos com validade de 15 minutos.
+                </p>
+
+                <form id="form-solicitar" novalidate>
+                    <div class="form-group">
+                        <label for="id_email_solicitar">E-mail Cadastrado:</label>
+                        <input type="email" id="id_email_solicitar" name="email" required placeholder="seu.email@universidade.edu.br" autofocus>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 1.5rem;">
+                        <button type="submit" id="btn-solicitar">Enviar Código</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Etapa 2: Redefinir senha com código recebido -->
+            <section id="secao-etapa2" style="display: none;">
+                <h2 style="font-size: 1.25rem; margin-bottom: 0.5rem; color: var(--primary);">Redefinir Senha com Código</h2>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.25rem;">
+                    Insira o código numérico de 6 dígitos enviado para seu e-mail e defina sua nova senha de acesso.
+                </p>
+
+                <form id="form-redefinir" novalidate>
+                    <div class="form-group">
+                        <label for="id_email_redefinir">E-mail Cadastrado:</label>
+                        <input type="email" id="id_email_redefinir" name="email" required placeholder="seu.email@universidade.edu.br">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_codigo">Código de 6 Dígitos:</label>
+                        <input type="text" id="id_codigo" name="codigo" required maxlength="6" minlength="6" placeholder="123456" autocomplete="one-time-code">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_nova_senha">Nova Senha (Mínimo de 8 caracteres):</label>
+                        <input type="password" id="id_nova_senha" name="nova_senha" required minlength="8" placeholder="Digite sua nova senha">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_confirmacao_senha">Confirmação da Nova Senha:</label>
+                        <input type="password" id="id_confirmacao_senha" name="confirmacao_senha" required minlength="8" placeholder="Repita a nova senha">
+                    </div>
+
+                    <div class="form-group" style="margin-top: 1.5rem;">
+                        <button type="submit" id="btn-redefinir">Salvar Nova Senha</button>
+                    </div>
+
+                    <div style="margin-top: 0.75rem; text-align: center;">
+                        <a href="#" id="link-voltar-etapa1" style="font-size: 0.85rem; color: var(--secondary);">Solicitar outro código</a>
+                    </div>
+                </form>
+            </section>
+
+            <nav class="links" aria-label="Navegação de Retorno">
+                <p><a href="login.html">Voltar para a página de login</a></p>
+            </nav>
+        </main>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const secaoEtapa1 = document.getElementById('secao-etapa1');
+            const secaoEtapa2 = document.getElementById('secao-etapa2');
+            const formSolicitar = document.getElementById('form-solicitar');
+            const formRedefinir = document.getElementById('form-redefinir');
+            const btnSolicitar = document.getElementById('btn-solicitar');
+            const btnRedefinir = document.getElementById('btn-redefinir');
+            const linkVoltarEtapa1 = document.getElementById('link-voltar-etapa1');
+
+            const inputEmailSolicitar = document.getElementById('id_email_solicitar');
+            const inputEmailRedefinir = document.getElementById('id_email_redefinir');
+
+            linkVoltarEtapa1.addEventListener('click', (e) => {
+                e.preventDefault();
+                clearAlert('mensagem-alerta');
+                secaoEtapa2.style.display = 'none';
+                secaoEtapa1.style.display = 'block';
+                inputEmailSolicitar.focus();
+            });
+
+            // Submissão Etapa 1
+            formSolicitar.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                clearAlert('mensagem-alerta');
+
+                const email = inputEmailSolicitar.value.trim();
+                if (!email) {
+                    showAlert('mensagem-alerta', 'Por favor, informe seu e-mail cadastrado.', 'warning');
+                    return;
+                }
+
+                btnSolicitar.disabled = true;
+                btnSolicitar.textContent = 'Enviando...';
+
+                try {
+                    const response = await fetch(`${API_BASE_URL}/auth/recuperar-senha/`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        inputEmailRedefinir.value = email;
+                        secaoEtapa1.style.display = 'none';
+                        secaoEtapa2.style.display = 'block';
+                        showAlert('mensagem-alerta', data.detail || 'Código de verificação enviado por e-mail!', 'info');
+                        document.getElementById('id_codigo').focus();
+                    } else {
+                        showAlert('mensagem-alerta', data, 'danger');
+                    }
+                } catch (err) {
+                    console.error(err);
+                    showAlert('mensagem-alerta', 'Erro de comunicação com a API. Tente novamente.', 'danger');
+                } finally {
+                    btnSolicitar.disabled = false;
+                    btnSolicitar.textContent = 'Enviar Código';
+                }
+            });
+
+            // Submissão Etapa 2
+            formRedefinir.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                clearAlert('mensagem-alerta');
+
+                const email = inputEmailRedefinir.value.trim();
+                const codigo = document.getElementById('id_codigo').value.trim();
+                const nova_senha = document.getElementById('id_nova_senha').value;
+                const confirmacao_senha = document.getElementById('id_confirmacao_senha').value;
+
+                if (!email || !codigo || !nova_senha || !confirmacao_senha) {
+                    showAlert('mensagem-alerta', 'Por favor, preencha todos os campos.', 'warning');
+                    return;
+                }
+
+                if (codigo.length !== 6) {
+                    showAlert('mensagem-alerta', 'O código de verificação deve conter exatamente 6 dígitos.', 'warning');
+                    return;
+                }
+
+                if (nova_senha !== confirmacao_senha) {
+                    showAlert('mensagem-alerta', 'As novas senhas informadas não coincidem.', 'warning');
+                    return;
+                }
+
+                btnRedefinir.disabled = true;
+                btnRedefinir.textContent = 'Atualizando senha...';
+
+                try {
+                    const response = await fetch(`${API_BASE_URL}/auth/redefinir-senha/`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            email,
+                            codigo,
+                            nova_senha,
+                            confirmacao_senha
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        showAlert('mensagem-alerta', data.detail || 'Senha alterada com sucesso! Redirecionando para login...', 'success');
+                        setTimeout(() => {
+                            window.location.href = 'login.html';
+                        }, 2000);
+                    } else {
+                        showAlert('mensagem-alerta', data, 'danger');
+                    }
+                } catch (err) {
+                    console.error(err);
+                    showAlert('mensagem-alerta', 'Erro de comunicação com a API. Tente novamente.', 'danger');
+                } finally {
+                    btnRedefinir.disabled = false;
+                    btnRedefinir.textContent = 'Salvar Nova Senha';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
