@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.utils.translation import gettext_lazy as _
 
-from .forms import UsuarioCreationForm, UsuarioChangeForm
+from .forms import UsuarioChangeForm, UsuarioCreationForm
 from .models import CodigoRecuperacao, PapelContextual, PerfilOrganizador, Usuario
 
 

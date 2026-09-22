@@ -3,7 +3,7 @@ from typing import override
 
 from django.core.exceptions import PermissionDenied
 from django.utils.translation import gettext_lazy as _
-from rest_framework.permissions import BasePermission
+from rest_framework.permissions import SAFE_METHODS, BasePermission
 
 from .services import UsuarioService
 
@@ -143,6 +143,6 @@ class IsPapelContextualManagerOrReadOnly(BasePermission):
 
     @override
     def has_object_permission(self, request, view, obj):
-        if request.method in {'GET', 'HEAD', 'OPTIONS'}:
+        if request.method in SAFE_METHODS:
             return True
         return bool(request.user.is_staff or request.user.is_superuser or request.user.is_organizador())

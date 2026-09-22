@@ -89,6 +89,8 @@ class UsuarioCadastroSerializer(serializers.ModelSerializer):
             data = data.copy()
             if 'password' in data and 'senha' not in data:
                 data['senha'] = data['password']
+            if 'password_confirm' in data and 'confirmacao_senha' not in data:
+                data['confirmacao_senha'] = data['password_confirm']
         return super().to_internal_value(data)
 
     @staticmethod
