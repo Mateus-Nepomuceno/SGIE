@@ -25,3 +25,5 @@ venv/
 htmlcov/
 
 .mypy_cache
+
+.local/
