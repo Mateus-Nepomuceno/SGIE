@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos Universitários - SGIE</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="index.html" class="brand">
+                SGIE
+                <span class="brand-badge">Eventos</span>
+            </a>
+            <ul class="nav-links">
+            </ul>
+            <div class="nav-user" id="nav-user-area">
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="page-header">
+            <div>
+                <h1 class="page-title" id="page-title-text">Eventos Acadêmicos e Científicos</h1>
+                <p class="page-subtitle">Explore conferências, simpósios e palestras. Inscreva-se como participante ou publique seu próprio evento.</p>
+            </div>
+            <div>
+                <a href="eventos/criar_evento.html" class="btn btn-primary" id="btn-novo-evento-topo">+ Cadastrar Evento</a>
+            </div>
+        </header>
+
+        <div id="mensagem-alerta" style="display: none;"></div>
+
+        <nav class="tabs-nav" aria-label="Visualizações de Eventos">
+            <button type="button" class="tab-btn active" id="tab-todos" onclick="alternarAba('todos')">
+                Todos os Eventos
+            </button>
+            <button type="button" class="tab-btn" id="tab-meus-eventos" style="display: none;" onclick="alternarAba('meus-eventos')">
+                Meus Eventos Criados <span class="tab-badge" id="badge-total-meus">0</span>
+            </button>
+        </nav>
+
+        <section class="toolbar" id="toolbar-filtros" aria-label="Filtros de Eventos">
+            <div class="toolbar-row">
+                <div class="search-input-wrap">
+                    <input type="text" id="filtro-busca" class="input-field" placeholder="Buscar por título, descrição ou local...">
+                </div>
+                <select id="filtro-categoria" class="filter-select">
+                    <option value="">Todas as Categorias</option>
+                    <option value="Congresso">Congresso</option>
+                    <option value="Simpósio">Simpósio</option>
+                    <option value="Seminário">Seminário</option>
+                    <option value="Feira">Feira</option>
+                    <option value="Conferência">Conferência</option>
+                    <option value="Festival">Festival</option>
+                    <option value="Competição">Competição</option>
+                    <option value="Workshop">Workshop</option>
+                    <option value="Oficina">Oficina</option>
+                    <option value="Curso">Curso</option>
+                    <option value="Mini-curso">Mini-curso</option>
+                    <option value="Palestra">Palestra</option>
+                    <option value="Roda de Conversa">Roda de Conversa</option>
+                    <option value="Treinamento">Treinamento</option>
+                    <option value="Lançamento de Produto">Lançamento de Produto</option>
+                    <option value="Outro">Outro</option>
+                </select>
+                <select id="filtro-modalidade" class="filter-select">
+                    <option value="">Todas as Modalidades</option>
+                    <option value="Presencial">Presencial</option>
+                    <option value="On-line">On-line</option>
+                    <option value="Híbrido">Híbrido</option>
+                </select>
+                <select id="filtro-preco" class="filter-select">
+                    <option value="">Preço (Todos)</option>
+                    <option value="true">Gratuito</option>
+                    <option value="false">Pago</option>
+                </select>
+                <button type="button" id="btn-aplicar-filtros" class="btn btn-secondary">Filtrar</button>
+                <button type="button" id="btn-limpar-filtros" class="btn btn-outline">Limpar</button>
+            </div>
+        </section>
+
+        <main>
+            <div id="loading-spinner" style="text-align: center; padding: 3rem;">
+                <p style="font-size: 1.1rem; color: var(--text-muted);">Carregando eventos...</p>
+            </div>
+
+            <div class="events-grid" id="grid-eventos" style="display: none;">
+            </div>
+
+            <div id="sem-eventos" class="empty-state" style="display: none;">
+                <h3 id="titulo-vazio">Nenhum evento encontrado</h3>
+                <p id="desc-vazio">Tente ajustar os termos de busca ou filtros aplicados.</p>
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="container" style="padding-top: 0; padding-bottom: 0;">
+            <p>SGIE — Sistema de Gestão de Inscrições e Eventos Universitários</p>
+        </div>
+    </footer>
+
+    <script src="config.js"></script>
+    <script src="api.js"></script>
+    <script>
+        let abaAtual = 'todos';
+        let meusEventosCriados = [];
+
+        document.addEventListener('DOMContentLoaded', () => {
+            atualizarCabecalhoUsuario('eventos');
+            configurarAbasUsuario();
+
+            document.getElementById('btn-aplicar-filtros').addEventListener('click', () => carregarEventos());
+            document.getElementById('btn-limpar-filtros').addEventListener('click', () => {
+                document.getElementById('filtro-busca').value = '';
+                document.getElementById('filtro-categoria').value = '';
+                document.getElementById('filtro-modalidade').value = '';
+                document.getElementById('filtro-preco').value = '';
+                carregarEventos();
+            });
+
+            document.getElementById('filtro-busca').addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') carregarEventos();
+            });
+
+            carregarEventos();
+        });
+
+        function configurarAbasUsuario() {
+            const user = getUser();
+            if (user && isAuthenticated()) {
+                document.getElementById('tab-meus-eventos').style.display = 'inline-flex';
+            }
+        }
+
+        function alternarAba(aba) {
+            abaAtual = aba;
+            document.getElementById('tab-todos').classList.toggle('active', aba === 'todos');
+            document.getElementById('tab-meus-eventos').classList.toggle('active', aba === 'meus-eventos');
+
+            const title = document.getElementById('page-title-text');
+            const toolbar = document.getElementById('toolbar-filtros');
+
+            if (aba === 'todos') {
+                title.textContent = 'Eventos Acadêmicos e Científicos';
+                toolbar.style.display = 'block';
+            } else if (aba === 'meus-eventos') {
+                title.textContent = 'Meus Eventos Cadastrados (Organizador)';
+                toolbar.style.display = 'none';
+            }
+
+            carregarEventos();
+        }
+
+        async function carregarEventos() {
+            clearAlert('mensagem-alerta');
+            const spinner = document.getElementById('loading-spinner');
+            const grid = document.getElementById('grid-eventos');
+            const vazio = document.getElementById('sem-eventos');
+
+            spinner.style.display = 'block';
+            grid.style.display = 'none';
+            vazio.style.display = 'none';
+
+            let endpoint = '/eventos/';
+            const params = new URLSearchParams();
+
+            if (abaAtual === 'meus-eventos') {
+                endpoint = '/eventos/meus-eventos/';
+            } else {
+                const busca = document.getElementById('filtro-busca').value.trim();
+                const categoria = document.getElementById('filtro-categoria').value;
+                const modalidade = document.getElementById('filtro-modalidade').value;
+                const preco = document.getElementById('filtro-preco').value;
+
+                if (busca) params.append('search', busca);
+                if (categoria) params.append('categoria', categoria);
+                if (modalidade) params.append('modalidade', modalidade);
+                if (preco) params.append('e_gratuito', preco);
+            }
+
+            const queryString = params.toString();
+            const urlCompleta = queryString ? `${endpoint}?${queryString}` : endpoint;
+
+            try {
+                const response = await apiFetch(urlCompleta);
+                spinner.style.display = 'none';
+
+                if (response.ok) {
+                    const eventos = await response.json();
+                    if (abaAtual === 'meus-eventos') {
+                        document.getElementById('badge-total-meus').textContent = eventos.length;
+                    }
+
+                    if (!eventos || eventos.length === 0) {
+                        vazio.style.display = 'block';
+                        if (abaAtual === 'meus-eventos') {
+                            document.getElementById('titulo-vazio').textContent = 'Você ainda não cadastrou eventos';
+                            document.getElementById('desc-vazio').innerHTML = 'Crie seu primeiro evento clicando em <a href="eventos/criar_evento.html">Cadastrar Evento</a>.';
+                        } else {
+                            document.getElementById('titulo-vazio').textContent = 'Nenhum evento encontrado';
+                            document.getElementById('desc-vazio').textContent = 'Tente ajustar os filtros ou cadastre um novo evento.';
+                        }
+                        return;
+                    }
+
+                    renderizarEventos(eventos);
+                    grid.style.display = 'grid';
+                } else {
+                    const err = await response.json();
+                    showAlert('mensagem-alerta', err.detail || 'Não foi possível carregar os eventos.', 'danger');
+                }
+            } catch (err) {
+                spinner.style.display = 'none';
+                showAlert('mensagem-alerta', 'Erro de conexão com o servidor do SGIE.', 'danger');
+            }
+        }
+
+        function renderizarEventos(eventos) {
+            const grid = document.getElementById('grid-eventos');
+            grid.innerHTML = '';
+            const user = getUser();
+
+            eventos.forEach(ev => {
+                const card = document.createElement('article');
+                card.className = 'event-card';
+
+                let statusBadgeClass = 'badge-draft';
+                if (ev.status === 'Publicado') statusBadgeClass = 'badge-published';
+                else if (ev.status === 'Inscrições abertas') statusBadgeClass = 'badge-open';
+                else if (ev.status === 'Em realização') statusBadgeClass = 'badge-ongoing';
+                else if (ev.status === 'Cancelado') statusBadgeClass = 'badge-canceled';
+                else if (ev.status === 'Finalizado') statusBadgeClass = 'badge-finished';
+                else if (ev.status === 'Configuração') statusBadgeClass = 'badge-config';
+
+                const precoPill = ev.e_gratuito
+                    ? '<span class="pill pill-free">Gratuito</span>'
+                    : `<span class="pill pill-paid">${formatarMoeda(ev.preco)}</span>`;
+
+                const ehCriador = user && (ev.usuario_representante === user.id || user.is_staff || user.is_superuser);
+                let botoesAcaoHtml = '';
+
+                if (ehCriador) {
+                    botoesAcaoHtml = `
+                        <a href="eventos/editar_evento.html?id=${ev.id}" class="btn btn-sm btn-secondary" title="Editar dados deste evento">✏ Editar</a>
+                        <a href="eventos/detalhes_evento.html?id=${ev.id}" class="btn btn-sm btn-primary">Gerenciar</a>
+                    `;
+                } else {
+                    botoesAcaoHtml = `
+                        <a href="eventos/detalhes_evento.html?id=${ev.id}" class="btn btn-sm btn-primary">Ver Detalhes</a>
+                    `;
+                }
+
+                card.innerHTML = `
+                    <div class="card-header-bar">
+                        <span class="badge ${statusBadgeClass}">${ev.status_display || ev.status}</span>
+                        <div style="display: flex; gap: 0.35rem; align-items: center;">
+                            <span class="pill">${ev.categoria_display || ev.categoria}</span>
+                            ${precoPill}
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <h2 class="card-title">
+                            <a href="eventos/detalhes_evento.html?id=${ev.id}">${ev.nome}</a>
+                        </h2>
+                        <p class="card-description">${ev.descricao || 'Sem descrição cadastrada.'}</p>
+                        
+                        <ul class="card-meta-list">
+                            <li class="card-meta-item">
+                                <strong>Data:</strong> ${formatarData(ev.data)} às ${formatarHora(ev.hora_inicio)} (${ev.modalidade_display || ev.modalidade})
+                            </li>
+                            <li class="card-meta-item">
+                                <strong>Local:</strong> ${ev.local}
+                            </li>
+                            <li class="card-meta-item">
+                                <strong>Capacidade:</strong> até ${ev.capacidade} participantes
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <div style="font-size: 0.85rem; color: var(--text-muted);">
+                            ${ev.local}
+                        </div>
+                        <div class="btn-group">
+                            ${botoesAcaoHtml}
+                        </div>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+        }
+    </script>
+</body>
+</html>

@@ -5,9 +5,9 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-load_dotenv()
-
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv(BASE_DIR / '.env')
 
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-dev-only-secret-key-32bytes-min-length-required-for-sha256')
 
@@ -107,11 +107,7 @@ _mail_backend = os.environ.get(
     'django.core.mail.backends.console.EmailBackend' if DEBUG else 'django.core.mail.backends.smtp.EmailBackend',
 )
 
-MAILERS = {
-    'default': {
-        'BACKEND': _mail_backend,
-    },
-}
+EMAIL_BACKEND = _mail_backend
 
 DEFAULT_FROM_EMAIL = 'sgie@universidade.edu.br'
 

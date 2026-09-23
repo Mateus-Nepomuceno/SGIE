@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Evento - SGIE</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="../index.html" class="brand">
+                SGIE
+                <span class="brand-badge">Eventos</span>
+            </a>
+            <ul class="nav-links">
+            </ul>
+            <div class="nav-user" id="nav-user-area">
+            </div>
+        </div>
+    </nav>
+
+    <div class="container container-narrow">
+        <header class="page-header">
+            <div>
+                <h1 class="page-title">Cadastrar Novo Evento</h1>
+                <p class="page-subtitle">Preencha as informações para organizar e publicar seu evento acadêmico no SGIE.</p>
+            </div>
+            <div>
+                <a href="../index.html" class="btn btn-secondary">← Voltar aos Eventos</a>
+            </div>
+        </header>
+
+        <div id="mensagem-alerta" style="display: none;"></div>
+
+        <div id="aviso-perfil-organizador" class="notice-box" style="display: none; background: #fffbeb; border-color: #fde68a;">
+            <div class="notice-icon">ℹ</div>
+            <div>
+                <div class="notice-title" style="color: #92400e;">Atenção: Perfil de Organizador Necessário</div>
+                <div class="notice-desc" style="color: #78350f;">
+                    A criação de eventos é permitida para organizadores homologados (RF01, RN04). 
+                    Se você ainda não enviou seu perfil de organizador, acesse <a href="../usuarios/perfil.html" style="font-weight: 700; color: #b45309;">Meu Perfil</a> para homologação.
+                </div>
+            </div>
+        </div>
+
+        <form id="form-criar-evento" class="form-card" novalidate>
+            <section class="form-section">
+                <h2 class="section-title">1. Informações Básicas</h2>
+                <p class="section-desc">Identificação pública do evento na plataforma.</p>
+
+                <div class="form-group">
+                    <label for="id_nome" class="form-label">Nome do Evento <span class="req">*</span></label>
+                    <input type="text" id="id_nome" name="nome" class="input-field" required maxlength="100" placeholder="Ex: Simpósio De Engenharia E Inteligência Artificial">
+                    <span class="form-hint">A primeira letra de todas as palavras deve ser maiúscula (RFS03).</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_descricao" class="form-label">Descrição Geral <span class="req">*</span></label>
+                    <textarea id="id_descricao" name="descricao" class="input-field" rows="4" required placeholder="Apresente os objetivos, público-alvo e relevância do evento..."></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="id_categoria" class="form-label">Categoria do Evento <span class="req">*</span></label>
+                        <select id="id_categoria" name="categoria" class="input-field" required>
+                            <option value="">Selecione...</option>
+                            <option value="Congresso">Congresso (Antecedência mín. 3 meses)</option>
+                            <option value="Simpósio">Simpósio (Antecedência mín. 2 meses)</option>
+                            <option value="Seminário">Seminário (Antecedência mín. 1 mês)</option>
+                            <option value="Feira">Feira</option>
+                            <option value="Conferência">Conferência</option>
+                            <option value="Festival">Festival</option>
+                            <option value="Competição">Competição</option>
+                            <option value="Workshop">Workshop</option>
+                            <option value="Oficina">Oficina</option>
+                            <option value="Curso">Curso</option>
+                            <option value="Mini-curso">Mini-curso</option>
+                            <option value="Palestra">Palestra</option>
+                            <option value="Roda de Conversa">Roda de Conversa</option>
+                            <option value="Treinamento">Treinamento</option>
+                            <option value="Lançamento de Produto">Lançamento de Produto</option>
+                            <option value="Outro">Outro</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_modalidade" class="form-label">Modalidade <span class="req">*</span></label>
+                        <select id="id_modalidade" name="modalidade" class="input-field" required>
+                            <option value="Presencial">Presencial</option>
+                            <option value="On-line">On-line</option>
+                            <option value="Híbrido">Híbrido</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_visibilidade" class="form-label">Visibilidade <span class="req">*</span></label>
+                        <select id="id_visibilidade" name="visibilidade" class="input-field" required>
+                            <option value="Público">Público (Listado abertamente)</option>
+                            <option value="Privado">Privado (Apenas convidados)</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <h2 class="section-title">2. Data e Horários</h2>
+                <p class="section-desc">Defina o cronograma principal (respeitando a antecedência da categoria - RN02).</p>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="id_data" class="form-label">Data de Realização <span class="req">*</span></label>
+                        <input type="date" id="id_data" name="data" class="input-field" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_hora_inicio" class="form-label">Horário de Início (Militar) <span class="req">*</span></label>
+                        <input type="time" id="id_hora_inicio" name="hora_inicio" class="input-field" required value="09:00">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_hora_fim" class="form-label">Horário de Término <span class="req">*</span></label>
+                        <input type="time" id="id_hora_fim" name="hora_fim" class="input-field" required value="18:00">
+                    </div>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <h2 class="section-title">3. Local e Capacidade</h2>
+                <p class="section-desc">Estrutura física ou digital do evento.</p>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="id_local_tipo" class="form-label">Tipo de Local <span class="req">*</span></label>
+                        <select id="id_local_tipo" name="local_tipo" class="input-field" required>
+                            <option value="Auditório">Auditório</option>
+                            <option value="Sala 1">Sala 1</option>
+                            <option value="Laboratório 2">Laboratório 2</option>
+                            <option value="Outro">Outro</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label for="id_local" class="form-label">Local / Sala / Link de Acesso <span class="req">*</span></label>
+                        <input type="text" id="id_local" name="local" class="input-field" required placeholder="Ex: Auditório Master, Bloco B ou link do Google Meet">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="id_capacidade" class="form-label">Capacidade Máxima <span class="req">*</span></label>
+                        <input type="number" id="id_capacidade" name="capacidade" class="input-field" min="1" max="10000" value="100" required>
+                        <span class="form-hint">Limite de vagas para participantes.</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Cobrança de Inscrição</label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem; cursor: pointer;">
+                            <input type="checkbox" id="id_e_gratuito" name="e_gratuito" checked>
+                            <span>Evento Gratuito (Sem taxa de inscrição)</span>
+                        </label>
+                    </div>
+
+                    <div class="form-group" id="box-preco" style="display: none;">
+                        <label for="id_preco" class="form-label">Valor da Inscrição (R$)</label>
+                        <input type="number" id="id_preco" name="preco" class="input-field" step="0.01" min="0" placeholder="0.00">
+                    </div>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <h2 class="section-title">4. Regras de Submissão de Trabalhos</h2>
+                <p class="section-desc">Defina se o evento aceitará o envio de artigos ou trabalhos científicos (RFS15).</p>
+
+                <div class="form-group">
+                    <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                        <input type="checkbox" id="id_aceita_submissao" name="aceita_submissao">
+                        <span>Aceitar submissão de artigos e trabalhos neste evento</span>
+                    </label>
+                </div>
+
+                <div id="box-submissao" style="display: none; background: #f8fafc; padding: 1.25rem; border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="id_sub_inicio" class="form-label">Início das Submissões <span class="req">*</span></label>
+                            <input type="datetime-local" id="id_sub_inicio" name="sub_inicio" class="input-field">
+                        </div>
+                        <div class="form-group">
+                            <label for="id_sub_fim" class="form-label">Término das Submissões <span class="req">*</span></label>
+                            <input type="datetime-local" id="id_sub_fim" name="sub_fim" class="input-field">
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <h2 class="section-title">5. Programação Geral</h2>
+                <div class="form-group">
+                    <label for="id_programacao_geral" class="form-label">Descrição das Atividades</label>
+                    <textarea id="id_programacao_geral" name="programacao_geral" class="input-field" rows="3" placeholder="Ex: 09:00 - Abertura Oficial; 10:00 - Palestra Magna; 14:00 - Mesas Redondas..."></textarea>
+                </div>
+            </section>
+
+            <div class="btn-group" style="justify-content: flex-end; margin-top: 1.5rem;">
+                <a href="../index.html" class="btn btn-secondary">Cancelar</a>
+                <button type="submit" id="btn-submit" class="btn btn-primary btn-lg">Criar e Salvar Evento</button>
+            </div>
+        </form>
+    </div>
+
+    <footer class="footer">
+        <div class="container" style="padding-top: 0; padding-bottom: 0;">
+            <p>SGIE — Sistema de Gestão de Inscrições e Eventos Universitários</p>
+        </div>
+    </footer>
+
+    <script src="../config.js"></script>
+    <script src="../api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!isAuthenticated()) {
+                window.location.href = '../usuarios/login.html';
+                return;
+            }
+
+            atualizarCabecalhoUsuario('novo');
+
+            const user = getUser();
+            if (user && !user.is_organizador && !user.is_staff && !user.is_superuser) {
+                document.getElementById('aviso-perfil-organizador').style.display = 'flex';
+            }
+
+            const checkGratuito = document.getElementById('id_e_gratuito');
+            const boxPreco = document.getElementById('box-preco');
+            checkGratuito.addEventListener('change', () => {
+                boxPreco.style.display = checkGratuito.checked ? 'none' : 'block';
+            });
+
+            const checkSub = document.getElementById('id_aceita_submissao');
+            const boxSub = document.getElementById('box-submissao');
+            checkSub.addEventListener('change', () => {
+                boxSub.style.display = checkSub.checked ? 'block' : 'none';
+            });
+
+            const form = document.getElementById('form-criar-evento');
+            const btnSubmit = document.getElementById('btn-submit');
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                clearAlert('mensagem-alerta');
+
+                const titulo = document.getElementById('id_nome').value.trim();
+                const palavrasTitulo = titulo.split(/\s+/);
+                const palavraInvalida = palavrasTitulo.find(p => p && p[0].toLowerCase() === p[0] && p[0].toUpperCase() !== p[0]);
+                if (palavraInvalida) {
+                    showAlert('mensagem-alerta', `A letra inicial de todas as palavras do título deve ser maiúscula (RFS03). Verifique a palavra: "${palavraInvalida}".`, 'danger');
+                    return;
+                }
+
+                let regra_submissao = null;
+                if (checkSub.checked) {
+                    const subInicio = document.getElementById('id_sub_inicio').value;
+                    const subFim = document.getElementById('id_sub_fim').value;
+
+                    if (!subInicio || !subFim) {
+                        showAlert('mensagem-alerta', 'Preencha a data e horário de início e término do período de submissão.', 'danger');
+                        return;
+                    }
+                    if (new Date(subFim) <= new Date(subInicio)) {
+                        showAlert('mensagem-alerta', 'A data e horário de término das submissões deve ser posterior ao início.', 'danger');
+                        return;
+                    }
+
+                    regra_submissao = {
+                        aceita_submissao: true,
+                        data_hora_inicio: new Date(subInicio).toISOString(),
+                        data_hora_fim: new Date(subFim).toISOString(),
+                    };
+                }
+
+                const eGratuito = checkGratuito.checked;
+                const precoValor = eGratuito ? '0.00' : (document.getElementById('id_preco').value || '0.00');
+
+                const payload = {
+                    nome: titulo,
+                    descricao: document.getElementById('id_descricao').value.trim(),
+                    categoria: document.getElementById('id_categoria').value,
+                    modalidade: document.getElementById('id_modalidade').value,
+                    visibilidade: document.getElementById('id_visibilidade').value,
+                    data: document.getElementById('id_data').value,
+                    hora_inicio: document.getElementById('id_hora_inicio').value,
+                    hora_fim: document.getElementById('id_hora_fim').value,
+                    local_tipo: document.getElementById('id_local_tipo').value,
+                    local: document.getElementById('id_local').value.trim(),
+                    capacidade: parseInt(document.getElementById('id_capacidade').value, 10),
+                    e_gratuito: eGratuito,
+                    preco: precoValor,
+                    programacao_geral: document.getElementById('id_programacao_geral').value.trim(),
+                    regra_submissao: regra_submissao,
+                };
+
+                btnSubmit.disabled = true;
+                btnSubmit.textContent = 'Criando Evento...';
+
+                try {
+                    const res = await apiFetch('/eventos/', {
+                        method: 'POST',
+                        body: JSON.stringify(payload),
+                    });
+
+                    btnSubmit.disabled = false;
+                    btnSubmit.textContent = 'Criar e Salvar Evento';
+
+                    if (res.ok) {
+                        const eventoCriado = await res.json();
+                        showAlert('mensagem-alerta', 'Evento criado com sucesso! Redirecionando...', 'success');
+                        setTimeout(() => {
+                            window.location.href = `detalhes_evento.html?id=${eventoCriado.id}&criado=1`;
+                        }, 500);
+                    } else {
+                        const err = await res.json();
+                        showAlert('mensagem-alerta', err, 'danger');
+                    }
+                } catch {
+                    btnSubmit.disabled = false;
+                    btnSubmit.textContent = 'Criar e Salvar Evento';
+                    showAlert('mensagem-alerta', 'Erro ao salvar o evento.', 'danger');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
