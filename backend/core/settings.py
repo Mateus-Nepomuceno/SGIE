@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'usuarios',
     'eventos',
+    'inscricao',
 ]
 
 AUTH_USER_MODEL = 'usuarios.Usuario'
