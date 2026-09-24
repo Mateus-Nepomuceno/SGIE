@@ -11,9 +11,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         const response = await apiFetch(`/eventos/${eventoId}/`);
         const evento = await response.json();
 
+        const response2 = await apiFetch(`/eventos/${eventoId}/inscritos/?status=lista_espera`);
+        const lista_espera = await response2.json();
+
         document.getElementById('evento-titulo').innerText = evento.nome;
         document.getElementById('evento-detalhes').innerText =
-            `${evento.vagas_disponiveis} vagas restantes - ${evento.e_gratuito ? 'Gratuito' : 'Pago'}`;
+            `${evento.vagas_disponiveis} vagas restantes - ${evento.e_gratuito ? 'Gratuito' : 'Pago'} - ${lista_espera.length} na lista de espera`;
 
 		if (evento.necessita_comprovante) {
 			divComprovante.style.display = 'block';
