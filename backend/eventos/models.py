@@ -183,6 +183,12 @@ class Evento(models.Model):
         help_text=_('Define se o evento é gratuito ou possui cobrança de inscrição.'),
     )
 
+    necessita_comprovante = models.BooleanField(
+        _('Comprovante'),
+        default=False,
+        help_text=_('Define se o evento necessita ou não de comprovante'),
+    )
+
     preco = models.DecimalField(
         _('Preço da Inscrição (R$)'),
         max_digits=10,

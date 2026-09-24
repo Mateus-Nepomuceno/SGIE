@@ -14,6 +14,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById('evento-titulo').innerText = evento.nome;
         document.getElementById('evento-detalhes').innerText =
             `${evento.vagas_disponiveis} vagas restantes - ${evento.e_gratuito ? 'Gratuito' : 'Pago'}`;
+
+		if (evento.necessita_comprovante) {
+			divComprovante.style.display = 'block';
+			document.getElementById('comprovante').required = true;
+		} else {
+			divComprovante.style.display = 'none';
+			document.getElementById('comprovante').required = false;
+		}
     } catch (error) {
         alert("Erro ao carregar os dados do evento.");
     }

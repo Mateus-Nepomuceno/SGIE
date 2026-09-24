@@ -109,7 +109,7 @@ class EventoDetailSerializer(serializers.ModelSerializer):
             'id','usuario_representante','usuario_representante_nome','usuario_representante_email',
             'nome','descricao','data','data_original','hora_inicio','hora_inicio_original','hora_fim',
             'local_tipo','local','modalidade','modalidade_display','capacidade','status','status_display',
-            'categoria','categoria_display','categoria_personalizada','e_gratuito','preco','visibilidade',
+            'categoria','categoria_display','categoria_personalizada','e_gratuito', 'necessita_comprovante','preco','visibilidade',
             'programacao_geral','motivo_cancelamento','cancelado_em','inscricoes_abertas','is_curta_duracao',
             'pode_alterar_data','pode_alterar_detalhes','pode_cancelar','limite_alteracao_data',
             'limite_alteracao_detalhes','limite_cancelamento','limite_encerramento_inscricoes',
