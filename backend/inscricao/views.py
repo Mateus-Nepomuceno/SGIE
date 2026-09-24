@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from eventos.models import Evento
 from .models import Inscricao
-from .serializers import InscricaoSerializer
+from .serializers import InscricaoSerializer, MinhaInscricaoSerializer
 from .permissions import IsDonoDaInscricao
 from .services import processar_fila_espera
 
@@ -53,6 +53,31 @@ class InscricaoDetailView(generics.RetrieveUpdateDestroyAPIView):
         instance.status = 'cancelada'
         instance.save()
         processar_fila_espera(instance.evento)
+
+class MinhasInscricoesView(generics.ListAPIView):
+    """
+    Lista as inscrições do participante autenticado (página
+    "Minhas inscrições e ingresso" do módulo de Inscrições).
+    Suporta filtro opcional por status via ?status=confirmada
+    e busca opcional pelo nome do evento via ?busca=termo.
+    """
+    serializer_class = MinhaInscricaoSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        queryset = Inscricao.objects.filter(
+            usuario=self.request.user
+        ).select_related('evento').order_by('-data_inscricao')
+
+        status_param = self.request.query_params.get('status', None)
+        if status_param:
+            queryset = queryset.filter(status=status_param)
+
+        busca = self.request.query_params.get('busca', None)
+        if busca:
+            queryset = queryset.filter(evento__nome__icontains=busca)
+
+        return queryset
 
 class ListaInscritosView(generics.ListAPIView):
     serializer_class = InscricaoSerializer
