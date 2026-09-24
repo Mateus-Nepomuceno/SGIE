@@ -1,6 +1,7 @@
 from django.db import transaction
+from rest_framework.exceptions import ValidationError
+from .validators import validar_periodo_inscricao
 from .models import Inscricao
-from .validators import validar_periodo_inscricao, validar_inscricao_duplicada
 
 @transaction.atomic
 def criar_inscricao_servico(usuario, evento, comprovante=None, dados_adicionais=None):

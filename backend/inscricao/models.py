@@ -32,4 +32,5 @@ class Inscricao(models.Model):
         validar_inscricao_duplicada(self.usuario, self.evento, Inscricao)
 
     def save(self, *args, **kwargs):
+        self.full_clean()
         super().save(*args, **kwargs)
