@@ -249,9 +249,16 @@
                         <a href="eventos/detalhes_evento.html?id=${ev.id}" class="btn btn-sm btn-primary">Gerenciar</a>
                     `;
                 } else {
-                    botoesAcaoHtml = `
-                        <a href="eventos/detalhes_evento.html?id=${ev.id}" class="btn btn-sm btn-primary">Ver Detalhes</a>
-                    `;
+					if (ev.status === 'Inscrições abertas') {
+						botoesAcaoHtml = `
+							<a href="eventos/detalhes_evento.html?id=${ev.id}" class="btn btn-sm btn-primary">Ver Detalhes</a>
+							<a href="inscricao/inscricao.html?evento=${ev.id}" class="btn btn-sm btn-primary">Realizar Inscrição</a>
+						`;
+					} else {
+						botoesAcaoHtml = `
+							<a href="eventos/detalhes_evento.html?id=${ev.id}" class="btn btn-sm btn-primary">Ver Detalhes</a>
+						`;
+					}
                 }
 
                 card.innerHTML = `
