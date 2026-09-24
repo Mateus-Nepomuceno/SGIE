@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 			document.getElementById('comprovante').required = false;
 		}
     } catch (error) {
-        alert("Erro ao carregar os dados do evento.");
+        showAlert('mensagem-alerta', "Erro ao carregar os dados do evento.");
     }
 
     form.addEventListener('submit', async (e) => {
@@ -50,19 +50,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             if (res.ok) {
                 if (data.status === 'lista_espera') {
-                    alert('As vagas acabaram, mas você foi adicionado à lista de espera!');
+                    showAlert('mensagem-alerta', 'As vagas acabaram, mas você foi adicionado à lista de espera!');
                 } else if (data.status === 'pendente_pagamento') {
-                    alert('Inscrição registrada! Redirecionando para pagamento...');
+                    showAlert('mensagem-alerta', 'Inscrição registrada! Redirecionando para pagamento...');
                     window.location.href = '/usuarios/perfil.html';
                 } else {
-                    alert('Inscrição confirmada com sucesso!');
+                    showAlert('mensagem-alerta', 'Inscrição confirmada com sucesso!');
                     window.location.href = '/usuarios/perfil.html';
                 }
             } else {
-                alert('Erro ao realizar inscrição: ' + JSON.stringify(data));
+                showAlert('mensagem-alerta', 'Erro ao realizar inscrição: ' + JSON.stringify(data));
             }
         } catch (error) {
-            alert("Erro de conexão com o servidor.");
+            showAlert('mensagem-alerta', "Erro de conexão com o servidor.");
         }
     });
 });
