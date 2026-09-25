@@ -1,7 +1,10 @@
-from django.db import models
 from django.conf import settings
-from eventos.models import Evento, CategoriaEvento
-from .validators import validar_periodo_inscricao, validar_inscricao_duplicada
+from django.db import models
+
+from eventos.models import Evento
+
+from .validators import validar_inscricao_duplicada, validar_periodo_inscricao
+
 
 class Inscricao(models.Model):
     STATUS_CHOICES = [
@@ -26,11 +29,12 @@ class Inscricao(models.Model):
     def __str__(self):
         return f"{self.usuario.email} - {self.evento.nome} ({self.status})"
 
-    def clean(self):
-        super().clean()
-        validar_periodo_inscricao(self.evento)
-        validar_inscricao_duplicada(self.usuario, self.evento, Inscricao)
-
     def save(self, *args, **kwargs):
         self.full_clean()
         super().save(*args, **kwargs)
+
+    def clean(self):
+        super().clean()
+        if not self.pk:
+            validar_periodo_inscricao(self.evento)
+        validar_inscricao_duplicada(self.usuario, self.evento, Inscricao, instance=self)

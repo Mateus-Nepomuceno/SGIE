@@ -1,7 +1,8 @@
 from django.db import transaction
-from rest_framework.exceptions import ValidationError
-from .validators import validar_periodo_inscricao
+
 from .models import Inscricao
+from .validators import validar_inscricao_duplicada, validar_periodo_inscricao
+
 
 @transaction.atomic
 def criar_inscricao_servico(usuario, evento, comprovante=None, dados_adicionais=None):
@@ -33,6 +34,7 @@ def criar_inscricao_servico(usuario, evento, comprovante=None, dados_adicionais=
     inscricao.save()
     return inscricao
 
+
 def processar_fila_espera(evento):
     vagas_ocupadas = Inscricao.objects.filter(
         evento=evento,
@@ -48,5 +50,5 @@ def processar_fila_espera(evento):
         ).order_by('data_inscricao')[:vagas_livres]
 
         for inscricao in proximos:
-            inscricao.status = 'confirmada' if getattr(evento, 'e_gratuito') else 'pendente_pagamaneto'
+            inscricao.status = 'confirmada' if getattr(evento, 'e_gratuito') else 'pendente_pagamento'
             inscricao.save()

@@ -1,5 +1,7 @@
 from rest_framework import serializers
+
 from .models import Inscricao
+
 
 class InscricaoSerializer(serializers.ModelSerializer):
     class Meta:
@@ -61,10 +63,10 @@ class MinhaInscricaoSerializer(serializers.ModelSerializer):
         return f"SGIE-{obj.evento_id:04d}-{obj.id:06d}"
 
     def get_pode_cancelar(self, obj):
-        if obj.status not in ('confirmada', 'pendente_pagamento', 'lista_espera'):
+        if obj.status not in {'confirmada', 'pendente_pagamento', 'lista_espera'}:
             return False
         evento = obj.evento
-        if evento.status in ('Finalizado', 'Arquivado', 'Cancelado'):
+        if evento.status in {'Finalizado', 'Arquivado', 'Cancelado'}:
             return False
         return True
 
