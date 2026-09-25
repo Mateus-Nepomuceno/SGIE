@@ -1,11 +1,14 @@
-from django.urls import path
-from .views import RealizarInscricaoView, InscricaoDetailView, ListaInscritosView, MinhasInscricoesView, BuscarParticipanteCredenciamentoView, RegistrarPresencaView
+from django.urls import include, path
+from rest_framework.routers import DefaultRouter
+
+from . import views
+
+router = DefaultRouter()
+router.register(r'inscricoes', views.InscricaoViewSet, basename='sgie_inscricoes')
 
 urlpatterns = [
-    path('inscricao/', RealizarInscricaoView.as_view(), name='realizar-inscricao'),
-    path('inscricao/<int:pk>/', InscricaoDetailView.as_view(), name='inscricao-detail'),
-    path('inscricoes/minhas/', MinhasInscricoesView.as_view(), name='minhas-inscricoes'),
-    path('eventos/<int:evento_id>/inscritos/', ListaInscritosView.as_view(), name='lista-inscritos-evento'),
-    path('credenciamento/buscar/', BuscarParticipanteCredenciamentoView.as_view(), name='credenciamento_buscar'),
-    path('credenciamento/<int:inscricao_id>/confirmar/', RegistrarPresencaView.as_view(), name='registrar_presenca'),
+    path('eventos/<int:evento_id>/inscritos/', views.ListaInscritosView.as_view(), name='lista-inscritos-evento'),
+    path('credenciamento/buscar/', views.BuscarParticipanteCredenciamentoView.as_view(), name='credenciamento_buscar'),
+    path('credenciamento/<int:inscricao_id>/confirmar/', views.RegistrarPresencaView.as_view(), name='registrar_presenca'),
+    path('', include(router.urls)),
 ]
