@@ -115,3 +115,70 @@ class ListaInscritosView(generics.ListAPIView):
             )
 
         return queryset
+
+class BuscarParticipanteCredenciamentoView(APIView):
+    permission_classes = [IsAuthenticated, IsOrganizadorDoEvento]
+
+    def get(self, request, *args, **kwargs):
+        evento_id = request.query_params.get('evento_id')
+        query = request.query_params.get('query', '').strip()
+
+        if not evento_id:
+            return Response({'error': 'Selecione um evento.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        evento = get_object_or_404(Evento, id=evento_id)
+
+        self.check_object_permissions(request, evento)
+
+        inscricoes = Inscricao.objects.filter(evento=evento).select_related('usuario')
+
+        if query:
+            inscricoes = inscricoes.filter(
+                Q(id__exact=query if query.isdigit() else None) |
+                Q(usuario__nome_completo__icontains=query) |
+                Q(usuario__email__icontains=query)
+            )
+
+        data = [
+            {
+                'id': inc.id,
+                'usuario_nome': getattr(inc, 'nome_completo', inc.usuario.email),
+                'usuario_email': inc.usuario.email,
+                'status': inc.status,
+                'presenca_registrada': getattr(inc, 'presenca_registrada', False)
+            }
+            for inc in inscricoes
+        ]
+
+        return Response({'participantes': data}, status=status.HTTP_200_OK)
+
+
+class RegistrarPresencaView(APIView):
+    permission_classes = [IsAuthenticated, IsOrganizadorDoEvento]
+
+    def post(self, request, inscricao_id, *args, **kwargs):
+        inscricao = get_object_or_404(Inscricao, id=inscricao_id)
+
+        self.check_object_permissions(request, inscricao.evento)
+
+        if inscricao.status != 'confirmada':
+            return Response(
+                {'error': 'Inscrição não apta para credenciamento!'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        if getattr(inscricao, 'presenca_registrada', False):
+            return Response(
+                {'warning': 'Presença já havia sido registrada anteriormente!'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        inscricao.presenca_registrada = True
+        inscricao.save()
+
+        nome_usuario = inscricao.usuario.get_full_name() or inscricao.usuario.username
+
+        return Response(
+            {'success': f'Presença de {nome_usuario} registrada com sucesso!'},
+            status=status.HTTP_200_OK
+        )
