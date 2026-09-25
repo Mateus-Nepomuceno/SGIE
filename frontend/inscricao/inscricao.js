@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const token = localStorage.getItem('token');
 
         try {
-            const res = await apiFetch('/inscricao/', {
+            const res = await apiFetch('/inscricoes/', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`

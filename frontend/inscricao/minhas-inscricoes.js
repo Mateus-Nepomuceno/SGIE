@@ -177,7 +177,7 @@ async function cancelarInscricao(id) {
     if (!window.confirm(mensagem)) return;
 
     try {
-        const res = await apiFetch(`/inscricao/${id}/`, { method: 'DELETE' });
+        const res = await apiFetch(`/inscricoes/${id}/`, { method: 'DELETE' });
 
         if (res.ok || res.status === 204) {
             showAlert('mensagem-alerta', 'Inscrição cancelada com sucesso.', 'success');
