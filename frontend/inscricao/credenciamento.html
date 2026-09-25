@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Credenciamento de Participantes - SGIE</title>
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+</head>
+<body>
+
+    <header>
+        <h1>SGIE - Credenciamento</h1>
+        <a href="/">Voltar ao Início</a>
+    </header>
+
+    <hr>
+
+    <main>
+        <h2>Credenciamento & Registro de Presença</h2>
+
+        <div>
+            <label for="select-evento"><strong>Selecione o Evento:</strong></label><br>
+            <select id="select-evento" required>
+                <option value="">-- Selecione um Evento --</option>
+            </select>
+        </div>
+
+        <br><hr><br>
+
+        <section>
+            <h3>1. Leitura de QR Code</h3>
+            <p>Aproxime o QR Code do ingresso da câmara para ler automaticamente.</p>
+            <div id="reader" style="width: 300px; border: 1px solid #ccc;">
+                Câmara Inativa
+            </div>
+            <br>
+            <button type="button" id="btn-toggle-camera">Iniciar Câmara</button>
+        </section>
+
+        <br><hr><br>
+
+        <section>
+            <h3>2. Busca Manual</h3>
+            <form id="form-busca">
+                <label for="input-query"><strong>Buscar por Nome, E-mail ou Código:</strong></label><br>
+                <input type="text" id="input-query" placeholder="Digite aqui..." required>
+                <button type="submit">Buscar Participante</button>
+            </form>
+        </section>
+
+        <br><hr><br>
+
+        <div id="mensagem-alerta" style="font-weight: bold;"></div>
+
+        <div id="resultado-container"></div>
+    </main>
+
+    <script src="../api.js"></script>
+    <script src="crendenciamento.js"></script>
+</body>
+</html>
