@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - SGIE</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="../index.html" class="brand">
+                SGIE
+                <span class="brand-badge">Eventos</span>
+            </a>
+            <ul class="nav-links">
+            </ul>
+            <div class="nav-user" id="nav-user-area">
+            </div>
+        </div>
+    </nav>
+
+    <div class="container container-auth">
+        <div class="form-card">
+            <header style="text-align: center; margin-bottom: 1.75rem;">
+                <h1 style="font-size: 1.65rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px;">Criar Conta no SGIE</h1>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.35rem;">
+                    Cadastre-se para participar e organizar eventos acadêmicos
+                </p>
+            </header>
+
+            <div id="mensagem-alerta" style="display: none;"></div>
+
+            <form id="form-cadastro" novalidate>
+                <div class="form-group">
+                    <label for="id_nome_completo" class="form-label">Nome Completo <span class="req">*</span></label>
+                    <input type="text" id="id_nome_completo" name="nome_completo" class="input-field" required maxlength="150" placeholder="Ex: Maria dos Santos">
+                </div>
+
+                <div class="form-group">
+                    <label for="id_cpf" class="form-label">CPF <span class="req">*</span></label>
+                    <input type="text" id="id_cpf" name="cpf" class="input-field" required placeholder="000.000.000-00" maxlength="14">
+                    <span class="form-hint">Apenas números ou formato com pontuação padrão.</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_email" class="form-label">E-mail <span class="req">*</span></label>
+                    <input type="email" id="id_email" name="email" class="input-field" required placeholder="seu.email@exemplo.com">
+                </div>
+
+                <div class="form-group">
+                    <label for="id_telefone" class="form-label">Telefone / WhatsApp <span class="req">*</span></label>
+                    <input type="tel" id="id_telefone" name="telefone" class="input-field" required placeholder="(00) 00000-0000" maxlength="15">
+                </div>
+
+                <div class="form-group">
+                    <label for="id_data_nascimento" class="form-label">Data de Nascimento <span class="req">*</span></label>
+                    <input type="date" id="id_data_nascimento" name="data_nascimento" class="input-field" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_password" class="form-label">Senha de Acesso <span class="req">*</span></label>
+                    <input type="password" id="id_password" name="password" class="input-field" required minlength="8" placeholder="Mínimo de 8 caracteres" autocomplete="new-password">
+                    <span class="form-hint">Deve conter letras maiúsculas, minúsculas e números.</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_password_confirm" class="form-label">Confirmar Senha <span class="req">*</span></label>
+                    <input type="password" id="id_password_confirm" name="password_confirm" class="input-field" required placeholder="Repita a senha digitada" autocomplete="new-password">
+                </div>
+
+                <div class="form-group" style="margin-top: 1.75rem;">
+                    <button type="submit" id="btn-cadastrar" class="btn btn-primary btn-block">Finalizar Cadastro</button>
+                </div>
+            </form>
+
+            <ul class="auth-links">
+                <li>Já tem uma conta cadastrada? <a href="login.html">Fazer Login</a></li>
+                <li><a href="../index.html">← Voltar para Explorar Eventos</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container" style="padding-top: 0; padding-bottom: 0;">
+            <p>SGIE — Sistema de Gestão de Inscrições e Eventos Universitários</p>
+        </div>
+    </footer>
+
+    <script src="../config.js"></script>
+    <script src="../api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            if (isAuthenticated()) {
+                window.location.href = '../index.html';
+                return;
+            }
+
+            atualizarCabecalhoUsuario('cadastro');
+
+            const inputCpf = document.getElementById('id_cpf');
+            inputCpf.addEventListener('input', (e) => {
+                e.target.value = mascaraCPF(e.target.value);
+            });
+
+            const inputTel = document.getElementById('id_telefone');
+            inputTel.addEventListener('input', (e) => {
+                e.target.value = mascaraTelefone(e.target.value);
+            });
+
+            const form = document.getElementById('form-cadastro');
+            const btn = document.getElementById('btn-cadastrar');
+
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                clearAlert('mensagem-alerta');
+
+                const password = document.getElementById('id_password').value;
+                const password_confirm = document.getElementById('id_password_confirm').value;
+
+                if (password !== password_confirm) {
+                    showAlert('mensagem-alerta', 'As senhas informadas não coincidem.', 'danger');
+                    return;
+                }
+
+                const payload = {
+                    nome_completo: document.getElementById('id_nome_completo').value.trim(),
+                    cpf: document.getElementById('id_cpf').value.replace(/\D/g, ''),
+                    email: document.getElementById('id_email').value.trim(),
+                    telefone: document.getElementById('id_telefone').value.trim(),
+                    data_nascimento: document.getElementById('id_data_nascimento').value,
+                    password: password,
+                    confirmacao_senha: password_confirm,
+                    password_confirm: password_confirm,
+                };
+
+                btn.disabled = true;
+                btn.textContent = 'Cadastrando...';
+
+                try {
+                    const response = await fetch(`${API_BASE_URL}/usuarios/cadastro/`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload),
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        showAlert('mensagem-alerta', 'Cadastro realizado com sucesso! Redirecionando para login...', 'success');
+                        setTimeout(() => {
+                            window.location.href = 'login.html?cadastrado=1';
+                        }, 800);
+                    } else {
+                        showAlert('mensagem-alerta', data, 'danger');
+                    }
+                } catch (err) {
+                    showAlert('mensagem-alerta', 'Falha ao conectar com o servidor.', 'danger');
+                } finally {
+                    btn.disabled = false;
+                    btn.textContent = 'Finalizar Cadastro';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

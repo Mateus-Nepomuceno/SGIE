@@ -1,0 +1,6 @@
+<task>
+elabore todos os artefatos de @file:LISTA_ARTEFATOS.md
+</task>
+<output_directory>
+docs
+</output_directory>

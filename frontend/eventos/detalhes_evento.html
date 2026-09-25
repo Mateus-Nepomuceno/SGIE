@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Evento - SGIE</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="../index.html" class="brand">
+                SGIE
+                <span class="brand-badge">Eventos</span>
+            </a>
+            <ul class="nav-links">
+            </ul>
+            <div class="nav-user" id="nav-user-area">
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div style="margin-bottom: 1rem;">
+            <a href="../index.html" class="btn btn-sm btn-secondary">← Voltar aos Eventos</a>
+        </div>
+        <div id="mensagem-alerta" style="display: none;"></div>
+
+        <div id="loading" style="text-align: center; padding: 3rem;">
+            <p style="font-size: 1.1rem; color: var(--text-muted);">Carregando detalhes do evento...</p>
+        </div>
+
+        <div id="conteudo-evento" style="display: none;">
+            <header class="detail-hero">
+                <div class="detail-pills">
+                    <span id="badge-status" class="badge">Status</span>
+                    <span id="pill-categoria" class="pill">Categoria</span>
+                    <span id="pill-modalidade" class="pill">Modalidade</span>
+                    <span id="pill-visibilidade" class="pill">Público</span>
+                    <span id="pill-preco" class="pill pill-free">Gratuito</span>
+                </div>
+
+                <h1 class="detail-title" id="evento-nome">Nome do Evento</h1>
+                <p id="evento-organizador-header" style="color: var(--text-muted); font-size: 0.9rem;">
+                    Representante Responsável: <span id="evento-representante">—</span>
+                </p>
+
+                <div class="detail-actions-bar" id="painel-acoes-organizador" style="display: none;">
+                    <a id="btn-acao-editar" href="#" class="btn btn-sm btn-secondary">✏ Alterar Dados / Editar</a>
+                    <button type="button" id="btn-acao-publicar" class="btn btn-sm btn-success">Publicar Evento</button>
+                    <button type="button" id="btn-acao-abrir-inscricoes" class="btn btn-sm btn-primary">Abrir Inscrições</button>
+                    <button type="button" id="btn-acao-cancelar" class="btn btn-sm btn-danger">Cancelar Evento</button>
+                    <button type="button" id="btn-acao-finalizar" class="btn btn-sm btn-warning">Finalizar</button>
+                    <button type="button" id="btn-acao-arquivar" class="btn btn-sm btn-outline">Arquivar</button>
+                </div>
+            </header>
+            <div class="detail-grid">
+                <div>
+                    <article class="detail-card">
+                        <h2 class="detail-card-title">Sobre o Evento</h2>
+                        <div id="evento-descricao" style="white-space: pre-line; color: #374151;"></div>
+                    </article>
+
+                    <article class="detail-card" id="card-submissao" style="display: none;">
+                        <h2 class="detail-card-title">Regras para Submissão de Trabalhos</h2>
+                        <div id="submissao-info">
+                            <p style="margin-bottom: 0.75rem; color: #4b5563;">
+                                Este evento aceita o envio de artigos e trabalhos científicos.
+                            </p>
+                            <div class="notice-box" style="margin-bottom: 0; background-color: #f0fdf4; border-color: #bbf7d0;">
+                                <div>
+                                    <div class="notice-title" style="color: #166534;" id="status-periodo-sub">Período de Submissão</div>
+                                    <div class="notice-desc" style="color: #15803d;" id="datas-periodo-sub">Início: — | Término: —</div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="detail-card" id="card-programacao" style="display: none;">
+                        <h2 class="detail-card-title">Programação do Evento</h2>
+                        <div id="evento-programacao" style="white-space: pre-line; color: #374151;"></div>
+                    </article>
+                </div>
+
+                <div>
+                    <aside class="detail-card">
+                        <h2 class="detail-card-title">Informações de Acesso</h2>
+                        <dl class="data-list" style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.9rem;">
+                            <div>
+                                <dt style="font-weight: 700; color: var(--text-muted);">Data de Realização:</dt>
+                                <dd id="view-data" style="font-size: 1.05rem; font-weight: 600; color: var(--primary);">—</dd>
+                            </div>
+                            <div>
+                                <dt style="font-weight: 700; color: var(--text-muted);">Horário (Horário Militar):</dt>
+                                <dd id="view-horario">—</dd>
+                            </div>
+                            <div>
+                                <dt style="font-weight: 700; color: var(--text-muted);">Local:</dt>
+                                <dd id="view-local">—</dd>
+                            </div>
+                            <div>
+                                <dt style="font-weight: 700; color: var(--text-muted);">Capacidade:</dt>
+                                <dd id="view-capacidade">—</dd>
+                            </div>
+                            <div>
+                                <dt style="font-weight: 700; color: var(--text-muted);">Investimento:</dt>
+                                <dd id="view-preco">—</dd>
+                            </div>
+                        </dl>
+                    </aside>
+
+                    <aside class="detail-card">
+                        <h2 class="detail-card-title">Equipe Organizadora (RFS09)</h2>
+                        <div id="lista-organizadores" style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.9rem;">
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-cancelar">
+        <div class="modal-content">
+            <h3 class="modal-title">Cancelar Evento</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;" id="modal-cancelar-info">
+                De acordo com as regras de negócio, cancelamentos devem obedecer ao prazo de antecedência estipulado por categoria (RFS14).
+            </p>
+            <div class="form-group">
+                <label for="motivo-cancelamento" class="form-label">Motivo do Cancelamento <span class="req">*</span></label>
+                <textarea id="motivo-cancelamento" class="input-field" rows="3" placeholder="Explique o motivo do cancelamento aos participantes cadastrados..."></textarea>
+            </div>
+            <div class="btn-group" style="justify-content: flex-end; margin-top: 1.5rem;">
+                <button type="button" class="btn btn-secondary" onclick="fecharModalCancelar()">Voltar</button>
+                <button type="button" id="btn-confirmar-cancelar" class="btn btn-danger">Confirmar Cancelamento</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container" style="padding-top: 0; padding-bottom: 0;">
+            <p>SGIE — Sistema de Gestão de Inscrições e Eventos Universitários</p>
+        </div>
+    </footer>
+
+    <script src="../config.js"></script>
+    <script src="../api.js"></script>
+    <script>
+        let eventoAtual = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            atualizarCabecalhoUsuario('eventos');
+            const params = new URLSearchParams(window.location.search);
+            const eventoId = params.get('id');
+
+            if (params.get('criado')) {
+                showAlert('mensagem-alerta', 'Evento cadastrado com sucesso! Verifique as informações abaixo e publique quando estiver pronto.', 'success');
+            } else if (params.get('atualizado')) {
+                showAlert('mensagem-alerta', 'Alterações do evento salvas com sucesso!', 'success');
+            }
+
+            if (!eventoId) {
+                showAlert('mensagem-alerta', 'Identificador do evento não foi informado.', 'danger');
+                document.getElementById('loading').style.display = 'none';
+                return;
+            }
+
+            carregarDetalhes(eventoId);
+            setupAcoesOrganizador(eventoId);
+        });
+
+        async function carregarDetalhes(eventoId) {
+            try {
+                const response = await apiFetch(`/eventos/${eventoId}/`);
+                document.getElementById('loading').style.display = 'none';
+
+                if (response.ok) {
+                    eventoAtual = await response.json();
+                    renderizarDetalhes(eventoAtual);
+                } else {
+                    const err = await response.json();
+                    showAlert('mensagem-alerta', err.detail || 'Não foi possível carregar os dados deste evento.', 'danger');
+                }
+            } catch (err) {
+                document.getElementById('loading').style.display = 'none';
+                showAlert('mensagem-alerta', 'Erro ao conectar ao servidor do SGIE.', 'danger');
+            }
+        }
+
+        function renderizarDetalhes(ev) {
+            document.getElementById('conteudo-evento').style.display = 'block';
+
+            document.getElementById('evento-nome').textContent = ev.nome;
+            document.getElementById('evento-representante').textContent = `${ev.usuario_representante_nome || '—'} (${ev.usuario_representante_email || '—'})`;
+
+            const badgeStatus = document.getElementById('badge-status');
+            badgeStatus.textContent = ev.status_display || ev.status;
+            let statusBadgeClass = 'badge-draft';
+            if (ev.status === 'Publicado') statusBadgeClass = 'badge-published';
+            else if (ev.status === 'Inscrições abertas') statusBadgeClass = 'badge-open';
+            else if (ev.status === 'Em realização') statusBadgeClass = 'badge-ongoing';
+            else if (ev.status === 'Cancelado') statusBadgeClass = 'badge-canceled';
+            else if (ev.status === 'Finalizado') statusBadgeClass = 'badge-finished';
+            else if (ev.status === 'Configuração') statusBadgeClass = 'badge-config';
+            badgeStatus.className = `badge ${statusBadgeClass}`;
+
+            document.getElementById('pill-categoria').textContent = ev.categoria_display || ev.categoria;
+            document.getElementById('pill-modalidade').textContent = ev.modalidade_display || ev.modalidade;
+            document.getElementById('pill-visibilidade').textContent = ev.visibilidade;
+
+            const pillPreco = document.getElementById('pill-preco');
+            if (ev.e_gratuito) {
+                pillPreco.className = 'pill pill-free';
+                pillPreco.textContent = 'Gratuito';
+            } else {
+                pillPreco.className = 'pill pill-paid';
+                pillPreco.textContent = formatarMoeda(ev.preco);
+            }
+
+            document.getElementById('evento-descricao').textContent = ev.descricao;
+
+            document.getElementById('view-data').textContent = formatarData(ev.data);
+            document.getElementById('view-horario').textContent = `${formatarHora(ev.hora_inicio)} às ${formatarHora(ev.hora_fim)}`;
+            document.getElementById('view-local').textContent = ev.local;
+            document.getElementById('view-capacidade').textContent = `${ev.capacidade} participantes`;
+            document.getElementById('view-preco').textContent = ev.e_gratuito ? 'Gratuito (Sem taxa)' : formatarMoeda(ev.preco);
+
+            const listOrg = document.getElementById('lista-organizadores');
+            listOrg.innerHTML = '';
+            if (ev.organizadores && ev.organizadores.length > 0) {
+                ev.organizadores.forEach(org => {
+                    const item = document.createElement('div');
+                    item.innerHTML = `
+                        <strong>${org.nome}</strong> (${org.papel_funcao || 'Organizador'})<br>
+                        <a href="mailto:${org.email_publico}" style="color: var(--secondary);">${org.email_publico}</a>
+                    `;
+                    listOrg.appendChild(item);
+                });
+            } else {
+                listOrg.innerHTML = '<span style="color: var(--text-muted);">Nenhum organizador secundário cadastrado.</span>';
+            }
+
+            const cardSub = document.getElementById('card-submissao');
+            if (ev.regra_submissao && ev.regra_submissao.aceita_submissao) {
+                cardSub.style.display = 'block';
+                const sub = ev.regra_submissao;
+                const statusSub = document.getElementById('status-periodo-sub');
+                const datasSub = document.getElementById('datas-periodo-sub');
+                datasSub.textContent = `De ${formatarDataHora(sub.data_hora_inicio)} até ${formatarDataHora(sub.data_hora_fim)}`;
+
+                if (sub.periodo_aberto) {
+                    statusSub.textContent = '● Período de Submissão Ativo';
+                } else {
+                    statusSub.textContent = '○ Período de Submissão Fechado';
+                    statusSub.style.color = 'var(--text-muted)';
+                }
+            } else {
+                cardSub.style.display = 'none';
+            }
+
+            const cardProg = document.getElementById('card-programacao');
+            if (ev.programacao_geral) {
+                cardProg.style.display = 'block';
+                document.getElementById('evento-programacao').textContent = ev.programacao_geral;
+            }
+
+            verificarPermissaoOrganizador(ev);
+        }
+
+        function verificarPermissaoOrganizador(ev) {
+            const user = getUser();
+            const painel = document.getElementById('painel-acoes-organizador');
+            if (!user || !isAuthenticated()) {
+                painel.style.display = 'none';
+                return;
+            }
+
+            const ehRepresentante = ev.usuario_representante === user.id;
+            const ehStaff = user.is_staff || user.is_superuser;
+
+            if (ehRepresentante || ehStaff) {
+                painel.style.display = 'flex';
+                document.getElementById('btn-acao-editar').href = `editar_evento.html?id=${ev.id}`;
+
+                document.getElementById('btn-acao-publicar').style.display = (ev.status === 'Rascunho' || ev.status === 'Configuração') ? 'inline-flex' : 'none';
+                document.getElementById('btn-acao-abrir-inscricoes').style.display = (ev.status === 'Publicado') ? 'inline-flex' : 'none';
+                document.getElementById('btn-acao-cancelar').style.display = (ev.status !== 'Cancelado' && ev.status !== 'Finalizado' && ev.status !== 'Arquivado') ? 'inline-flex' : 'none';
+                document.getElementById('btn-acao-finalizar').style.display = (ev.status === 'Em realização' || ev.status === 'Publicado' || ev.status === 'Inscrições abertas') ? 'inline-flex' : 'none';
+                document.getElementById('btn-acao-arquivar').style.display = (ev.status === 'Finalizado' || ev.status === 'Cancelado') ? 'inline-flex' : 'none';
+            } else {
+                painel.style.display = 'none';
+            }
+        }
+
+        function setupAcoesOrganizador(eventoId) {
+            document.getElementById('btn-acao-publicar').addEventListener('click', async () => {
+                if (!confirm('Deseja publicar este evento tornando-o visível ao público?')) return;
+                try {
+                    const res = await apiFetch(`/eventos/${eventoId}/publicar/`, { method: 'POST' });
+                    if (res.ok) {
+                        showAlert('mensagem-alerta', 'Evento publicado com sucesso!', 'success');
+                        carregarDetalhes(eventoId);
+                    } else {
+                        const err = await res.json();
+                        showAlert('mensagem-alerta', err.detail || 'Não foi possível publicar.', 'danger');
+                    }
+                } catch {
+                    showAlert('mensagem-alerta', 'Falha ao comunicar com o servidor.', 'danger');
+                }
+            });
+
+            document.getElementById('btn-acao-abrir-inscricoes').addEventListener('click', async () => {
+                try {
+                    const res = await apiFetch(`/eventos/${eventoId}/abrir-inscricoes/`, { method: 'POST' });
+                    if (res.ok) {
+                        showAlert('mensagem-alerta', 'Inscrições abertas com sucesso!', 'success');
+                        carregarDetalhes(eventoId);
+                    } else {
+                        const err = await res.json();
+                        showAlert('mensagem-alerta', err.detail || 'Não foi possível abrir inscrições.', 'danger');
+                    }
+                } catch {
+                    showAlert('mensagem-alerta', 'Falha ao comunicar com o servidor.', 'danger');
+                }
+            });
+
+            document.getElementById('btn-acao-finalizar').addEventListener('click', async () => {
+                if (!confirm('Deseja marcar este evento como finalizado?')) return;
+                try {
+                    const res = await apiFetch(`/eventos/${eventoId}/finalizar/`, { method: 'POST' });
+                    if (res.ok) {
+                        showAlert('mensagem-alerta', 'Evento finalizado com sucesso.', 'success');
+                        carregarDetalhes(eventoId);
+                    }
+                } catch {}
+            });
+
+            document.getElementById('btn-acao-arquivar').addEventListener('click', async () => {
+                if (!confirm('Deseja arquivar este evento?')) return;
+                try {
+                    const res = await apiFetch(`/eventos/${eventoId}/arquivar/`, { method: 'POST' });
+                    if (res.ok) {
+                        showAlert('mensagem-alerta', 'Evento arquivado.', 'success');
+                        carregarDetalhes(eventoId);
+                    }
+                } catch {}
+            });
+
+            document.getElementById('btn-acao-cancelar').addEventListener('click', () => {
+                document.getElementById('modal-cancelar').style.display = 'flex';
+            });
+
+            document.getElementById('btn-confirmar-cancelar').addEventListener('click', async () => {
+                const motivo = document.getElementById('motivo-cancelamento').value.trim();
+                if (!motivo) {
+                    alert('Por favor, informe a justificativa do cancelamento.');
+                    return;
+                }
+
+                try {
+                    const res = await apiFetch(`/eventos/${eventoId}/cancelar/`, {
+                        method: 'POST',
+                        body: JSON.stringify({ motivo: motivo })
+                    });
+
+                    fecharModalCancelar();
+
+                    if (res.ok) {
+                        showAlert('mensagem-alerta', 'Evento cancelado formalmente.', 'warning');
+                        carregarDetalhes(eventoId);
+                    } else {
+                        const err = await res.json();
+                        showAlert('mensagem-alerta', err.detail || 'Não foi possível cancelar o evento.', 'danger');
+                    }
+                } catch {
+                    showAlert('mensagem-alerta', 'Falha ao processar o cancelamento.', 'danger');
+                }
+            });
+        }
+
+        function fecharModalCancelar() {
+            document.getElementById('modal-cancelar').style.display = 'none';
+            document.getElementById('motivo-cancelamento').value = '';
+        }
+    </script>
+</body>
+</html>

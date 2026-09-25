@@ -16,3 +16,14 @@ venv/
 .env
 
 .ruff_cache/
+
+**/docs/docs_base
+.agents/
+
+.pytest_cache/
+.coverage
+htmlcov/
+
+.mypy_cache
+
+.local/

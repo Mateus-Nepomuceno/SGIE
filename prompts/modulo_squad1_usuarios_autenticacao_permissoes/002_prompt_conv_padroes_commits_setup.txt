@@ -1,0 +1,6 @@
+<task>
+conforme @file:template_prompt_json.txt, converta @url:https://github.com/iuricode/padroes-de-commits em um prompt de instalação (setup) completo e definitivo
+</task>
+<output_file>
+.json
+</output_file>

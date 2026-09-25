@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alterar Evento - SGIE</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="../index.html" class="brand">
+                SGIE
+                <span class="brand-badge">Eventos</span>
+            </a>
+            <ul class="nav-links">
+            </ul>
+            <div class="nav-user" id="nav-user-area">
+            </div>
+        </div>
+    </nav>
+
+    <div class="container container-narrow">
+        <header class="page-header">
+            <div>
+                <h1 class="page-title">Alterar Dados do Evento</h1>
+                <p class="page-subtitle" id="evento-subtitulo">Carregando parâmetros...</p>
+            </div>
+            <div>
+                <a id="btn-cancelar-edicao" href="../index.html" class="btn btn-secondary">← Cancelar</a>
+            </div>
+        </header>
+
+        <div id="mensagem-alerta" style="display: none;"></div>
+
+        <div id="aviso-prazos-edicao" class="notice-box" style="display: none;">
+            <div class="notice-icon">⚖</div>
+            <div>
+                <div class="notice-title">Regras de Prazo para Alteração de Eventos (RFS13)</div>
+                <div class="notice-desc" id="texto-prazos-edicao">
+                    • <strong>Data do evento:</strong> pode ser alterada até 1 semana antes da data definida inicialmente.<br>
+                    • <strong>Horário, descrição e programação:</strong> podem ser modificados até 1 hora antes do início do evento.
+                </div>
+            </div>
+        </div>
+
+        <form id="form-editar-evento" class="form-card" style="display: none;" novalidate>
+            <section class="form-section">
+                <h2 class="section-title">Informações Gerais</h2>
+
+                <div class="form-group">
+                    <label for="id_nome" class="form-label">Nome do Evento <span class="req">*</span></label>
+                    <input type="text" id="id_nome" name="nome" class="input-field" required maxlength="100">
+                    <span class="form-hint">Todas as palavras devem iniciar com letra maiúscula (RFS03). Ex: "Seminário De Engenharia De Software"</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_descricao" class="form-label">Descrição <span class="req">*</span></label>
+                    <div id="alerta-bloqueio-descricao" style="display: none; color: var(--danger); font-size: 0.82rem; margin-bottom: 0.35rem; font-weight: 600;">
+                        ⚠ Prazo de alteração de descrição expirado (limite de 1 hora antes do início atingido).
+                    </div>
+                    <textarea id="id_descricao" name="descricao" class="input-field" rows="4" required></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="id_categoria" class="form-label">Categoria <span class="req">*</span></label>
+                        <select id="id_categoria" name="categoria" class="input-field" required>
+                            <option value="Congresso">Congresso</option>
+                            <option value="Simpósio">Simpósio</option>
+                            <option value="Seminário">Seminário</option>
+                            <option value="Feira">Feira</option>
+                            <option value="Conferência">Conferência</option>
+                            <option value="Festival">Festival</option>
+                            <option value="Competição">Competição</option>
+                            <option value="Workshop">Workshop</option>
+                            <option value="Oficina">Oficina</option>
+                            <option value="Curso">Curso</option>
+                            <option value="Mini-curso">Mini-curso</option>
+                            <option value="Palestra">Palestra</option>
+                            <option value="Roda de Conversa">Roda de Conversa</option>
+                            <option value="Treinamento">Treinamento</option>
+                            <option value="Lançamento de Produto">Lançamento de Produto</option>
+                            <option value="Outro">Outro</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_modalidade" class="form-label">Modalidade <span class="req">*</span></label>
+                        <select id="id_modalidade" name="modalidade" class="input-field" required>
+                            <option value="Presencial">Presencial</option>
+                            <option value="On-line">On-line</option>
+                            <option value="Híbrido">Híbrido</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_visibilidade" class="form-label">Visibilidade <span class="req">*</span></label>
+                        <select id="id_visibilidade" name="visibilidade" class="input-field" required>
+                            <option value="Público">Público</option>
+                            <option value="Privado">Privado</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="id_local_tipo" class="form-label">Tipo de Local <span class="req">*</span></label>
+                        <select id="id_local_tipo" name="local_tipo" class="input-field" required>
+                            <option value="Auditório">Auditório</option>
+                            <option value="Sala 1">Sala 1</option>
+                            <option value="Laboratório 2">Laboratório 2</option>
+                            <option value="Outro">Outro</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_local" class="form-label">Local / Endereço <span class="req">*</span></label>
+                        <input type="text" id="id_local" name="local" class="input-field" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_capacidade" class="form-label">Capacidade Máxima <span class="req">*</span></label>
+                        <input type="number" id="id_capacidade" name="capacidade" class="input-field" min="1" max="10000" required>
+                    </div>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <h2 class="section-title">Data e Horários</h2>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="id_data" class="form-label">Data de Realização <span class="req">*</span></label>
+                        <div id="alerta-bloqueio-data" style="display: none; color: var(--danger); font-size: 0.82rem; margin-bottom: 0.35rem; font-weight: 600;">
+                            ⚠ Prazo de alteração de data expirado (limite de 1 semana antes da data inicial atingido).
+                        </div>
+                        <input type="date" id="id_data" name="data" class="input-field" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_hora_inicio" class="form-label">Horário de Início (Militar) <span class="req">*</span></label>
+                        <div id="alerta-bloqueio-horario" style="display: none; color: var(--danger); font-size: 0.82rem; margin-bottom: 0.35rem; font-weight: 600;">
+                            ⚠ Prazo de alteração de horário expirado (limite de 1 hora antes atingido).
+                        </div>
+                        <input type="time" id="id_hora_inicio" name="hora_inicio" class="input-field" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_hora_fim" class="form-label">Horário de Término <span class="req">*</span></label>
+                        <input type="time" id="id_hora_fim" name="hora_fim" class="input-field" required>
+                    </div>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <h2 class="section-title">Programação Geral</h2>
+                <div class="form-group">
+                    <label for="id_programacao_geral" class="form-label">Descrição da Programação</label>
+                    <textarea id="id_programacao_geral" name="programacao_geral" class="input-field" rows="3"></textarea>
+                </div>
+            </section>
+
+            <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1.5rem;">
+                <a id="btn-voltar-detalhe" href="#" class="btn btn-secondary">Cancelar</a>
+                <button type="submit" id="btn-salvar-edicao" class="btn btn-primary">Salvar Alterações</button>
+            </div>
+        </form>
+    </div>
+
+    <footer class="footer">
+        <div class="container" style="padding-top: 0; padding-bottom: 0;">
+            <p>SGIE — Sistema de Gestão de Inscrições e Eventos Universitários</p>
+        </div>
+    </footer>
+
+    <script src="../config.js"></script>
+    <script src="../api.js"></script>
+    <script>
+        let eventoId = null;
+        let eventoOriginal = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!isAuthenticated()) {
+                window.location.href = '../usuarios/login.html';
+                return;
+            }
+
+            atualizarCabecalhoUsuario('eventos');
+            const params = new URLSearchParams(window.location.search);
+            eventoId = params.get('id');
+
+            if (!eventoId) {
+                showAlert('mensagem-alerta', 'Evento não especificado.', 'danger');
+                return;
+            }
+
+            document.getElementById('btn-cancelar-edicao').href = `detalhes_evento.html?id=${eventoId}`;
+            document.getElementById('btn-voltar-detalhe').href = `detalhes_evento.html?id=${eventoId}`;
+
+            carregarDadosEvento(eventoId);
+        });
+
+        async function carregarDadosEvento(id) {
+            try {
+                const response = await apiFetch(`/eventos/${id}/`);
+                if (response.ok) {
+                    eventoOriginal = await response.json();
+                    const user = getUser();
+                    
+                    const ehCriador = user && (eventoOriginal.usuario_representante === user.id || user.is_staff || user.is_superuser);
+                    if (!ehCriador) {
+                        showAlert('mensagem-alerta', 'Apenas o usuário criador ou administradores podem editar este evento.', 'danger');
+                        return;
+                    }
+
+                    preencherFormulario(eventoOriginal);
+                } else {
+                    const err = await response.json();
+                    showAlert('mensagem-alerta', err.detail || 'Não foi possível carregar os dados deste evento.', 'danger');
+                }
+            } catch {
+                showAlert('mensagem-alerta', 'Erro ao conectar ao servidor do SGIE.', 'danger');
+            }
+        }
+
+        function preencherFormulario(ev) {
+            document.getElementById('evento-subtitulo').textContent = `Evento: ${ev.nome}`;
+            document.getElementById('form-editar-evento').style.display = 'block';
+            document.getElementById('aviso-prazos-edicao').style.display = 'flex';
+
+            document.getElementById('id_nome').value = ev.nome || '';
+            document.getElementById('id_descricao').value = ev.descricao || '';
+            document.getElementById('id_categoria').value = ev.categoria || 'Congresso';
+            document.getElementById('id_modalidade').value = ev.modalidade || 'Presencial';
+            document.getElementById('id_visibilidade').value = ev.visibilidade || 'Público';
+            document.getElementById('id_local_tipo').value = ev.local_tipo || 'Auditório';
+            document.getElementById('id_local').value = ev.local || '';
+            document.getElementById('id_capacidade').value = ev.capacidade || 100;
+            document.getElementById('id_data').value = ev.data || '';
+            document.getElementById('id_hora_inicio').value = formatarHora(ev.hora_inicio);
+            document.getElementById('id_hora_fim').value = formatarHora(ev.hora_fim);
+            document.getElementById('id_programacao_geral').value = ev.programacao_geral || '';
+
+            if (ev.status !== 'Rascunho' && ev.status !== 'Configuração') {
+                if (!ev.pode_alterar_data) {
+                    const inputData = document.getElementById('id_data');
+                    inputData.disabled = true;
+                    document.getElementById('alerta-bloqueio-data').style.display = 'block';
+                }
+
+                if (!ev.pode_alterar_detalhes) {
+                    document.getElementById('id_hora_inicio').disabled = true;
+                    document.getElementById('id_hora_fim').disabled = true;
+                    document.getElementById('id_descricao').disabled = true;
+                    document.getElementById('id_programacao_geral').disabled = true;
+                    document.getElementById('alerta-bloqueio-horario').style.display = 'block';
+                    document.getElementById('alerta-bloqueio-descricao').style.display = 'block';
+                }
+            }
+
+            document.getElementById('form-editar-evento').addEventListener('submit', async (e) => {
+                e.preventDefault();
+                clearAlert('mensagem-alerta');
+
+                const titulo = document.getElementById('id_nome').value.trim();
+                const palavrasTitulo = titulo.split(/\s+/);
+                const palavraInvalida = palavrasTitulo.find(p => p && p[0].toLowerCase() === p[0] && p[0].toUpperCase() !== p[0]);
+                if (palavraInvalida) {
+                    showAlert('mensagem-alerta', `A letra inicial de todas as palavras do título deve ser maiúscula (RFS03). Verifique a palavra: "${palavraInvalida}".`, 'danger');
+                    return;
+                }
+
+                const payload = {
+                    nome: titulo,
+                    categoria: document.getElementById('id_categoria').value,
+                    modalidade: document.getElementById('id_modalidade').value,
+                    visibilidade: document.getElementById('id_visibilidade').value,
+                    local_tipo: document.getElementById('id_local_tipo').value,
+                    local: document.getElementById('id_local').value.trim(),
+                    capacidade: parseInt(document.getElementById('id_capacidade').value, 10),
+                };
+
+                if (!document.getElementById('id_data').disabled) {
+                    payload.data = document.getElementById('id_data').value;
+                }
+                if (!document.getElementById('id_descricao').disabled) {
+                    payload.descricao = document.getElementById('id_descricao').value.trim();
+                }
+                if (!document.getElementById('id_hora_inicio').disabled) {
+                    payload.hora_inicio = document.getElementById('id_hora_inicio').value;
+                    payload.hora_fim = document.getElementById('id_hora_fim').value;
+                }
+                if (!document.getElementById('id_programacao_geral').disabled) {
+                    payload.programacao_geral = document.getElementById('id_programacao_geral').value.trim();
+                }
+
+                const btnSalvar = document.getElementById('btn-salvar-edicao');
+                btnSalvar.disabled = true;
+                btnSalvar.textContent = 'Salvando alterações...';
+
+                try {
+                    const res = await apiFetch(`/eventos/${eventoId}/`, {
+                        method: 'PATCH',
+                        body: JSON.stringify(payload),
+                    });
+
+                    btnSalvar.disabled = false;
+                    btnSalvar.textContent = 'Salvar Alterações';
+
+                    if (res.ok) {
+                        window.location.href = `detalhes_evento.html?id=${eventoId}&atualizado=1`;
+                    } else {
+                        const err = await res.json();
+                        showAlert('mensagem-alerta', err, 'danger');
+                    }
+                } catch {
+                    btnSalvar.disabled = false;
+                    btnSalvar.textContent = 'Salvar Alterações';
+                    showAlert('mensagem-alerta', 'Erro ao salvar alterações no servidor.', 'danger');
+                }
+            });
+        }
+    </script>
+</body>
+</html>

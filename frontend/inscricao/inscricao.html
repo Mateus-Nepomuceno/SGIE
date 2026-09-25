@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Inscrição no Evento</title>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="../index.html" class="brand">
+                SGIE
+                <span class="brand-badge">Eventos</span>
+            </a>
+            <ul class="nav-links">
+            </ul>
+            <div class="nav-user" id="nav-user-area">
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 id="evento-titulo">Carregando evento...</h1>
+        <p id="evento-detalhes"></p>
+
+        <div id="mensagem-alerta" style="display: none;"></div>
+
+        <form id="form-inscricao" enctype="multipart/form-data">
+            <input type="hidden" id="evento_id" name="evento">
+
+            <div id="campo-comprovante" style="display: none;">
+                <label for="comprovante">Anexar Comprovante:</label>
+                <input type="file" id="comprovante" name="comprovante" accept=".pdf, .jpg, .png">
+            </div>
+
+            <label for="adicionais">Campos adicionais:</label>
+            <input type="text" id="adicionais" name="adicionais">
+
+            <button type="submit" id="btn-submit">Confirmar Inscrição</button>
+        </form>
+    </div>
+
+    <script src="../api.js"></script>
+    <script src="inscricao.js"></script>
+</body>
+</html>

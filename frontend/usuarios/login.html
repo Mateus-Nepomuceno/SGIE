@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrar - SGIE</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="../index.html" class="brand">
+                SGIE
+                <span class="brand-badge">Eventos</span>
+            </a>
+            <ul class="nav-links">
+            </ul>
+            <div class="nav-user" id="nav-user-area">
+            </div>
+        </div>
+    </nav>
+
+    <div class="container container-auth">
+        <div class="form-card">
+            <header style="text-align: center; margin-bottom: 1.75rem;">
+                <h1 style="font-size: 1.65rem; font-weight: 800; color: var(--text-main); letter-spacing: -0.5px;">Acessar o SGIE</h1>
+                <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 0.35rem;">
+                    Entre com suas credenciais para visualizar eventos e gerenciar inscrições
+                </p>
+            </header>
+
+            <div id="mensagem-alerta" style="display: none;"></div>
+
+            <form id="form-login" novalidate>
+                <div class="form-group">
+                    <label for="id_identificador" class="form-label">Identificador (E-mail ou CPF) <span class="req">*</span></label>
+                    <input type="text" id="id_identificador" name="identificador" class="input-field" required placeholder="Digite seu e-mail institucional ou CPF" autofocus autocomplete="username">
+                </div>
+
+                <div class="form-group">
+                    <label for="id_password" class="form-label">Senha <span class="req">*</span></label>
+                    <input type="password" id="id_password" name="password" class="input-field" required placeholder="Digite sua senha de acesso" autocomplete="current-password">
+                </div>
+
+                <div class="form-group" style="margin-top: 1.75rem;">
+                    <button type="submit" id="btn-entrar" class="btn btn-primary btn-block">Entrar no Sistema</button>
+                </div>
+            </form>
+
+            <ul class="auth-links">
+                <li><a href="recuperar_senha.html">Esqueceu sua senha?</a></li>
+                <li>Não possui conta? <a href="cadastro.html">Cadastre-se agora</a></li>
+                <li><a href="../index.html">← Voltar para Explorar Eventos</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container" style="padding-top: 0; padding-bottom: 0;">
+            <p>SGIE — Sistema de Gestão de Inscrições e Eventos Universitários</p>
+        </div>
+    </footer>
+
+    <script src="../config.js"></script>
+    <script src="../api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const redirectUrl = params.get('redirect') || '../index.html';
+
+            if (params.get('cadastrado')) {
+                showAlert('mensagem-alerta', 'Cadastro realizado com sucesso! Faça seu login abaixo.', 'success');
+            } else if (params.get('redefinido')) {
+                showAlert('mensagem-alerta', 'Sua senha foi redefinida com sucesso! Faça login com a nova senha.', 'success');
+            }
+
+            if (isAuthenticated()) {
+                window.location.href = redirectUrl;
+                return;
+            }
+
+            atualizarCabecalhoUsuario('login');
+
+            const formLogin = document.getElementById('form-login');
+            const btnEntrar = document.getElementById('btn-entrar');
+
+            formLogin.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                clearAlert('mensagem-alerta');
+
+                const identificador = document.getElementById('id_identificador').value.trim();
+                const password = document.getElementById('id_password').value;
+
+                if (!identificador || !password) {
+                    showAlert('mensagem-alerta', 'Por favor, informe seu identificador (E-mail ou CPF) e senha.', 'warning');
+                    return;
+                }
+
+                btnEntrar.disabled = true;
+                btnEntrar.textContent = 'Autenticando...';
+
+                try {
+                    const response = await fetch(`${API_BASE_URL}/auth/token/`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ identificador, password })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        setAuth(data);
+                        showAlert('mensagem-alerta', 'Autenticação realizada com sucesso! Carregando eventos...', 'success');
+                        setTimeout(() => {
+                            window.location.href = redirectUrl;
+                        }, 400);
+                    } else {
+                        const erro = data.detail || data.non_field_errors || 'Credenciais inválidas. Verifique seu e-mail/CPF e senha.';
+                        showAlert('mensagem-alerta', erro, 'danger');
+                    }
+                } catch (err) {
+                    showAlert('mensagem-alerta', 'Erro ao conectar à API do SGIE. Verifique se o servidor está ativo.', 'danger');
+                } finally {
+                    btnEntrar.disabled = false;
+                    btnEntrar.textContent = 'Entrar no Sistema';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

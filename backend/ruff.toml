@@ -1,0 +1,14 @@
+line-length = 9999 
+extend-exclude = ['migrations/', '**/migrations/**', 'manage.py']
+
+[lint]
+preview = true
+select = ['I', 'F', 'E', 'W', 'PL', 'PT', 'DJ']
+
+[lint.per-file-ignores]
+"**/tests.py" = ["PT", "PLR2004", "PLR0913"]
+"**/tests/**" = ["PT", "PLR2004", "PLR0913"]
+
+[format]
+preview = true
+quote-style = 'single'
