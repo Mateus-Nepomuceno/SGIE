@@ -67,3 +67,25 @@ class MinhaInscricaoSerializer(serializers.ModelSerializer):
         if evento.status in ('Finalizado', 'Arquivado', 'Cancelado'):
             return False
         return True
+
+
+class ParticipanteSerializer(serializers.ModelSerializer):
+    """
+    Serializer usado pela página "Consulta de participantes" (visão do
+    organizador, em ListaInscritosView). Reúne os dados do participante
+    e da inscrição necessários para a listagem e os filtros do
+    organizador. Somente leitura.
+    """
+
+    participante_nome = serializers.CharField(source='usuario.nome_completo', read_only=True)
+    participante_email = serializers.CharField(source='usuario.email', read_only=True)
+    status_display = serializers.CharField(source='get_status_display', read_only=True)
+
+    class Meta:
+        model = Inscricao
+        fields = [
+            'id', 'status', 'status_display',
+            'participante_nome', 'participante_email',
+            'comprovante', 'dados_adicionais', 'data_inscricao',
+        ]
+        read_only_fields = fields

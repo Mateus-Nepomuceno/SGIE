@@ -1,12 +1,15 @@
-from rest_framework import generics
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
+from django.db.models import Q
+from django.shortcuts import get_object_or_404
+from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from eventos.models import Evento
+
 from .models import Inscricao
-from .serializers import InscricaoSerializer, MinhaInscricaoSerializer
-from .permissions import IsDonoDaInscricao
+from .permissions import IsDonoDaInscricao, IsOrganizadorDoEvento
+from .serializers import InscricaoSerializer, MinhaInscricaoSerializer, ParticipanteSerializer
 from .services import processar_fila_espera
 
 class RealizarInscricaoView(APIView):
@@ -80,16 +83,35 @@ class MinhasInscricoesView(generics.ListAPIView):
         return queryset
 
 class ListaInscritosView(generics.ListAPIView):
-    serializer_class = InscricaoSerializer
-    permission_classes = [IsAuthenticated]
+    """
+    Lista os participantes inscritos em um evento (página "Consulta de
+    participantes" do módulo de Inscrições). Restrita ao organizador do
+    evento. Suporta filtro opcional por status via ?status=confirmada e
+    busca opcional por nome/e-mail do participante via ?busca=termo.
+    """
+    serializer_class = ParticipanteSerializer
+    permission_classes = [IsAuthenticated, IsOrganizadorDoEvento]
+
+    def get_evento(self):
+        evento = get_object_or_404(Evento, pk=self.kwargs['evento_id'])
+        self.check_object_permissions(self.request, evento)
+        return evento
 
     def get_queryset(self):
-        evento_id = self.kwargs['evento_id']
+        evento = self.get_evento()
         status_param = self.request.query_params.get('status', None)
+        busca = self.request.query_params.get('busca', None)
 
-        queryset = Inscricao.objects.filter(evento_id=evento_id).order_by('data_inscricao')
+        queryset = Inscricao.objects.filter(
+            evento=evento
+        ).select_related('usuario').order_by('data_inscricao')
 
         if status_param:
             queryset = queryset.filter(status=status_param)
+
+        if busca:
+            queryset = queryset.filter(
+                Q(usuario__nome_completo__icontains=busca) | Q(usuario__email__icontains=busca)
+            )
 
         return queryset
