@@ -21,7 +21,7 @@ const USER_KEY = 'sgie_user';
 function getAppRoot() {
     if (typeof window === 'undefined') return './';
     const path = window.location.pathname;
-    if (path.includes('/usuarios/') || path.includes('/eventos/')) {
+    if (path.includes('/usuarios/') || path.includes('/eventos/') || path.includes('/inscricao/')) {
         return '../';
     }
     return './';
@@ -243,6 +243,7 @@ function atualizarCabecalhoUsuario(activePage = '') {
         `;
         if (user && isAuthenticated()) {
             linksHtml += `
+                <li><a href="${resolveAppUrl('inscricao/minhas-inscricoes.html')}" class="${activePage === 'minhas-inscricoes' ? 'active' : ''}">Minhas Inscrições</a></li>
                 <li><a href="${resolveAppUrl('eventos/criar_evento.html')}" class="btn btn-sm btn-primary ${activePage === 'novo' ? 'active' : ''}">+ Criar Evento</a></li>
             `;
         }

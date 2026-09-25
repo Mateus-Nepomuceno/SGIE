@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Participantes - SGIE</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="../index.html" class="brand">
+                SGIE
+                <span class="brand-badge">Eventos</span>
+            </a>
+            <ul class="nav-links">
+            </ul>
+            <div class="nav-user" id="nav-user-area">
+            </div>
+        </div>
+    </nav>
+
+    <div class="container container-wide">
+        <header class="page-header">
+            <div>
+                <h1 class="page-title">Consulta de Participantes</h1>
+                <p class="page-subtitle">Acompanhe quem está inscrito no seu evento, filtre por situação e consulte os detalhes de cada inscrição.</p>
+            </div>
+            <div>
+                <a href="../eventos/detalhes_evento.html" id="link-voltar-evento" class="btn btn-secondary" style="display: none;">Ver Evento</a>
+            </div>
+        </header>
+
+        <div id="mensagem-alerta" style="display: none;"></div>
+
+        <section class="toolbar" id="toolbar-filtros" aria-label="Filtros de Participantes">
+            <div class="toolbar-row">
+                <select id="filtro-evento" class="filter-select">
+                    <option value="">Selecione um evento...</option>
+                </select>
+                <div class="search-input-wrap">
+                    <input type="text" id="filtro-busca" class="input-field" placeholder="Buscar por nome ou e-mail...">
+                </div>
+                <select id="filtro-status" class="filter-select">
+                    <option value="">Todas as Situações de Inscrição</option>
+                    <option value="confirmada">Confirmada</option>
+                    <option value="pendente_pagamento">Pendente de Pagamento</option>
+                    <option value="lista_espera">Em Lista de Espera</option>
+                    <option value="cancelada">Cancelada</option>
+                </select>
+                <button type="button" id="btn-aplicar-filtros" class="btn btn-secondary">Filtrar</button>
+                <button type="button" id="btn-limpar-filtros" class="btn btn-outline">Limpar</button>
+            </div>
+        </section>
+
+        <main>
+            <div id="sem-evento-selecionado" class="empty-state">
+                <h3>Selecione um evento</h3>
+                <p>Escolha, no filtro acima, um dos eventos que você organiza para consultar os participantes inscritos.</p>
+            </div>
+
+            <div id="loading-spinner" style="display: none; text-align: center; padding: 3rem;">
+                <p style="font-size: 1.1rem; color: var(--text-muted);">Carregando participantes...</p>
+            </div>
+
+            <p id="contador-resultados" style="display: none; color: var(--text-muted); margin-bottom: 0.75rem;"></p>
+
+            <div class="inscricoes-list" id="lista-participantes" style="display: none;">
+            </div>
+
+            <div id="sem-participantes" class="empty-state" style="display: none;">
+                <h3 id="titulo-vazio">Nenhum participante encontrado</h3>
+                <p id="desc-vazio">Ainda não há inscrições para este evento.</p>
+            </div>
+        </main>
+    </div>
+
+    <footer class="footer">
+        <div class="container" style="padding-top: 0; padding-bottom: 0;">
+            <p>SGIE — Sistema de Gestão de Inscrições e Eventos Universitários</p>
+        </div>
+    </footer>
+
+    <script src="../config.js"></script>
+    <script src="../api.js"></script>
+    <script src="participantes.js"></script>
+</body>
+</html>

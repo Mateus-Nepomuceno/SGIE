@@ -77,6 +77,7 @@ class EventoAdmin(admin.ModelAdmin):
                 'fields': [
                     'e_gratuito',
                     'preco',
+                    'necessita_comprovante',
                 ]
             },
         ),

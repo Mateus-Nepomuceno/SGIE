@@ -4,6 +4,8 @@ from django.core.exceptions import ValidationError as DjangoValidationError
 from django.utils.translation import gettext_lazy as _
 from rest_framework import serializers
 
+from inscricao.models import Inscricao
+
 from .models import (
     CategoriaEvento,
     EquipeOrganizadora,
@@ -98,19 +100,29 @@ class EventoDetailSerializer(serializers.ModelSerializer):
     organizadores = EquipeOrganizadoraSerializer(many=True, read_only=True)
     regra_submissao = RegraSubmissaoSerializer(read_only=True)
 
+    vagas_ocupadas = serializers.SerializerMethodField()
+    vagas_disponiveis = serializers.SerializerMethodField()
+
     class Meta:
         model = Evento
         fields = [
             'id','usuario_representante','usuario_representante_nome','usuario_representante_email',
             'nome','descricao','data','data_original','hora_inicio','hora_inicio_original','hora_fim',
             'local_tipo','local','modalidade','modalidade_display','capacidade','status','status_display',
-            'categoria','categoria_display','categoria_personalizada','e_gratuito','preco','visibilidade',
+            'categoria','categoria_display','categoria_personalizada','e_gratuito', 'necessita_comprovante','preco','visibilidade',
             'programacao_geral','motivo_cancelamento','cancelado_em','inscricoes_abertas','is_curta_duracao',
             'pode_alterar_data','pode_alterar_detalhes','pode_cancelar','limite_alteracao_data',
             'limite_alteracao_detalhes','limite_cancelamento','limite_encerramento_inscricoes',
-            'organizadores','regra_submissao','criado_em','atualizado_em',
+            'organizadores','regra_submissao','criado_em','atualizado_em', 'vagas_ocupadas', 'vagas_disponiveis',
         ]
 
+    def get_vagas_ocupadas(self, obj):
+        return Inscricao.objects.filter(evento=obj, status__in=['confirmada', 'pendente_pagamento']).count()
+
+    def get_vagas_disponiveis(self, obj):
+        ocupadas = self.get_vagas_ocupadas(obj)
+        disponiveis = obj.capacidade - ocupadas
+        return disponiveis if disponiveis > 0 else 0
 
 class EventoCreateUpdateSerializer(serializers.ModelSerializer):
 
