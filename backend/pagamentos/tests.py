@@ -30,6 +30,22 @@ from pagamentos.services import (
     ServicoCobranca,
     ServicoPagamento,
 )
+from pagamentos.validators import (
+    limpar_digitos,
+    validar_cobranca_elegivel_para_pagamento,
+    validar_cvv,
+    validar_dados_cartao,
+    validar_desconto_isencao,
+    validar_intervalo_datas,
+    validar_numero_cartao,
+    validar_payload_pix,
+    validar_quantidade_vagas_lote,
+    validar_solicitacao_reembolso,
+    validar_transacao_id,
+    validar_validade_cartao,
+    validar_valor_minimo_positivo,
+    validar_valor_reembolso,
+)
 
 Usuario = get_user_model()
 
@@ -748,3 +764,251 @@ class PagamentosAPITests(TestCase):
         self.assertEqual(resp_org.data['evento_id'], self.evento.id)
         self.assertEqual(Decimal(str(resp_org.data['total_arrecadado_bruto'])), Decimal('80.00'))
         self.assertEqual(Decimal(str(resp_org.data['total_liquido'])), Decimal('80.00'))
+
+
+class PagamentosValidatorsTests(TestCase):
+    """
+    Suíte de testes dedicada aos validadores puros e regras de negócio do app pagamentos.
+    """
+
+    def setUp(self):
+        self.limpar_digitos = staticmethod(limpar_digitos)
+        self.validar_valor_minimo_positivo = staticmethod(validar_valor_minimo_positivo)
+        self.validar_intervalo_datas = staticmethod(validar_intervalo_datas)
+        self.validar_quantidade_vagas_lote = staticmethod(validar_quantidade_vagas_lote)
+        self.validar_desconto_isencao = staticmethod(validar_desconto_isencao)
+        self.validar_valor_reembolso = staticmethod(validar_valor_reembolso)
+        self.validar_numero_cartao = staticmethod(validar_numero_cartao)
+        self.validar_cvv = staticmethod(validar_cvv)
+        self.validar_validade_cartao = staticmethod(validar_validade_cartao)
+        self.validar_dados_cartao = staticmethod(validar_dados_cartao)
+        self.validar_payload_pix = staticmethod(validar_payload_pix)
+        self.validar_transacao_id = staticmethod(validar_transacao_id)
+        self.validar_cobranca_elegivel_para_pagamento = staticmethod(validar_cobranca_elegivel_para_pagamento)
+        self.validar_solicitacao_reembolso = staticmethod(validar_solicitacao_reembolso)
+
+    def test_limpar_digitos(self):
+        self.assertEqual(self.limpar_digitos('123.456-78'), '12345678')
+        self.assertEqual(self.limpar_digitos(None), '')
+        self.assertEqual(self.limpar_digitos('abc'), '')
+        self.assertEqual(self.limpar_digitos('4111 1111'), '41111111')
+
+    def test_validar_valor_minimo_positivo(self):
+        # Válido
+        self.validar_valor_minimo_positivo(Decimal('0.01'))
+        self.validar_valor_minimo_positivo(Decimal('100.50'))
+
+        # Inválidos
+        with self.assertRaises(ValidationError):
+            self.validar_valor_minimo_positivo(None)
+        with self.assertRaises(ValidationError):
+            self.validar_valor_minimo_positivo(Decimal('0.00'))
+        with self.assertRaises(ValidationError):
+            self.validar_valor_minimo_positivo(Decimal('-5.00'))
+
+    def test_validar_intervalo_datas(self):
+        agora = timezone.now()
+        depois = agora + timedelta(days=2)
+        # Válido
+        self.validar_intervalo_datas(agora, depois)
+
+        # Inválidos
+        with self.assertRaises(ValidationError):
+            self.validar_intervalo_datas(depois, agora)
+        with self.assertRaises(ValidationError):
+            self.validar_intervalo_datas(agora, agora)
+
+    def test_validar_quantidade_vagas_lote(self):
+        # Válido
+        self.validar_quantidade_vagas_lote(quantidade_total=50, quantidade_disponivel=30)
+        self.validar_quantidade_vagas_lote(quantidade_total=50, quantidade_disponivel=50)
+
+        # Inválidos
+        with self.assertRaises(ValidationError):
+            self.validar_quantidade_vagas_lote(quantidade_total=0, quantidade_disponivel=0)
+        with self.assertRaises(ValidationError):
+            self.validar_quantidade_vagas_lote(quantidade_total=10, quantidade_disponivel=15)
+
+    def test_validar_desconto_isencao(self):
+        # Total não requer validação de percentual/valor
+        self.validar_desconto_isencao(tipo='TOTAL', desconto_percentual=None, desconto_valor=None)
+
+        # Parcial válido por percentual
+        self.validar_desconto_isencao(
+            tipo='PARCIAL',
+            desconto_percentual=Decimal('50.00'),
+            desconto_valor=Decimal('0.00'),
+            valor_original=Decimal('100.00'),
+        )
+
+        # Parcial válido por valor fixo
+        self.validar_desconto_isencao(
+            tipo='PARCIAL',
+            desconto_percentual=Decimal('0.00'),
+            desconto_valor=Decimal('30.00'),
+            valor_original=Decimal('100.00'),
+        )
+
+        # Parcial sem desconto informado
+        with self.assertRaises(ValidationError):
+            self.validar_desconto_isencao(
+                tipo='PARCIAL',
+                desconto_percentual=Decimal('0.00'),
+                desconto_valor=Decimal('0.00'),
+            )
+
+        # Parcial com percentual inválido (> 100)
+        with self.assertRaises(ValidationError):
+            self.validar_desconto_isencao(
+                tipo='PARCIAL',
+                desconto_percentual=Decimal('110.00'),
+                desconto_valor=Decimal('0.00'),
+            )
+
+        # Parcial com valor superior ao original
+        with self.assertRaises(ValidationError):
+            self.validar_desconto_isencao(
+                tipo='PARCIAL',
+                desconto_percentual=Decimal('0.00'),
+                desconto_valor=Decimal('150.00'),
+                valor_original=Decimal('100.00'),
+            )
+
+    def test_validar_valor_reembolso(self):
+        # Válido
+        self.validar_valor_reembolso(Decimal('50.00'), Decimal('100.00'))
+        self.validar_valor_reembolso(Decimal('100.00'), Decimal('100.00'))
+
+        # Superior ao pago
+        with self.assertRaises(ValidationError):
+            self.validar_valor_reembolso(Decimal('100.01'), Decimal('100.00'))
+
+        # Zerado
+        with self.assertRaises(ValidationError):
+            self.validar_valor_reembolso(Decimal('0.00'), Decimal('100.00'))
+
+    def test_validar_numero_cartao_luhn(self):
+        # Número válido gerado pelo algoritmo de Luhn (16 dígitos)
+        self.validar_numero_cartao('4000000000000002')
+        self.validar_numero_cartao('4532 0151 1283 0366')
+
+        # Comprimento inválido
+        with self.assertRaises(ValidationError):
+            self.validar_numero_cartao('1234')
+        with self.assertRaises(ValidationError):
+            self.validar_numero_cartao('123456789012345678901')
+
+        # Dígito verificador de Luhn incorreto
+        with self.assertRaises(ValidationError):
+            self.validar_numero_cartao('4000000000000003')
+
+    def test_validar_cvv(self):
+        self.validar_cvv('123')
+        self.validar_cvv('1234')
+
+        with self.assertRaises(ValidationError):
+            self.validar_cvv('12')
+        with self.assertRaises(ValidationError):
+            self.validar_cvv('12345')
+        with self.assertRaises(ValidationError):
+            self.validar_cvv('abc')
+
+    def test_validar_validade_cartao(self):
+        hoje = timezone.now().date()
+        ano_futuro = hoje.year + 2
+
+        # Válido futuro
+        self.validar_validade_cartao(mes=12, ano=ano_futuro)
+        # Válido ano 2 dígitos
+        self.validar_validade_cartao(mes=12, ano=str(ano_futuro)[-2:])
+
+        # Mês inválido
+        with self.assertRaises(ValidationError):
+            self.validar_validade_cartao(mes=13, ano=ano_futuro)
+        with self.assertRaises(ValidationError):
+            self.validar_validade_cartao(mes=0, ano=ano_futuro)
+
+        # Cartão expirado (ano passado)
+        with self.assertRaises(ValidationError):
+            self.validar_validade_cartao(mes=1, ano=hoje.year - 1)
+
+    def test_validar_dados_cartao(self):
+        hoje = timezone.now().date()
+        dados_validos = {
+            'numero_cartao': '4000000000000002',
+            'cvv': '123',
+            'mes_expiracao': 12,
+            'ano_expiracao': hoje.year + 2,
+            'nome_titular': 'Maria Silva',
+        }
+        self.validar_dados_cartao(dados_validos, exigir_completo=True)
+
+        # Nome titular curto
+        dados_nome_curto = {**dados_validos, 'nome_titular': 'Al'}
+        with self.assertRaises(ValidationError):
+            self.validar_dados_cartao(dados_nome_curto, exigir_completo=True)
+
+        # Sem dados
+        with self.assertRaises(ValidationError):
+            self.validar_dados_cartao(None)
+
+    def test_validar_payload_pix(self):
+        pix_valido = '00020126580014BR.GOV.BCB.PIX0136123e4567-e89b-12d3-a456-4266141740005204000053039865802BR5913SGIE6008SALVADOR62070503***6304ABCD'
+        self.validar_payload_pix(pix_valido)
+
+        with self.assertRaises(ValidationError):
+            self.validar_payload_pix('')
+        with self.assertRaises(ValidationError):
+            self.validar_payload_pix('payload_invalido_sem_emvco')
+
+    def test_validar_transacao_id(self):
+        self.validar_transacao_id('TX-123456789')
+
+        with self.assertRaises(ValidationError):
+            self.validar_transacao_id('')
+        with self.assertRaises(ValidationError):
+            self.validar_transacao_id(' ' * 10)
+        with self.assertRaises(ValidationError):
+            self.validar_transacao_id('A' * 256)
+
+    def test_validar_cobranca_elegivel_para_pagamento(self):
+        class MockCobranca:
+            status = 'PENDENTE'
+            esta_vencida = False
+
+        cobranca = MockCobranca()
+        self.validar_cobranca_elegivel_para_pagamento(cobranca)
+
+        cobranca.status = 'PAGA'
+        with self.assertRaises(ValidationError):
+            self.validar_cobranca_elegivel_para_pagamento(cobranca)
+
+        cobranca.status = 'PENDENTE'
+        cobranca.esta_vencida = True
+        with self.assertRaises(ValidationError):
+            self.validar_cobranca_elegivel_para_pagamento(cobranca)
+
+    def test_validar_solicitacao_reembolso(self):
+        class MockPagamento:
+            status = 'APROVADO'
+            data_pagamento = timezone.now()
+
+        pagamento = MockPagamento()
+        self.validar_solicitacao_reembolso(pagamento, limite_dias=7)
+
+        # Não aprovado
+        pagamento.status = 'PROCESSANDO'
+        with self.assertRaises(ValidationError):
+            self.validar_solicitacao_reembolso(pagamento)
+
+        # Já possui reembolso
+        pagamento.status = 'APROVADO'
+        pagamento.reembolso = object()
+        with self.assertRaises(ValidationError):
+            self.validar_solicitacao_reembolso(pagamento)
+
+        # Fora do prazo
+        delattr(pagamento, 'reembolso')
+        pagamento.data_pagamento = timezone.now() - timedelta(days=10)
+        with self.assertRaises(ValidationError):
+            self.validar_solicitacao_reembolso(pagamento, limite_dias=7)
