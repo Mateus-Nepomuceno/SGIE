@@ -5,4 +5,5 @@ urlpatterns = [
     path('', include('usuarios.urls')),
     path('', include('eventos.urls')),
     path('', include('inscricao.urls')),
+    path('', include('submissao.urls')),
 ]
