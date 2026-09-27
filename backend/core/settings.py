@@ -11,7 +11,8 @@ load_dotenv(BASE_DIR / '.env')
 
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-dev-only-secret-key-32bytes-min-length-required-for-sha256')
 
-DEBUG = int(os.environ.get('DJANGO_DEBUG', '0'))
+#DEBUG = int(os.environ.get('DJANGO_DEBUG', '0'))
+DEBUG = 1
 TESTING = 'test' in sys.argv
 
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
@@ -140,13 +141,27 @@ SIMPLE_JWT = {
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
 }
 
+# _cors_origins = os.environ.get(
+#     'DJANGO_CORS_ALLOWED_ORIGINS',
+#     'http://localhost:3000,http://127.0.0.1:3000,http://localhost:5173,http://127.0.0.1:5173, http://localhost:8080, http://127.0.0.1:8080',
+# )
+# CORS_ALLOWED_ORIGINS = [origin.strip() for origin in _cors_origins.split(',') if origin.strip()]
+# CORS_ALLOW_ALL_ORIGINS = bool(DEBUG)
+# CORS_ALLOW_CREDENTIALS = True
+
+# Buscando as origens permitidas do arquivo .env
 _cors_origins = os.environ.get(
     'DJANGO_CORS_ALLOWED_ORIGINS',
-    'http://localhost:3000,http://127.0.0.1:3000,http://localhost:5173,http://127.0.0.1:5173',
+    'http://localhost:8080,http://127.0.0.1:8080,http://localhost:5173,http://127.0.0.1:5173',
 )
 CORS_ALLOWED_ORIGINS = [origin.strip() for origin in _cors_origins.split(',') if origin.strip()]
-CORS_ALLOW_ALL_ORIGINS = bool(DEBUG)
+
+# MUDE AQUI: Se você usa CREDENTIALS (como cookies ou sessões), 
+# você NÃO PODE usar ALLOW_ALL_ORIGINS como True.
+CORS_ALLOW_ALL_ORIGINS = False  
+
 CORS_ALLOW_CREDENTIALS = True
+
 
 if not DEBUG and not TESTING:
     SECURE_SSL_REDIRECT = True
