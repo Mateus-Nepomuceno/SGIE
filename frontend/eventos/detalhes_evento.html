@@ -146,6 +146,7 @@
     <script src="../api.js"></script>
     <script>
         let eventoAtual = null;
+        let caminhoSub = "../submissao/submissao.html"
 
         document.addEventListener('DOMContentLoaded', () => {
             atualizarCabecalhoUsuario('eventos');
@@ -175,6 +176,7 @@
 
                 if (response.ok) {
                     eventoAtual = await response.json();
+                    caminhoSub = `../submissao/submissao.html?evento=${eventoAtual.id}`;
                     renderizarDetalhes(eventoAtual);
                 } else {
                     const err = await response.json();
@@ -249,6 +251,19 @@
 
                 if (sub.periodo_aberto) {
                     statusSub.textContent = '● Período de Submissão Ativo';
+
+
+                    const newDiv = document.createElement("div");
+                    newDiv.style.marginBottom = "1rem";
+
+                    const link = document.createElement("a")
+                    link.href = caminhoSub;
+                    link.class = "btn btn-sm btn-secondary";
+                    link.innerText = "Enviar Submissão";
+
+                    newDiv.appendChild(link);
+
+                    statusSub.appendChild(newDiv);
                 } else {
                     statusSub.textContent = '○ Período de Submissão Fechado';
                     statusSub.style.color = 'var(--text-muted)';
