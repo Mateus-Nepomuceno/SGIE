@@ -1,5 +1,6 @@
+from typing import override
+
 from django.db.models import Q
-from django.utils.translation import gettext_lazy as _
 from rest_framework import status, viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import ValidationError
@@ -8,26 +9,25 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from .models import (
-    Area,
     Apresentacao,
+    Area,
     Avaliacao,
     Local,
-    StatusSubmissao,
     Submissao,
     SubmissaoAutor,
     SubmissaoVersao,
 )
 from .permissions import (
-    CanCreateSubmissaoPermission,
     IsAvaliadorOrReadOnly,
     IsOrganiadorEventoOrReadOnly,
     IsSubmissaoAutorOrReadOnly,
 )
 from .serializers import (
-    AprovarSubmissaoSerializer,
     ApresentacaoSerializer,
+    AprovarSubmissaoSerializer,
     AreaSerializer,
     AvaliacaoSerializer,
+    LocalSerializer,
     RejeitarSubmissaoSerializer,
     SolicitarCorrecaoSerializer,
     SubmeterSubmissaoSerializer,
@@ -36,7 +36,6 @@ from .serializers import (
     SubmissaoDetailSerializer,
     SubmissaoListSerializer,
     SubmissaoVersaoSerializer,
-    LocalSerializer,
 )
 from .services import SubmissaoService
 
@@ -48,6 +47,7 @@ class AreaViewSet(viewsets.ModelViewSet):
     queryset = Area.objects.all()
     serializer_class = AreaSerializer
 
+    @override
     def get_queryset(self):
         return Area.objects.all().order_by('nome')
 
@@ -57,20 +57,19 @@ class SubmissaoViewSet(viewsets.ModelViewSet):
     permission_classes = [IsSubmissaoAutorOrReadOnly]
     parser_classes = [JSONParser, FormParser, MultiPartParser]
 
+    @override
     def get_serializer_class(self):
-        if self.action == 'list':
-            return SubmissaoListSerializer
-        if self.action in {'create', 'update', 'partial_update'}:
-            return SubmissaoCreateUpdateSerializer
-        if self.action == 'submeter':
-            return SubmeterSubmissaoSerializer
-        if self.action == 'aprovar':
-            return AprovarSubmissaoSerializer
-        if self.action == 'rejeitar':
-            return RejeitarSubmissaoSerializer
-        if self.action == 'solicitar_correcao':
-            return SolicitarCorrecaoSerializer
-        return SubmissaoDetailSerializer
+        serializers_map = {
+            'list': SubmissaoListSerializer,
+            'create': SubmissaoCreateUpdateSerializer,
+            'update': SubmissaoCreateUpdateSerializer,
+            'partial_update': SubmissaoCreateUpdateSerializer,
+            'submeter': SubmeterSubmissaoSerializer,
+            'aprovar': AprovarSubmissaoSerializer,
+            'rejeitar': RejeitarSubmissaoSerializer,
+            'solicitar_correcao': SolicitarCorrecaoSerializer,
+        }
+        return serializers_map.get(self.action, SubmissaoDetailSerializer)
 
     def get_queryset(self):
         user = self.request.user
@@ -88,12 +87,16 @@ class SubmissaoViewSet(viewsets.ModelViewSet):
         if not (user and user.is_authenticated):
             return queryset.none()
 
-        if user.is_staff or user.is_superuser:
-            return queryset
+        if not (user.is_staff or user.is_superuser):
+            queryset = queryset.filter(
+                Q(autor_principal=user) | Q(evento__usuario_representante=user)
+            ).distinct()
 
-        return queryset.filter(
-            Q(autor_principal=user) | Q(evento__usuario_representante=user)
-        ).distinct()
+        evento = self.request.query_params.get('evento') or self.request.query_params.get('evento_id')
+        if evento:
+            queryset = queryset.filter(evento_id=evento)
+
+        return queryset
 
     def perform_create(self, serializer):
         try:
@@ -288,6 +291,7 @@ class LocalViewSet(viewsets.ModelViewSet):
     parser_classes = [JSONParser, FormParser]
     serializer_class = LocalSerializer
 
+    @override
     def get_queryset(self):
         return Local.objects.all().select_related('evento')
 
@@ -311,4 +315,3 @@ class ApresentacaoViewSet(viewsets.ModelViewSet):
         return queryset.filter(
             Q(submissao__autor_principal=user) | Q(submissao__evento__usuario_representante=user)
         ).distinct()
-
