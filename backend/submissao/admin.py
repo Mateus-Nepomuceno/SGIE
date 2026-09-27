@@ -253,6 +253,3 @@ class ApresentacaoAdmin(admin.ModelAdmin):
             {'fields': ['criado_em', 'atualizado_em']},
         ),
     ]
-
-
-

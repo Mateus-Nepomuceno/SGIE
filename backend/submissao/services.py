@@ -3,7 +3,6 @@ from typing import Any, Dict, Optional
 
 from django.core.exceptions import PermissionDenied, ValidationError
 from django.db import transaction
-from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from eventos.models import Evento

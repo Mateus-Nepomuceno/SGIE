@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -180,15 +182,15 @@ class Submissao(models.Model):
         """Verifica se a submissão pode ser finalizada e submetida."""
         if self.status not in {StatusSubmissao.RASCUNHO, StatusSubmissao.CORRECOES_SOLICITADAS}:
             return False
-        
+
         regra_submissao = getattr(self.evento, 'regra_submissao', None)
         if not regra_submissao or not regra_submissao.aceita_submissao:
             return False
-        
+
         agora = timezone.now()
         if regra_submissao.data_hora_inicio and regra_submissao.data_hora_fim:
             return regra_submissao.data_hora_inicio <= agora <= regra_submissao.data_hora_fim
-        
+
         return False
 
 
@@ -248,7 +250,7 @@ class SubmissaoAutor(models.Model):
         help_text=_('Universidade ou instituição de vínculo.'),
     )
 
-    maiór_titulacao = models.CharField(
+    maiór_titulacao = models.CharField(  # noqa: PLC2401
         _('Maior Titulação'),
         max_length=100,
         blank=True,
@@ -492,7 +494,4 @@ class Apresentacao(models.Model):
     @property
     def fim(self) -> models.DateTimeField:
         """Calcula o horário de término da apresentação."""
-        from datetime import timedelta
         return self.inicio + timedelta(minutes=self.duracao_minutos)
-
-

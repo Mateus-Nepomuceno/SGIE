@@ -17,5 +17,3 @@ router.register(r'apresentacoes', views.ApresentacaoViewSet, basename='sgie_apre
 urlpatterns = [
     path('', include(router.urls)),
 ]
-
-router = DefaultRouter()

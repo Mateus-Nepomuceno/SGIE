@@ -10,7 +10,6 @@ from .models import (
     Area,
     Avaliacao,
     Local,
-    StatusSubmissao,
     Submissao,
     SubmissaoAutor,
     SubmissaoVersao,
@@ -20,7 +19,6 @@ from .services import SubmissaoService
 from .validators import (
     validar_abstract,
     validar_arquivo_submissao,
-    validar_duracao_minutos,
     validar_palavras_chave,
     validar_titulo_submissao,
     validar_url,
@@ -282,7 +280,7 @@ class SubmissaoCreateUpdateSerializer(serializers.ModelSerializer):
         write_only=True,
         help_text=_('Maior titulação do autor principal.'),
     )
-    maiór_titulacao = serializers.CharField(
+    maiór_titulacao = serializers.CharField(  # noqa: PLC2401
         required=False,
         allow_blank=True,
         max_length=100,
