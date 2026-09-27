@@ -1,0 +1,1495 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enviar Submissão - SGIE</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="../index.html" class="brand">
+                SGIE
+                <span class="brand-badge">Submissão</span>
+            </a>
+            <ul class="nav-links">
+            </ul>
+            <div class="nav-user" id="nav-user-area">
+            </div>
+        </div>
+    </nav>
+
+    <div class="container container-narrow">
+        <header class="page-header">
+            <div>
+                <h1 class="page-title">Enviar Trabalho para Submissão</h1>
+                <p class="page-subtitle" id="subtitulo-evento">Carregando dados do evento...</p>
+            </div>
+            <div>
+                <a href="#" id="link-voltar-evento" class="btn btn-secondary">← Voltar ao Evento</a>
+            </div>
+        </header>
+
+        <div id="mensagem-alerta" style="display: none;"></div>
+
+        <!-- Aviso: sem inscrição ativa / fora do período / evento não aceita submissão -->
+        <div id="aviso-bloqueio" class="notice-box" style="display: none; background: #fffbeb; border-color: #fde68a;">
+            <div class="notice-icon">ℹ</div>
+            <div>
+                <div class="notice-title" style="color: #92400e;">Submissão Indisponível</div>
+                <div class="notice-desc" id="texto-bloqueio" style="color: #78350f;"></div>
+            </div>
+        </div>
+
+        <form id="form-criar-submissao" class="form-card" novalidate>
+
+            <section class="form-section">
+                <h2 class="section-title">1. Dados do Trabalho</h2>
+                <p class="section-desc">Identificação e classificação do trabalho dentro do evento (RF01).</p>
+
+                <div class="form-group">
+                    <label for="id_titulo" class="form-label">Título do Trabalho <span class="req">*</span></label>
+                    <input type="text" id="id_titulo" name="titulo" class="input-field" required maxlength="200" placeholder="Ex: Aplicação de Redes Neurais na Predição de Séries Temporais">
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="id_area" class="form-label">Área Temática <span class="req">*</span></label>
+                        <select id="id_area" name="area_tematica" class="input-field" required>
+                            <option value="">Carregando áreas...</option>
+                        </select>
+                        <span class="form-hint">Vínculo obrigatório com uma área válida do evento (RF01).</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="id_modalidade" class="form-label">Modalidade do Trabalho <span class="req">*</span></label>
+                        <select id="id_modalidade" name="modalidade" class="input-field" required>
+                            <option value="">Selecione...</option>
+                            <option value="Artigo Completo">Artigo Completo</option>
+                            <option value="Resumo Expandido">Resumo Expandido</option>
+                            <option value="Resumo Simples">Resumo Simples</option>
+                            <option value="Pôster">Pôster</option>
+                            <option value="Relato de Experiência">Relato de Experiência</option>
+                            <option value="Estudo de Caso">Estudo de Caso</option>
+                            <option value="Outro">Outro</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_resumo" class="form-label">Resumo (Abstract) <span class="req">*</span></label>
+                    <textarea id="id_resumo" name="resumo" class="input-field" rows="5" required minlength="50" placeholder="Descreva objetivo, metodologia, resultados e conclusões do trabalho..."></textarea>
+                    <span class="form-hint">Mínimo de 50 caracteres.</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_palavras_chave" class="form-label">Palavras-chave</label>
+                    <input type="text" id="id_palavras_chave" name="palavras_chave" class="input-field" placeholder="Separe por vírgulas. Ex: Inteligência Artificial, Redes Neurais, Séries Temporais">
+                </div>
+            </section>
+
+            <section class="form-section">
+                <h2 class="section-title">2. Autor Principal</h2>
+                <p class="section-desc">Perfil acadêmico do responsável pela submissão e pelas re-submissões (RF02, RF10).</p>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="id_ap_nome" class="form-label">Nome Completo <span class="req">*</span></label>
+                        <input type="text" id="id_ap_nome" name="ap_nome" class="input-field" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="id_ap_email" class="form-label">E-mail <span class="req">*</span></label>
+                        <input type="email" id="id_ap_email" name="ap_email" class="input-field" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="id_ap_lattes" class="form-label">Currículo Lattes (URL) <span class="req">*</span></label>
+                        <input type="url" id="id_ap_lattes" name="ap_lattes" class="input-field" required placeholder="http://lattes.cnpq.br/0000000000000000">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_ap_linkedin" class="form-label">Perfil do LinkedIn (URL) <span class="req">*</span></label>
+                        <input type="url" id="id_ap_linkedin" name="ap_linkedin" class="input-field" required placeholder="https://www.linkedin.com/in/usuario">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="id_ap_afiliacao" class="form-label">Afiliação Institucional <span class="req">*</span></label>
+                        <input type="text" id="id_ap_afiliacao" name="ap_afiliacao" class="input-field" required placeholder="Ex: Universidade Federal da Bahia">
+                    </div>
+                    <div class="form-group">
+                        <label for="id_ap_titulacao" class="form-label">Maior Titulação <span class="req">*</span></label>
+                        <select id="id_ap_titulacao" name="ap_titulacao" class="input-field" required>
+                            <option value="">Selecione...</option>
+                            <option value="Graduando">Graduando</option>
+                            <option value="Graduação">Graduação</option>
+                            <option value="Especialização">Especialização</option>
+                            <option value="Mestrado">Mestrado</option>
+                            <option value="Doutorado">Doutorado</option>
+                            <option value="Pós-Doutorado">Pós-Doutorado</option>
+                        </select>
+                    </div>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <h2 class="section-title">3. Coautores</h2>
+                <p class="section-desc">Adicione os coautores para fins de certificação posterior (RF02).</p>
+
+                <div id="lista-coautores"></div>
+
+                <div class="btn-group" style="margin-top: 0.5rem;">
+                    <button type="button" id="btn-add-coautor" class="btn btn-secondary btn-sm">+ Adicionar Coautor</button>
+                </div>
+            </section>
+
+            <section class="form-section">
+                <h2 class="section-title">4. Arquivo do Trabalho</h2>
+                <p class="section-desc">Anexe o arquivo no formato exigido pelo evento (RF10 - versionamento de arquivos).</p>
+
+                <div class="form-group">
+                    <label for="id_arquivo" class="form-label">Arquivo (PDF ou DOCX) <span class="req">*</span></label>
+                    <input type="file" id="id_arquivo" name="arquivo" class="input-field" accept=".pdf,.docx">
+                    <span class="form-hint">Obrigatório apenas para enviar a submissão definitiva. Não é necessário para salvar como rascunho.</span>
+                </div>
+            </section>
+
+            <div class="btn-group" style="justify-content: flex-end; margin-top: 1.5rem;">
+                <a href="#" id="link-cancelar" class="btn btn-secondary">Cancelar</a>
+                <button type="button" id="btn-rascunho" class="btn btn-outline btn-lg">Salvar como Rascunho</button>
+                <button type="submit" id="btn-submit" class="btn btn-primary btn-lg">Enviar Submissão</button>
+            </div>
+        </form>
+    </div>
+
+    <footer class="footer">
+        <div class="container" style="padding-top: 0; padding-bottom: 0;">
+            <p>SGIE — Sistema de Gestão de Inscrições e Eventos Universitários</p>
+        </div>
+    </footer>
+
+    <script src="../config.js"></script>
+    <script src="../api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+
+            // ============================================================
+            // 1. AUTENTICAÇÃO
+            // ============================================================
+
+            if (!isAuthenticated()) {
+                window.location.href = '../usuarios/login.html';
+                return;
+            }
+
+            atualizarCabecalhoUsuario();
+
+
+            // ============================================================
+            // 2. ELEMENTOS DA PÁGINA
+            // ============================================================
+
+            const form = document.getElementById('form-criar-submissao');
+
+            const btnRascunho = document.getElementById('btn-rascunho');
+            const btnSubmit = document.getElementById('btn-submit');
+
+            const avisoBloqueio = document.getElementById('aviso-bloqueio');
+            const textoBloqueio = document.getElementById('texto-bloqueio');
+
+            const subtituloEvento = document.getElementById('subtitulo-evento');
+
+            const selectArea = document.getElementById('id_area');
+
+            const listaCoautores = document.getElementById('lista-coautores');
+            const btnAddCoautor = document.getElementById('btn-add-coautor');
+
+            const linkVoltar = document.getElementById('link-voltar-evento');
+            const linkCancelar = document.getElementById('link-cancelar');
+
+
+            // ============================================================
+            // 3. RECUPERAR ID DO EVENTO
+            // ============================================================
+
+            const params = new URLSearchParams(window.location.search);
+
+            const eventoId = params.get('evento');
+
+            console.log('Evento recebido pela URL:', eventoId);
+
+
+            // ============================================================
+            // 4. FUNÇÕES AUXILIARES
+            // ============================================================
+
+            function bloquearFormulario(mensagem) {
+
+                textoBloqueio.textContent = mensagem;
+                avisoBloqueio.style.display = 'flex';
+
+                btnRascunho.disabled = true;
+                btnSubmit.disabled = true;
+            }
+
+
+            function mostrarFormulario() {
+
+                avisoBloqueio.style.display = 'none';
+
+                btnRascunho.disabled = false;
+                btnSubmit.disabled = false;
+            }
+
+
+            function formatarErroApi(erro) {
+
+                if (!erro) {
+                    return 'Ocorreu um erro desconhecido.';
+                }
+
+                if (typeof erro === 'string') {
+                    return erro;
+                }
+
+                if (erro.detail) {
+                    return erro.detail;
+                }
+
+                if (erro.message) {
+                    return erro.message;
+                }
+
+                // Erros de validação do Django REST Framework
+                if (typeof erro === 'object') {
+
+                    return Object.entries(erro)
+                        .map(([campo, mensagens]) => {
+
+                            if (Array.isArray(mensagens)) {
+                                return `${campo}: ${mensagens.join(', ')}`;
+                            }
+
+                            return `${campo}: ${mensagens}`;
+                        })
+                        .join('<br>');
+                }
+
+                return 'Não foi possível concluir a operação.';
+            }
+
+
+            async function lerResposta(response) {
+
+                const texto = await response.text();
+
+                if (!texto) {
+                    return null;
+                }
+
+                try {
+                    return JSON.parse(texto);
+                } catch {
+                    return texto;
+                }
+            }
+
+
+            function validarUrl(valor, dominioEsperado, campoNome) {
+
+                if (!valor) {
+                    return `${campoNome} é obrigatório.`;
+                }
+
+                try {
+
+                    const url = new URL(valor);
+
+                    if (
+                        dominioEsperado &&
+                        !url.hostname.includes(dominioEsperado)
+                    ) {
+                        return `${campoNome} deve ser um link válido de ${dominioEsperado}.`;
+                    }
+
+                } catch {
+                    return `${campoNome} deve ser uma URL válida.`;
+                }
+
+                return null;
+            }
+
+
+            // ============================================================
+            // 5. VALIDAR EVENTO
+            // ============================================================
+
+            async function carregarEvento() {
+
+                if (!eventoId) {
+
+                    subtituloEvento.textContent = 'Evento não identificado.';
+
+                    bloquearFormulario(
+                        'Nenhum evento foi informado. Acesse esta página a partir de um evento.'
+                    );
+
+                    linkVoltar.href = '../index.html';
+                    linkCancelar.href = '../index.html';
+
+                    return null;
+                }
+
+
+                try {
+
+                    console.log(`Buscando evento: /eventos/${eventoId}/`);
+
+                    const response = await apiFetch(
+                        `/eventos/${encodeURIComponent(eventoId)}/`
+                    );
+
+
+                    if (!response.ok) {
+
+                        const erro = await lerResposta(response);
+
+                        console.error('Erro ao buscar evento:', erro);
+
+                        bloquearFormulario(
+                            formatarErroApi(erro) ||
+                            'Não foi possível carregar o evento.'
+                        );
+
+                        return null;
+                    }
+
+
+                    const evento = await lerResposta(response);
+
+                    console.log('Evento carregado:', evento);
+
+
+                    if (!evento || !evento.id) {
+
+                        bloquearFormulario(
+                            'A API retornou um evento inválido.'
+                        );
+
+                        return null;
+                    }
+
+
+                    // --------------------------------------------------------
+                    // Atualiza links usando o ID retornado pela API
+                    // --------------------------------------------------------
+
+                    linkVoltar.href =
+                        `../eventos/detalhes_evento.html?id=${encodeURIComponent(evento.id)}`;
+
+                    linkCancelar.href =
+                        `../eventos/detalhes_evento.html?id=${encodeURIComponent(evento.id)}`;
+
+
+                    subtituloEvento.textContent =
+                        `Submissão para o evento: ${evento.nome || 'Evento'}`;
+
+
+                    
+
+                    // --------------------------------------------------------
+                    // Verifica regra de submissão
+                    // --------------------------------------------------------
+
+                    const regra = evento.regra_submissao;
+
+
+                    if (
+                        !regra ||
+                        !regra.data_hora_inicio ||
+                        !regra.data_hora_fim
+                    ) {
+
+                        bloquearFormulario(
+                            'O período de submissão deste evento ainda não foi configurado.'
+                        );
+
+                        return null;
+                    }
+
+
+                    // --------------------------------------------------------
+                    // Verifica se o evento aceita submissões
+                    // --------------------------------------------------------
+
+                    if (!regra.aceita_submissao) {
+
+                        bloquearFormulario(
+                            'Este evento não está configurado para aceitar submissão de trabalhos.'
+                        );
+
+                        return null;
+                    }
+
+
+
+                    // --------------------------------------------------------
+                    // Verifica período
+                    // --------------------------------------------------------
+
+                    const agora = new Date();
+
+                    const inicio =
+                        new Date(regra.data_hora_inicio);
+
+                    const fim =
+                        new Date(regra.data_hora_fim);
+
+
+                    if (
+                        Number.isNaN(inicio.getTime()) ||
+                        Number.isNaN(fim.getTime())
+                    ) {
+
+                        bloquearFormulario(
+                            'As datas do período de submissão são inválidas.'
+                        );
+
+                        return null;
+                    }
+
+
+                    if (agora < inicio) {
+
+                        bloquearFormulario(
+                            `O período de submissão ainda não foi iniciado. ` +
+                            `Início previsto: ${formatarDataHora(regra.data_hora_inicio)}.`
+                        );
+
+                        return null;
+                    }
+
+
+                    if (agora > fim) {
+
+                        bloquearFormulario(
+                            `O período de submissão deste evento foi encerrado em ` +
+                            `${formatarDataHora(regra.data_hora_fim)}.`
+                        );
+
+                        return null;
+                    }
+
+
+                    // Evento válido
+                    mostrarFormulario();
+
+                    return evento;
+
+                } catch (erro) {
+
+                    console.error('Erro ao carregar evento:', erro);
+
+                    bloquearFormulario(
+                        'Erro de comunicação com o servidor ao carregar o evento.'
+                    );
+
+                    return null;
+                }
+            }
+
+
+            // ============================================================
+            // 6. CARREGAR ÁREAS DO EVENTO
+            // ============================================================
+
+            async function carregarAreas() {
+
+                selectArea.innerHTML =
+                    '<option value="">Carregando áreas...</option>';
+
+                try {
+
+                    /*
+                    * IMPORTANTE:
+                    *
+                    * Aqui estou mantendo o filtro:
+                    *
+                    *     ?evento=ID
+                    *
+                    * porque é o formato que seu código atual utiliza.
+                    *
+                    * Se o seu backend espera "evento_id", altere para:
+                    *
+                    *     /areas/?evento_id=${eventoId}
+                    */
+
+                    const url =
+                        `/areas/`;
+
+                    console.log('Buscando áreas:', url);
+
+                    const response = await apiFetch(url);
+
+
+                    if (!response.ok) {
+
+                        const erro = await lerResposta(response);
+
+                        console.error('Erro ao carregar áreas:', erro);
+
+                        selectArea.innerHTML =
+                            '<option value="">Erro ao carregar áreas</option>';
+
+                        return false;
+                    }
+
+
+                    const data = await lerResposta(response);
+
+
+                    // Compatível com:
+                    // [] 
+                    // ou
+                    // { results: [] }
+
+                    const areas = Array.isArray(data)
+                        ? data
+                        : (data?.results || []);
+
+
+                    selectArea.innerHTML = '';
+
+
+                    if (areas.length === 0) {
+
+                        selectArea.innerHTML =
+                            '<option value="">Nenhuma área cadastrada para este evento</option>';
+
+                        return false;
+                    }
+
+
+                    selectArea.innerHTML =
+                        '<option value="">Selecione a área temática...</option>';
+
+
+                    areas.forEach(area => {
+
+                        const option = document.createElement('option');
+
+                        option.value = area.id;
+
+                        option.textContent =
+                            area.nome ||
+                            area.titulo ||
+                            `Área #${area.id}`;
+
+                        selectArea.appendChild(option);
+                    });
+
+
+                    return true;
+
+                } catch (erro) {
+
+                    console.error('Erro ao carregar áreas:', erro);
+
+                    selectArea.innerHTML =
+                        '<option value="">Erro ao carregar áreas</option>';
+
+                    return false;
+                }
+            }
+
+
+            // ============================================================
+            // 7. CARREGAR USUÁRIO LOGADO
+            // ============================================================
+
+            const usuarioLogado = getUser();
+
+            if (usuarioLogado) {
+
+                document.getElementById('id_ap_nome').value =
+                    usuarioLogado.nome_completo || '';
+
+                document.getElementById('id_ap_email').value =
+                    usuarioLogado.email || '';
+            }
+
+
+            // ============================================================
+            // 8. INICIALIZAÇÃO
+            // ============================================================
+
+            const evento = await carregarEvento();
+
+            // Se o evento não for válido, para tudo aqui.
+            if (!evento) {
+                return;
+            }
+
+
+            const areasCarregadas = await carregarAreas();
+
+            if (!areasCarregadas) {
+
+                bloquearFormulario(
+                    'Não foi possível carregar as áreas temáticas deste evento.'
+                );
+
+                return;
+            }
+
+
+            // ============================================================
+            // 9. COAUTORES
+            // ============================================================
+
+            let coautorSeq = 0;
+
+
+            function criarLinhaCoautor() {
+
+                coautorSeq++;
+
+                const idx = coautorSeq;
+
+                const div = document.createElement('div');
+
+                div.className = 'coautor-row';
+
+                div.dataset.idx = idx;
+
+                div.style.cssText =
+                    'background:#f8fafc;' +
+                    'padding:1rem;' +
+                    'border-radius:var(--radius-sm);' +
+                    'border:1px solid var(--border-color);' +
+                    'margin-bottom:0.75rem;';
+
+
+                div.innerHTML = `
+                    <div class="btn-group"
+                        style="justify-content:space-between;align-items:center;">
+
+                        <strong>Coautor ${idx}</strong>
+
+                        <button
+                            type="button"
+                            class="btn btn-danger btn-sm btn-remover-coautor">
+                            Remover
+                        </button>
+
+                    </div>
+
+
+                    <div class="form-row" style="margin-top:0.5rem;">
+
+                        <div class="form-group">
+
+                            <label class="form-label">
+                                Nome Completo <span class="req">*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                class="input-field co-nome"
+                                required>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label class="form-label">
+                                E-mail <span class="req">*</span>
+                            </label>
+
+                            <input
+                                type="email"
+                                class="input-field co-email"
+                                required>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label class="form-label">
+                                Currículo Lattes (URL) <span class="req">*</span>
+                            </label>
+
+                            <input
+                                type="url"
+                                class="input-field co-lattes"
+                                required
+                                placeholder="http://lattes.cnpq.br/0000000000000000">
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label class="form-label">
+                                Perfil do LinkedIn (URL) <span class="req">*</span>
+                            </label>
+
+                            <input
+                                type="url"
+                                class="input-field co-linkedin"
+                                required
+                                placeholder="https://www.linkedin.com/in/usuario">
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="form-row">
+
+                        <div class="form-group">
+
+                            <label class="form-label">
+                                Afiliação Institucional <span class="req">*</span>
+                            </label>
+
+                            <input
+                                type="text"
+                                class="input-field co-afiliacao"
+                                required>
+
+                        </div>
+
+
+                        <div class="form-group">
+
+                            <label class="form-label">
+                                Maior Titulação <span class="req">*</span>
+                            </label>
+
+                            <select
+                                class="input-field co-titulacao"
+                                required>
+
+                                <option value="">Selecione...</option>
+                                <option value="Graduando">Graduando</option>
+                                <option value="Graduação">Graduação</option>
+                                <option value="Especialização">Especialização</option>
+                                <option value="Mestrado">Mestrado</option>
+                                <option value="Doutorado">Doutorado</option>
+                                <option value="Pós-Doutorado">Pós-Doutorado</option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+                `;
+
+
+                div
+                    .querySelector('.btn-remover-coautor')
+                    .addEventListener('click', () => {
+                        div.remove();
+                    });
+
+
+                listaCoautores.appendChild(div);
+            }
+
+
+            btnAddCoautor.addEventListener(
+                'click',
+                criarLinhaCoautor
+            );
+
+
+            // ============================================================
+            // 10. COLETAR AUTORES
+            // ============================================================
+
+            function coletarAutorPrincipal() {
+
+                return {
+
+                    principal: true,
+
+                    nome_completo:
+                        document
+                            .getElementById('id_ap_nome')
+                            .value
+                            .trim(),
+
+                    email:
+                        document
+                            .getElementById('id_ap_email')
+                            .value
+                            .trim(),
+
+                    lattes_url:
+                        document
+                            .getElementById('id_ap_lattes')
+                            .value
+                            .trim(),
+
+                    linkedin_url:
+                        document
+                            .getElementById('id_ap_linkedin')
+                            .value
+                            .trim(),
+
+                    afiliacao_institucional:
+                        document
+                            .getElementById('id_ap_afiliacao')
+                            .value
+                            .trim(),
+
+                    maior_titulacao:
+                        document
+                            .getElementById('id_ap_titulacao')
+                            .value
+                };
+            }
+
+
+            function coletarCoautores() {
+
+                const linhas =
+                    listaCoautores.querySelectorAll('.coautor-row');
+
+
+                return Array.from(linhas).map(linha => ({
+
+                    principal: false,
+
+                    nome_completo:
+                        linha
+                            .querySelector('.co-nome')
+                            .value
+                            .trim(),
+
+                    email:
+                        linha
+                            .querySelector('.co-email')
+                            .value
+                            .trim(),
+
+                    lattes_url:
+                        linha
+                            .querySelector('.co-lattes')
+                            .value
+                            .trim(),
+
+                    linkedin_url:
+                        linha
+                            .querySelector('.co-linkedin')
+                            .value
+                            .trim(),
+
+                    afiliacao_institucional:
+                        linha
+                            .querySelector('.co-afiliacao')
+                            .value
+                            .trim(),
+
+                    maior_titulacao:
+                        linha
+                            .querySelector('.co-titulacao')
+                            .value
+
+                }));
+            }
+
+
+            // ============================================================
+            // 11. VALIDAÇÃO
+            // ============================================================
+
+            function validarFormulario(exigirArquivo) {
+
+                const erros = [];
+
+
+                const titulo =
+                    document
+                        .getElementById('id_titulo')
+                        .value
+                        .trim();
+
+
+                if (!titulo) {
+                    erros.push('Informe o título do trabalho.');
+                }
+
+
+                if (!selectArea.value) {
+                    erros.push('Selecione a área temática.');
+                }
+
+
+                const modalidade =
+                    document
+                        .getElementById('id_modalidade')
+                        .value;
+
+
+                if (!modalidade) {
+                    erros.push('Selecione a modalidade do trabalho.');
+                }
+
+
+                const resumo =
+                    document
+                        .getElementById('id_resumo')
+                        .value
+                        .trim();
+
+
+                if (resumo.length < 50) {
+                    erros.push(
+                        'O resumo deve ter no mínimo 50 caracteres.'
+                    );
+                }
+
+
+                // --------------------------------------------------------
+                // Autor principal
+                // --------------------------------------------------------
+
+                const autorPrincipal =
+                    coletarAutorPrincipal();
+
+
+                if (!autorPrincipal.nome_completo) {
+                    erros.push(
+                        'Informe o nome do autor principal.'
+                    );
+                }
+
+
+                if (!autorPrincipal.email) {
+                    erros.push(
+                        'Informe o e-mail do autor principal.'
+                    );
+                }
+
+
+                const erroLattes =
+                    validarUrl(
+                        autorPrincipal.lattes_url,
+                        'lattes.cnpq.br',
+                        'O Currículo Lattes do autor principal'
+                    );
+
+
+                if (erroLattes) {
+                    erros.push(erroLattes);
+                }
+
+
+                const erroLinkedin =
+                    validarUrl(
+                        autorPrincipal.linkedin_url,
+                        'linkedin.com',
+                        'O LinkedIn do autor principal'
+                    );
+
+
+                if (erroLinkedin) {
+                    erros.push(erroLinkedin);
+                }
+
+
+                if (!autorPrincipal.afiliacao_institucional) {
+                    erros.push(
+                        'Informe a afiliação institucional do autor principal.'
+                    );
+                }
+
+
+                if (!autorPrincipal.maior_titulacao) {
+                    erros.push(
+                        'Selecione a maior titulação do autor principal.'
+                    );
+                }
+
+
+                // --------------------------------------------------------
+                // Coautores
+                // --------------------------------------------------------
+
+                const coautores =
+                    coletarCoautores();
+
+
+                coautores.forEach((autor, index) => {
+
+                    const numero = index + 1;
+
+
+                    if (!autor.nome_completo) {
+                        erros.push(
+                            `Informe o nome do coautor ${numero}.`
+                        );
+                    }
+
+
+                    if (!autor.email) {
+                        erros.push(
+                            `Informe o e-mail do coautor ${numero}.`
+                        );
+                    }
+
+
+                    const erroLattes =
+                        validarUrl(
+                            autor.lattes_url,
+                            'lattes.cnpq.br',
+                            `O Currículo Lattes do coautor ${numero}`
+                        );
+
+
+                    if (erroLattes) {
+                        erros.push(erroLattes);
+                    }
+
+
+                    const erroLinkedin =
+                        validarUrl(
+                            autor.linkedin_url,
+                            'linkedin.com',
+                            `O LinkedIn do coautor ${numero}`
+                        );
+
+
+                    if (erroLinkedin) {
+                        erros.push(erroLinkedin);
+                    }
+
+
+                    if (!autor.afiliacao_institucional) {
+                        erros.push(
+                            `Informe a afiliação institucional do coautor ${numero}.`
+                        );
+                    }
+
+
+                    if (!autor.maior_titulacao) {
+                        erros.push(
+                            `Selecione a maior titulação do coautor ${numero}.`
+                        );
+                    }
+
+                });
+
+
+                // --------------------------------------------------------
+                // Arquivo
+                // --------------------------------------------------------
+
+                const arquivoInput =
+                    document.getElementById('id_arquivo');
+
+
+                const possuiArquivo =
+                    arquivoInput.files &&
+                    arquivoInput.files.length > 0;
+
+
+                if (exigirArquivo && !possuiArquivo) {
+
+                    erros.push(
+                        'Anexe o arquivo (PDF ou DOCX) para enviar a submissão definitiva.'
+                    );
+                }
+
+
+                if (possuiArquivo) {
+
+                    const arquivo =
+                        arquivoInput.files[0];
+
+
+                    const nome =
+                        arquivo.name.toLowerCase();
+
+
+                    if (
+                        !nome.endsWith('.pdf') &&
+                        !nome.endsWith('.docx')
+                    ) {
+
+                        erros.push(
+                            'O arquivo deve estar no formato PDF ou DOCX.'
+                        );
+                    }
+                }
+
+
+                return erros;
+            }
+
+
+            // ============================================================
+            // 12. SALVAR SUBMISSÃO
+            // ============================================================
+
+            async function salvar(finalizar) {
+
+                clearAlert('mensagem-alerta');
+
+
+                const erros =
+                    validarFormulario(finalizar);
+
+
+                if (erros.length > 0) {
+
+                    showAlert(
+                        'mensagem-alerta',
+                        erros.join('<br>'),
+                        'danger'
+                    );
+
+                    return;
+                }
+
+
+                // --------------------------------------------------------
+                // Payload
+                // --------------------------------------------------------
+
+                const payload = {
+
+                    evento: evento.id,
+
+                    area_tematica: selectArea.value,
+
+                    modalidade:
+                        document
+                            .getElementById('id_modalidade')
+                            .value,
+
+                    titulo:
+                        document
+                            .getElementById('id_titulo')
+                            .value
+                            .trim(),
+
+                    resumo:
+                        document
+                            .getElementById('id_resumo')
+                            .value
+                            .trim(),
+
+                    palavras_chave:
+                        document
+                            .getElementById('id_palavras_chave')
+                            .value
+                            .trim(),
+
+                    status: 'rascunho',
+
+                    autores: [
+                        coletarAutorPrincipal(),
+                        ...coletarCoautores()
+                    ]
+                };
+
+
+                console.log(
+                    'Payload da submissão:',
+                    payload
+                );
+
+
+                const botao =
+                    finalizar
+                        ? btnSubmit
+                        : btnRascunho;
+
+
+                const textoOriginal =
+                    botao.textContent;
+
+
+                btnSubmit.disabled = true;
+                btnRascunho.disabled = true;
+
+                botao.textContent =
+                    finalizar
+                        ? 'Enviando...'
+                        : 'Salvando...';
+
+
+                try {
+
+                    // ====================================================
+                    // ETAPA 1 - CRIAR SUBMISSÃO
+                    // ====================================================
+
+                    const response =
+                        await apiFetch('/submissoes/', {
+
+                            method: 'POST',
+
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+
+                            body: JSON.stringify(payload)
+                        });
+
+
+                    const submissao =
+                        await lerResposta(response);
+
+
+                    console.log(
+                        'Resposta da criação:',
+                        submissao
+                    );
+
+
+                    if (!response.ok) {
+
+                        showAlert(
+                            'mensagem-alerta',
+                            formatarErroApi(submissao),
+                            'danger'
+                        );
+
+                        return;
+                    }
+
+
+                    if (!submissao?.id) {
+
+                        throw new Error(
+                            'A API criou a submissão, mas não retornou o ID.'
+                        );
+                    }
+
+
+                    // ====================================================
+                    // ETAPA 2 - ENVIAR ARQUIVO
+                    // ====================================================
+
+                    const arquivoInput =
+                        document.getElementById('id_arquivo');
+
+
+                    const possuiArquivo =
+                        arquivoInput.files &&
+                        arquivoInput.files.length > 0;
+
+
+                    if (possuiArquivo) {
+
+                        const formData =
+                            new FormData();
+
+
+                        formData.append(
+                            'submissao',
+                            submissao.id
+                        );
+
+
+                        formData.append(
+                            'arquivo',
+                            arquivoInput.files[0]
+                        );
+
+
+                        formData.append(
+                            'comentario',
+                            'Versão inicial enviada pelo autor.'
+                        );
+
+
+                        console.log(
+                            'Enviando arquivo para submissão:',
+                            submissao.id
+                        );
+
+
+                        /*
+                        * NÃO coloque Content-Type manualmente aqui.
+                        *
+                        * O navegador precisa gerar:
+                        *
+                        * multipart/form-data;
+                        * boundary=...
+                        */
+
+                        const responseArquivo =
+                            await apiFetch(
+                                '/versoes-submissao/',
+                                {
+                                    method: 'POST',
+                                    body: formData
+                                }
+                            );
+
+
+                        const resultadoArquivo =
+                            await lerResposta(responseArquivo);
+
+
+                        if (!responseArquivo.ok) {
+
+                            console.error(
+                                'Erro ao enviar arquivo:',
+                                resultadoArquivo
+                            );
+
+
+                            showAlert(
+                                'mensagem-alerta',
+                                formatarErroApi(resultadoArquivo),
+                                'danger'
+                            );
+
+                            return;
+                        }
+                    }
+
+
+                    // ====================================================
+                    // ETAPA 3 - FINALIZAR SUBMISSÃO
+                    // ====================================================
+
+                    if (finalizar) {
+
+                        const responseStatus =
+                            await apiFetch(
+                                `/submissoes/${encodeURIComponent(submissao.id)}/`,
+                                {
+
+                                    method: 'PATCH',
+
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+
+                                    body: JSON.stringify({
+                                        status: 'submetida'
+                                    })
+                                }
+                            );
+
+
+                        const resultadoStatus =
+                            await lerResposta(responseStatus);
+
+
+                        if (!responseStatus.ok) {
+
+                            console.error(
+                                'Erro ao alterar status:',
+                                resultadoStatus
+                            );
+
+
+                            showAlert(
+                                'mensagem-alerta',
+                                formatarErroApi(resultadoStatus),
+                                'danger'
+                            );
+
+                            return;
+                        }
+                    }
+
+
+                    // ====================================================
+                    // SUCESSO
+                    // ====================================================
+
+                    showAlert(
+                        'mensagem-alerta',
+
+                        finalizar
+                            ? 'Submissão enviada com sucesso! Redirecionando...'
+                            : 'Rascunho salvo com sucesso! Redirecionando...',
+
+                        'success'
+                    );
+
+
+                    setTimeout(() => {
+
+                        window.location.href =
+                            `detalhes_submissao.html?id=${encodeURIComponent(submissao.id)}`;
+
+                    }, 500);
+
+
+                } catch (erro) {
+
+                    console.error(
+                        'Erro ao salvar submissão:',
+                        erro
+                    );
+
+
+                    showAlert(
+                        'mensagem-alerta',
+                        erro.message ||
+                        'Erro de comunicação ao salvar a submissão.',
+                        'danger'
+                    );
+
+
+                } finally {
+
+                    btnSubmit.disabled = false;
+                    btnRascunho.disabled = false;
+
+                    botao.textContent =
+                        textoOriginal;
+                }
+            }
+
+
+            // ============================================================
+            // 13. EVENTOS DOS BOTÕES
+            // ============================================================
+
+            btnRascunho.addEventListener(
+                'click',
+                () => salvar(false)
+            );
+
+
+            form.addEventListener(
+                'submit',
+                (event) => {
+
+                    event.preventDefault();
+
+                    salvar(true);
+                }
+            );
+
+
+            // ============================================================
+            // 14. COAUTOR INICIAL
+            // ============================================================
+
+            criarLinhaCoautor();
+
+        });
+    </script>
+</body>
+</html>
