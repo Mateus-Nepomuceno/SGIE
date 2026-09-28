@@ -21,7 +21,10 @@ const USER_KEY = 'sgie_user';
 function getAppRoot() {
     if (typeof window === 'undefined') return './';
     const path = window.location.pathname;
-    if (path.includes('/usuarios/') || path.includes('/eventos/') || path.includes('/inscricao/' || '/submissao/' || '/areas/')) {
+
+    // ✅ CORRIGIDO: cada includes separado, com ||
+    const subpastas = ['/usuarios/', '/eventos/', '/inscricao/', '/submissao/', '/areas/'];
+    if (subpastas.some(p => path.includes(p))) {
         return '../';
     }
     return './';
@@ -232,6 +235,47 @@ function mascaraCPF(valor) {
     return v;
 }
 
+async function usuarioEhAvaliador() {
+    try {
+        if (!isAuthenticated()) return false;
+        const resp = await apiFetch('/avaliacao/avaliadores/me/');
+        if (!resp.ok) return false;
+        const data = await resp.json();
+        return Boolean(data && (data.is_avaliador || data.eh_avaliador || data.id));
+    } catch {
+        return false;
+    }
+}
+
+async function injetarLinkAvaliadorNoCabecalho() {
+    try {
+        if (!isAuthenticated()) return;
+
+        const navUserArea = document.getElementById('nav-user-area');
+        if (!navUserArea) return;
+
+        if (navUserArea.querySelector('[data-link-avaliador]')) return;
+
+        const eh = await usuarioEhAvaliador();
+        if (!eh) return;
+
+        const botaoSair = navUserArea.querySelector('button');
+        const linkAvaliador = document.createElement('a');
+        linkAvaliador.href = resolveAppUrl('submissao/meu-perfil-avaliador.html');
+        linkAvaliador.className = 'btn btn-sm btn-outline';
+        linkAvaliador.dataset.linkAvaliador = 'true';
+        linkAvaliador.textContent = 'Painel do Avaliador';
+
+        if (botaoSair) {
+            navUserArea.insertBefore(linkAvaliador, botaoSair);
+        } else {
+            navUserArea.appendChild(linkAvaliador);
+        }
+    } catch (err) {
+        console.error('[injetarLinkAvaliadorNoCabecalho] erro:', err);
+    }
+}
+
 function atualizarCabecalhoUsuario(activePage = '') {
     const user = getUser();
     const navLinksArea = document.querySelector('.nav-links');
@@ -255,12 +299,17 @@ function atualizarCabecalhoUsuario(activePage = '') {
 
     if (navUserArea) {
         if (user && isAuthenticated()) {
-            const nomeExibicao = user.nome_completo ? user.nome_completo.split(' ')[0] : (user.email.split('@')[0]);
+            const nomeExibicao = user.nome_completo
+                ? user.nome_completo.split(' ')[0]
+                : (user.email ? user.email.split('@')[0] : 'Usuário');
             navUserArea.innerHTML = `
                 <span class="user-greeting">Olá, <strong>${nomeExibicao}</strong></span>
                 <a href="${resolveAppUrl('usuarios/perfil.html')}" class="btn btn-sm btn-outline ${activePage === 'perfil' ? 'active' : ''}">Meu Perfil</a>
                 <button type="button" onclick="logout()" class="btn btn-sm btn-danger">Sair</button>
             `;
+
+            // ✅ Injeta o link do avaliador depois de montar o HTML
+            injetarLinkAvaliadorNoCabecalho();
         } else {
             navUserArea.innerHTML = `
                 <a href="${resolveAppUrl('usuarios/login.html')}" class="btn btn-sm btn-outline ${activePage === 'login' ? 'active' : ''}">Entrar</a>
@@ -269,3 +318,11 @@ function atualizarCabecalhoUsuario(activePage = '') {
         }
     }
 }
+
+// ✅ Expõe no window para chamadas via onclick inline ou outros scripts
+window.atualizarCabecalhoUsuario = atualizarCabecalhoUsuario;
+window.injetarLinkAvaliadorNoCabecalho = injetarLinkAvaliadorNoCabecalho;
+window.usuarioEhAvaliador = usuarioEhAvaliador;
+window.logout = logout;
+window.resolveAppUrl = resolveAppUrl;
+window.isAuthenticated = isAuthenticated;
