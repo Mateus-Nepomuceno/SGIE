@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'eventos',
     'inscricao',
     'submissao',
+    'pagamentos',
 ]
 
 AUTH_USER_MODEL = 'usuarios.Usuario'
