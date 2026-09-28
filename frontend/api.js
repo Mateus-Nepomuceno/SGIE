@@ -20,10 +20,26 @@ const USER_KEY = 'sgie_user';
 
 function getAppRoot() {
     if (typeof window === 'undefined') return './';
+
     const path = window.location.pathname;
-    if (path.includes('/usuarios/') || path.includes('/eventos/') || path.includes('/inscricao/')) {
-        return '../';
+    const modulos = ['/usuarios/', '/eventos/', '/inscricao/'];
+
+    for (const modulo of modulos) {
+        const index = path.indexOf(modulo);
+
+        if (index !== -1) {
+            const caminhoInterno = path.slice(index + modulo.length);
+            const partes = caminhoInterno.split('/').filter(Boolean);
+
+            // +1 porque precisamos sair da pasta do módulo
+            const profundidade = partes.length > 1
+                ? partes.length
+                : 1;
+
+            return '../'.repeat(profundidade);
+        }
     }
+
     return './';
 }
 
@@ -150,7 +166,7 @@ function showAlert(containerId, message, type = 'danger') {
             text = Object.entries(message)
                 .map(([field, errs]) => {
                     const arr = Array.isArray(errs) ? errs : [errs];
-                    return `<strong>${field}:</strong> ${arr.join(' ')}`;
+                    return `<strong>${field.replace(/_/g, ' ')}:</strong> ${arr.join(' ')}`;
                 })
                 .join('<br>');
         }
@@ -234,35 +250,61 @@ function mascaraCPF(valor) {
 
 function atualizarCabecalhoUsuario(activePage = '') {
     const user = getUser();
+    const logado = Boolean(user && isAuthenticated());
     const navLinksArea = document.querySelector('.nav-links');
     const navUserArea = document.getElementById('nav-user-area');
+    const ativo = (pagina) => (activePage === pagina ? 'active' : '');
 
     if (navLinksArea) {
         let linksHtml = `
-            <li><a href="${resolveAppUrl('index.html')}" class="${activePage === 'eventos' ? 'active' : ''}">Explorar Eventos</a></li>
+            <li><a href="${resolveAppUrl('index.html')}" class="nav-link ${ativo('eventos')}">Explorar Eventos</a></li>
         `;
-        if (user && isAuthenticated()) {
+        if (logado) {
             linksHtml += `
-                <li><a href="${resolveAppUrl('inscricao/minhas-inscricoes.html')}" class="${activePage === 'minhas-inscricoes' ? 'active' : ''}">Minhas Inscrições</a></li>
-                <li><a href="${resolveAppUrl('eventos/criar_evento.html')}" class="btn btn-sm btn-primary ${activePage === 'novo' ? 'active' : ''}">+ Criar Evento</a></li>
+                <li><a href="${resolveAppUrl('inscricao/minhas-inscricoes.html')}" class="nav-link ${ativo('minhas-inscricoes')}">Minhas Inscrições</a></li>
+                <li><a href="${resolveAppUrl('eventos/criar_evento.html')}" class="btn btn-sm btn-primary ${ativo('novo')}"><span class="icon icon-plus"></span>Cadastrar Evento</a></li>
             `;
         }
         navLinksArea.innerHTML = linksHtml;
     }
 
     if (navUserArea) {
-        if (user && isAuthenticated()) {
-            const nomeExibicao = user.nome_completo ? user.nome_completo.split(' ')[0] : (user.email.split('@')[0]);
+        if (logado) {
+            const nomeBruto = user.nome_completo ? user.nome_completo.split(' ')[0] : user.email.split('@')[0];
+            const nomeExibicao = nomeBruto.replace(/[<>&"']/g, '');
             navUserArea.innerHTML = `
-                <span class="user-greeting">Olá, <strong>${nomeExibicao}</strong></span>
-                <a href="${resolveAppUrl('usuarios/perfil.html')}" class="btn btn-sm btn-outline ${activePage === 'perfil' ? 'active' : ''}">Meu Perfil</a>
-                <button type="button" onclick="logout()" class="btn btn-sm btn-danger">Sair</button>
+                <a href="${resolveAppUrl('usuarios/perfil.html')}" class="user-greeting ${ativo('perfil')}">Olá, ${nomeExibicao}<span class="icon icon-chevron-down"></span></a>
+                <button type="button" onclick="logout()" class="btn-logout"><span class="icon icon-logout"></span>Sair</button>
             `;
         } else {
             navUserArea.innerHTML = `
-                <a href="${resolveAppUrl('usuarios/login.html')}" class="btn btn-sm btn-outline ${activePage === 'login' ? 'active' : ''}">Entrar</a>
-                <a href="${resolveAppUrl('usuarios/cadastro.html')}" class="btn btn-sm btn-primary ${activePage === 'cadastro' ? 'active' : ''}">Cadastre-se</a>
+                <a href="${resolveAppUrl('usuarios/login.html')}" class="nav-link ${ativo('login')}">Entre</a>
+                <a href="${resolveAppUrl('usuarios/cadastro.html')}" class="btn btn-sm btn-primary ${ativo('cadastro')}">Cadastre-se</a>
             `;
         }
     }
+}
+
+// Máscara dd/mm/aaaa (campos de data digitados)
+function mascaraData(valor) {
+    const v = String(valor || '').replace(/\D/g, '').slice(0, 8);
+    if (v.length > 4) return `${v.slice(0, 2)}/${v.slice(2, 4)}/${v.slice(4)}`;
+    if (v.length > 2) return `${v.slice(0, 2)}/${v.slice(2)}`;
+    return v;
+}
+
+// Botão "olho" dos campos de senha.
+// HTML: <div class="input-wrap has-toggle"> ... <button type="button" class="input-toggle" data-toggle-senha><span class="icon icon-eye"></span></button></div>
+function iniciarToggleSenha() {
+    document.querySelectorAll('[data-toggle-senha]').forEach((btn) => {
+        const input = btn.closest('.input-wrap').querySelector('input');
+        const icone = btn.querySelector('.icon');
+        btn.addEventListener('click', () => {
+            const mostrar = input.type === 'password';
+            input.type = mostrar ? 'text' : 'password';
+            icone.classList.toggle('icon-eye', !mostrar);
+            icone.classList.toggle('icon-eye-off', mostrar);
+            btn.setAttribute('aria-label', mostrar ? 'Ocultar senha' : 'Mostrar senha');
+        });
+    });
 }

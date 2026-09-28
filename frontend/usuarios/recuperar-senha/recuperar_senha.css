@@ -1,0 +1,15 @@
+/* ==========================================================================
+   SGIE — Recuperação de senha
+   ========================================================================== */
+
+.recuperar-page .auth-card {
+    max-width: 1000px;
+}
+
+.recuperar-page .auth-aside {
+    min-height: 460px;
+}
+
+.recuperar-page .auth-form {
+    min-height: 460px;
+}

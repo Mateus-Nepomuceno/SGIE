@@ -1,0 +1,589 @@
+/* ==========================================================================
+   SGIE — Meu Perfil
+   Estilos específicos da tela usuarios/perfil/perfil.html.
+   Usa apenas os tokens e componentes globais do styles.css.
+   ========================================================================== */
+
+
+/* ==========================================================================
+   1. LAYOUT
+   ========================================================================== */
+
+.perfil-page .perfil-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 320px;
+
+    align-items: start;
+
+    gap: 24px;
+}
+
+.perfil-page .perfil-main,
+.perfil-page .perfil-aside {
+    display: flex;
+    flex-direction: column;
+
+    gap: 24px;
+}
+
+.perfil-page .perfil-aside {
+    position: sticky;
+    top: 24px;
+
+    gap: 16px;
+}
+
+.perfil-page .perfil-card .card-body {
+    display: flex;
+    flex-direction: column;
+
+    gap: 20px;
+}
+
+
+/* ==========================================================================
+   2. CABEÇALHO DO CARD
+   ========================================================================== */
+
+.perfil-page .perfil-card-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    gap: 16px;
+
+    padding-bottom: 12px;
+
+    border-bottom: 1px solid var(--border-color);
+}
+
+.perfil-page .perfil-card-titulo {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 10px;
+}
+
+.perfil-page .perfil-card-titulo > .icon {
+    margin-top: 3px;
+
+    color: var(--primary-dark);
+}
+
+.perfil-page .perfil-card-titulo h2 {
+    font-size: 18px;
+    line-height: 1.3;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+}
+
+.perfil-page .perfil-card-titulo p {
+    margin-top: 2px;
+
+    color: var(--text-muted);
+
+    font-size: 12px;
+}
+
+
+/* ==========================================================================
+   3. RESUMO DOS DADOS CADASTRAIS
+   ========================================================================== */
+
+.perfil-page .perfil-resumo {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 1fr;
+
+    gap: 16px 20px;
+
+    padding: 16px;
+
+    background: var(--bg);
+
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+}
+
+.perfil-page .resumo-item {
+    display: flex;
+    flex-direction: column;
+
+    gap: 4px;
+
+    min-width: 0;
+}
+
+.perfil-page .resumo-label {
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+
+    color: var(--text-muted);
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.perfil-page .resumo-bloqueado {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 3px;
+
+    font-weight: 500;
+}
+
+.perfil-page .resumo-bloqueado .icon {
+    width: 12px;
+    height: 12px;
+}
+
+.perfil-page .resumo-valor {
+    display: flex;
+    align-items: center;
+
+    gap: 6px;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    overflow-wrap: anywhere;
+}
+
+.perfil-page .resumo-valor .icon {
+    width: 14px;
+    height: 14px;
+
+    color: var(--primary-dark);
+}
+
+
+/* ==========================================================================
+   4. FORMULÁRIOS
+   ========================================================================== */
+
+.perfil-page .perfil-form {
+    display: flex;
+    flex-direction: column;
+
+    gap: 20px;
+}
+
+/* Ícone à direita do campo, como no design */
+.perfil-page .input-wrap {
+    position: relative;
+}
+
+.perfil-page .input-wrap > .icon {
+    position: absolute;
+
+    left: 14px;
+    top: 50%;
+
+    width: 16px;
+    height: 16px;
+
+    transform: translateY(-50%);
+
+    color: var(--text-muted);
+
+    pointer-events: none;
+}
+
+.perfil-page .input-wrap > .input-field {
+    padding-left: 44px;
+    padding-right: 12px;
+}
+
+.perfil-page .input-wrap > .input-field {
+    padding-right: 44px;
+}
+
+.perfil-page .input-field {
+    border-color: var(--border-color);
+}
+
+.perfil-page .input-field:focus {
+    border-color: var(--primary);
+}
+
+.perfil-page .perfil-form-actions {
+    display: flex;
+    justify-content: flex-end;
+
+    padding-top: 16px;
+
+    border-top: 1px solid var(--border-color);
+}
+
+.perfil-page .perfil-form-actions-left {
+    justify-content: flex-start;
+}
+
+.perfil-page .link-discreto {
+    padding: 0;
+
+    border: 0;
+    background: none;
+
+    color: var(--text-muted);
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.perfil-page .link-discreto:hover {
+    color: var(--danger);
+
+    text-decoration: underline;
+}
+
+
+/* ==========================================================================
+   5. FOTO DE PERFIL
+   ========================================================================== */
+
+.perfil-page .foto-box {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 16px;
+
+    padding: 16px;
+
+    background: var(--bg);
+
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+}
+
+.perfil-page .foto-avatar-wrap {
+    position: relative;
+
+    flex: none;
+}
+
+.perfil-page .foto-avatar {
+    width: 72px;
+    height: 72px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    background: var(--primary-soft);
+
+    border-radius: var(--radius-md);
+
+    color: var(--primary-dark);
+
+    font-size: 24px;
+    font-weight: 800;
+}
+
+.perfil-page .foto-avatar img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.perfil-page .foto-check {
+    position: absolute;
+
+    right: -6px;
+    bottom: -6px;
+
+    width: 22px;
+    height: 22px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--primary-dark);
+
+    border: 2px solid var(--surface);
+    border-radius: var(--radius-pill);
+
+    color: var(--surface);
+}
+
+.perfil-page .foto-info {
+    flex: 1;
+
+    min-width: 0;
+}
+
+.perfil-page .foto-info-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+}
+
+.perfil-page .foto-info-head h3 {
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.perfil-page .foto-descricao {
+    margin-top: 4px;
+
+    color: var(--text-muted);
+
+    font-size: 12px;
+}
+
+.perfil-page .foto-acoes {
+    display: flex;
+    align-items: center;
+
+    gap: 16px;
+
+    margin-top: 12px;
+}
+
+.perfil-page .foto-acoes .btn {
+    min-height: 32px;
+
+    padding: 0 12px;
+
+    background: var(--surface);
+
+    font-size: 12px;
+
+    cursor: pointer;
+}
+
+
+/* ==========================================================================
+   6. BANNER
+   ========================================================================== */
+
+.perfil-page .banner-box {
+    position: relative;
+
+    aspect-ratio: 16 / 5;
+    width: 100%;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary-dark),
+            var(--primary)
+        );
+
+    border-radius: var(--radius-md);
+}
+
+.perfil-page .banner-box img {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.perfil-page .banner-overlay {
+    position: absolute;
+    inset: 0;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+
+    gap: 16px;
+
+    padding: 16px;
+
+    background:
+        linear-gradient(
+            to top,
+            rgba(19, 27, 46, 0.72),
+            rgba(19, 27, 46, 0) 65%
+        );
+
+    color: var(--surface);
+}
+
+.perfil-page .banner-texto {
+    display: flex;
+    flex-direction: column;
+
+    min-width: 0;
+}
+
+.perfil-page .banner-texto strong {
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.perfil-page .banner-texto span {
+    font-size: 12px;
+
+    opacity: 0.85;
+}
+
+.perfil-page .banner-botao {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 6px;
+
+    flex: none;
+
+    padding: 8px 14px;
+
+    background: rgba(255, 255, 255, 0.92);
+
+    border-radius: var(--radius-sm);
+
+    color: var(--text-main);
+
+    font-size: 12px;
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.perfil-page .banner-botao:hover {
+    background: var(--surface);
+}
+
+
+/* ==========================================================================
+   7. PAINEL LATERAL
+   ========================================================================== */
+
+.perfil-page .painel-gestao {
+    display: flex;
+    flex-direction: column;
+
+    gap: 6px;
+
+    padding: 16px;
+
+    background:
+        linear-gradient(
+            180deg,
+            var(--surface),
+            var(--primary-soft)
+        );
+
+    border: 1px solid rgba(0, 168, 104, 0.3);
+    border-radius: var(--radius-md);
+}
+
+.perfil-page .painel-eyebrow {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 6px;
+
+    color: var(--primary-dark);
+
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.perfil-page .painel-titulo {
+    color: var(--text-muted);
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.perfil-page .painel-numero {
+    display: flex;
+    align-items: baseline;
+
+    gap: 8px;
+}
+
+.perfil-page .painel-numero strong {
+    color: var(--primary-dark);
+
+    font-size: 40px;
+    line-height: 1;
+    font-weight: 800;
+}
+
+.perfil-page .painel-numero span {
+    font-weight: 700;
+}
+
+.perfil-page .painel-descricao {
+    margin-bottom: 8px;
+
+    color: var(--text-muted);
+
+    font-size: 12px;
+}
+
+.perfil-page .btn-encerrar {
+    min-height: 40px;
+
+    color: var(--danger);
+
+    font-size: 13px;
+}
+
+.perfil-page .btn-encerrar:hover:not(:disabled) {
+    border-color: var(--danger-border);
+
+    background: var(--danger-soft);
+
+    color: var(--danger);
+}
+
+
+/* ==========================================================================
+   8. RESPONSIVIDADE
+   ========================================================================== */
+
+@media (max-width: 960px) {
+    .perfil-page .perfil-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .perfil-page .perfil-aside {
+        position: static;
+
+        order: -1;
+    }
+}
+
+@media (max-width: 600px) {
+    .perfil-page .perfil-resumo {
+        grid-template-columns: 1fr;
+    }
+
+    .perfil-page .perfil-card-head {
+        flex-direction: column;
+
+        gap: 8px;
+    }
+
+    .perfil-page .foto-box {
+        flex-direction: column;
+    }
+
+    .perfil-page .banner-box {
+        aspect-ratio: 16 / 9;
+    }
+
+    .perfil-page .banner-texto span {
+        display: none;
+    }
+}

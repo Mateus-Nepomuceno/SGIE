@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Recuperar Senha - SGIE</title>
+
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../auth.css">
+    <link rel="stylesheet" href="recuperar_senha.css">
+
+</head>
+
+
+<body class="recuperar-page">
+
+
+    <nav class="navbar">
+
+        <div class="navbar-container">
+
+            <a
+                href="../../index.html"
+                class="brand"
+            >
+                SGIE
+
+                <span class="brand-badge">
+                    Eventos
+                </span>
+            </a>
+
+        </div>
+
+    </nav>
+
+
+    <main class="auth-page">
+
+        <section class="auth-card">
+
+
+            <div class="auth-aside">
+
+                <span class="auth-accent"></span>
+
+                <h1 class="auth-title">
+                    Recuperação de Senha
+                </h1>
+
+                <p class="auth-subtitle">
+                    Informe seu e-mail para receber
+                    o código de recuperação.
+                </p>
+
+            </div>
+
+
+            <form
+                class="auth-form"
+                id="form-solicitar-recuperacao"
+                novalidate
+            >
+
+                <div
+                    id="mensagem-alerta"
+                    style="display: none;"
+                ></div>
+
+
+                <div class="form-group">
+
+                    <label
+                        for="id_email"
+                        class="form-label"
+                    >
+                        <span>
+                            E-mail Cadastrado
+                            <span class="req">*</span>
+                        </span>
+                    </label>
+
+                    <div class="input-wrap">
+
+                        <span
+                            class="icon icon-mail"
+                            aria-hidden="true"
+                        ></span>
+
+                        <input
+                            type="email"
+                            id="id_email"
+                            name="email"
+                            class="input-field"
+                            required
+                            placeholder="seu.email@exemplo.com"
+                            autocomplete="email"
+                            autofocus
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button
+                        type="submit"
+                        id="btn-solicitar"
+                        class="btn btn-primary btn-block"
+                    >
+                        Enviar Código
+                    </button>
+
+                    <div class="divider">
+                        OU
+                    </div>
+
+                    <a
+                        href="../login/login.html"
+                        class="btn btn-secondary btn-block"
+                    >
+                        Voltar ao Login
+                    </a>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </main>
+
+
+    <footer class="footer">
+
+        <div class="container" style="padding-top: 0; padding-bottom: 0;">
+
+            <p>
+                SGIE — Sistema de Gestão de Inscrições
+                e Eventos Universitários
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <script src="../../config.js"></script>
+    <script src="../../api.js"></script>
+
+    <script src="recuperar_senha.js"></script>
+
+</body>
+
+</html>

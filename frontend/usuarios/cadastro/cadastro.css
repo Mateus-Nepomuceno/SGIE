@@ -1,0 +1,19 @@
+/* ==========================================================================
+   SGIE — Cadastro
+   ========================================================================== */
+
+.cadastro-page .auth-card {
+    max-width: 1100px;
+}
+
+.cadastro-page .auth-aside {
+    min-height: 620px;
+}
+
+.cadastro-page .auth-form {
+    min-height: 620px;
+}
+
+.cadastro-page .form-actions {
+    margin-top: 4px;
+}
