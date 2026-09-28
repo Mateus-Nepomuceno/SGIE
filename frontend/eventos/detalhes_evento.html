@@ -5,6 +5,124 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalhes do Evento - SGIE</title>
     <link rel="stylesheet" href="../styles.css">
+    <style>
+        /* Card de avaliadores */
+        .avaliador-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color, #e2e8f0);
+            border-radius: var(--radius-sm, 8px);
+            margin-bottom: 0.5rem;
+            background: #fff;
+        }
+        .avaliador-item-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .avaliador-item-nome {
+            font-weight: 600;
+            color: var(--text-color, #1e293b);
+            font-size: 0.95rem;
+            word-break: break-word;
+        }
+        .avaliador-item-email {
+            font-size: 0.82rem;
+            color: var(--text-muted, #64748b);
+            margin-top: 0.15rem;
+            word-break: break-word;
+        }
+        .avaliador-item-areas {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            margin-top: 0.35rem;
+        }
+        .area-tag {
+            background: #e0e7ff;
+            color: #3730a3;
+            padding: 0.15rem 0.55rem;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 500;
+        }
+        /* Modal de adicionar avaliador */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 1rem;
+        }
+        .modal-overlay.ativo {
+            display: flex;
+        }
+        .modal-box {
+            background: #fff;
+            border-radius: var(--radius-sm, 8px);
+            padding: 1.5rem;
+            max-width: 640px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .modal-box h3 {
+            margin: 0 0 0.5rem 0;
+            color: var(--text-color, #1e293b);
+        }
+        .modal-box p.sub {
+            margin: 0 0 1rem 0;
+            color: var(--text-muted, #64748b);
+            font-size: 0.9rem;
+        }
+        .candidato-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color, #e2e8f0);
+            border-radius: var(--radius-sm, 8px);
+            margin-bottom: 0.5rem;
+        }
+        .candidato-item-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .candidato-item-nome {
+            font-weight: 600;
+            color: var(--text-color, #1e293b);
+            font-size: 0.9rem;
+        }
+        .candidato-item-email {
+            font-size: 0.8rem;
+            color: var(--text-muted, #64748b);
+        }
+        .candidato-item-areas {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.2rem;
+            margin-top: 0.3rem;
+        }
+        .empty-mini {
+            padding: 1rem;
+            text-align: center;
+            color: var(--text-muted, #64748b);
+            font-size: 0.9rem;
+        }
+        .loading-mini {
+            padding: 1rem;
+            text-align: center;
+            color: var(--text-muted, #64748b);
+            font-size: 0.9rem;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -114,7 +232,40 @@
                         <div id="lista-organizadores" style="display: flex; flex-direction: column; gap: 0.75rem; font-size: 0.9rem;">
                         </div>
                     </aside>
+
+                    <!-- NOVO: Card de avaliadores do evento -->
+                    <aside class="detail-card" id="card-avaliadores-evento" style="display: none;">
+                        <h2 class="detail-card-title">Avaliadores do Evento</h2>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0 0 0.75rem 0;">
+                            Selecione os avaliadores que poderão ser sorteados para revisar as submissões.
+                        </p>
+
+                        <div id="lista-avaliadores-evento">
+                            <div class="loading-mini">Carregando...</div>
+                        </div>
+
+                        <button type="button" id="btn-adicionar-avaliador" class="btn btn-sm btn-secondary" style="margin-top: 0.5rem; width: 100%;">
+                            + Adicionar Avaliador
+                        </button>
+                    </aside>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Adicionar avaliador -->
+    <div class="modal-overlay" id="modal-avaliadores">
+        <div class="modal-box">
+            <h3>Adicionar Avaliador ao Evento</h3>
+            <p class="sub">
+                Selecione um avaliador cadastrado na plataforma. Ele poderá ser sorteado
+                para avaliar submissões deste evento.
+            </p>
+            <div id="lista-candidatos">
+                <div class="loading-mini">Carregando avaliadores...</div>
+            </div>
+            <div class="btn-group" style="justify-content: flex-end; margin-top: 1rem;">
+                <button type="button" class="btn btn-secondary" id="btn-fechar-modal-avaliadores">Fechar</button>
             </div>
         </div>
     </div>
@@ -146,6 +297,7 @@
     <script src="../api.js"></script>
     <script>
         let eventoAtual = null;
+        let caminhoSub = "../submissao/submissao.html"
 
         document.addEventListener('DOMContentLoaded', () => {
             atualizarCabecalhoUsuario('eventos');
@@ -175,6 +327,7 @@
 
                 if (response.ok) {
                     eventoAtual = await response.json();
+                    caminhoSub = `../submissao/submissao.html?evento=${eventoAtual.id}`;
                     renderizarDetalhes(eventoAtual);
                 } else {
                     const err = await response.json();
@@ -249,6 +402,18 @@
 
                 if (sub.periodo_aberto) {
                     statusSub.textContent = '● Período de Submissão Ativo';
+
+                    const newDiv = document.createElement("div");
+                    newDiv.style.marginBottom = "1rem";
+
+                    const link = document.createElement("a")
+                    link.href = caminhoSub;
+                    link.class = "btn btn-sm btn-secondary";
+                    link.innerText = "Enviar Submissão";
+
+                    newDiv.appendChild(link);
+
+                    statusSub.appendChild(newDiv);
                 } else {
                     statusSub.textContent = '○ Período de Submissão Fechado';
                     statusSub.style.color = 'var(--text-muted)';
@@ -269,8 +434,11 @@
         function verificarPermissaoOrganizador(ev) {
             const user = getUser();
             const painel = document.getElementById('painel-acoes-organizador');
+            const cardAvaliadores = document.getElementById('card-avaliadores-evento');
+
             if (!user || !isAuthenticated()) {
                 painel.style.display = 'none';
+                cardAvaliadores.style.display = 'none';
                 return;
             }
 
@@ -286,10 +454,240 @@
                 document.getElementById('btn-acao-cancelar').style.display = (ev.status !== 'Cancelado' && ev.status !== 'Finalizado' && ev.status !== 'Arquivado') ? 'inline-flex' : 'none';
                 document.getElementById('btn-acao-finalizar').style.display = (ev.status === 'Em realização' || ev.status === 'Publicado' || ev.status === 'Inscrições abertas') ? 'inline-flex' : 'none';
                 document.getElementById('btn-acao-arquivar').style.display = (ev.status === 'Finalizado' || ev.status === 'Cancelado') ? 'inline-flex' : 'none';
+
+                // Mostra card de avaliadores e carrega
+                cardAvaliadores.style.display = 'block';
+                carregarAvaliadoresDoEvento(ev.id);
+                setupModalAvaliadores(ev.id);
             } else {
                 painel.style.display = 'none';
+                cardAvaliadores.style.display = 'none';
             }
         }
+
+        // ============================================================
+        // AVALIADORES DO EVENTO
+        // ============================================================
+
+        let avaliadoresVinculados = [];
+        let todosAvaliadores = [];
+
+        function escaparHtml(valor) {
+            if (valor === null || valor === undefined) return '';
+            return String(valor)
+                .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+        }
+
+        async function carregarAvaliadoresDoEvento(eventoId) {
+            const container = document.getElementById('lista-avaliadores-evento');
+            container.innerHTML = '<div class="loading-mini">Carregando...</div>';
+
+            try {
+                const response = await apiFetch(`/avaliadores-evento/?evento=${encodeURIComponent(eventoId)}`);
+                if (!response.ok) {
+                    container.innerHTML = '<div class="empty-mini">Erro ao carregar.</div>';
+                    return;
+                }
+                const data = await response.json();
+                avaliadoresVinculados = Array.isArray(data) ? data : (data?.results || []);
+                renderizarAvaliadoresDoEvento();
+            } catch (e) {
+                console.error(e);
+                container.innerHTML = '<div class="empty-mini">Erro de comunicação.</div>';
+            }
+        }
+
+        function renderizarAvaliadoresDoEvento() {
+            const container = document.getElementById('lista-avaliadores-evento');
+
+            if (avaliadoresVinculados.length === 0) {
+                container.innerHTML = '<div class="empty-mini">Nenhum avaliador vinculado ainda.</div>';
+                return;
+            }
+
+            container.innerHTML = avaliadoresVinculados.map(v => `
+                <div class="avaliador-item">
+                    <div class="avaliador-item-info">
+                        <div class="avaliador-item-nome">${escaparHtml(v.avaliador_nome || 'Avaliador')}</div>
+                        <div class="avaliador-item-email">${escaparHtml(v.avaliador_email || '')}</div>
+                        ${(v.avaliador_areas_nomes || []).length > 0 ? `
+                            <div class="avaliador-item-areas">
+                                ${v.avaliador_areas_nomes.map(a => `<span class="area-tag">${escaparHtml(a)}</span>`).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                    <button type="button"
+                            class="btn btn-sm btn-danger btn-remover-avaliador"
+                            data-vinculo-id="${escaparHtml(v.id)}"
+                            title="Remover do evento">
+                        Remover
+                    </button>
+                </div>
+            `).join('');
+
+            container.querySelectorAll('.btn-remover-avaliador').forEach(btn => {
+                btn.addEventListener('click', () => removerAvaliadorDoEvento(btn.dataset.vinculoId));
+            });
+        }
+
+        async function removerAvaliadorDoEvento(vinculoId) {
+            if (!confirm('Remover este avaliador do evento?')) return;
+
+            try {
+                const response = await apiFetch(`/avaliadores-evento/${encodeURIComponent(vinculoId)}/`, {
+                    method: 'DELETE',
+                });
+
+                if (response.status !== 204 && !response.ok) {
+                    const erro = await response.json().catch(() => ({}));
+                    showAlert('mensagem-alerta', erro.detail || 'Não foi possível remover.', 'danger');
+                    return;
+                }
+
+                showAlert('mensagem-alerta', 'Avaliador removido do evento.', 'success');
+                await carregarAvaliadoresDoEvento(eventoAtual.id);
+
+            } catch (e) {
+                console.error(e);
+                showAlert('mensagem-alerta', 'Erro de comunicação ao remover.', 'danger');
+            }
+        }
+
+        function setupModalAvaliadores(eventoId) {
+            const modal = document.getElementById('modal-avaliadores');
+            const btnAbrir = document.getElementById('btn-adicionar-avaliador');
+            const btnFechar = document.getElementById('btn-fechar-modal-avaliadores');
+
+            btnAbrir.addEventListener('click', async () => {
+                modal.classList.add('ativo');
+                await carregarCandidatos(eventoId);
+            });
+
+            btnFechar.addEventListener('click', () => {
+                modal.classList.remove('ativo');
+            });
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) modal.classList.remove('ativo');
+            });
+        }
+
+        async function carregarCandidatos(eventoId) {
+            const container = document.getElementById('lista-candidatos');
+            container.innerHTML = '<div class="loading-mini">Carregando avaliadores...</div>';
+
+            try {
+                const response = await apiFetch('/avaliadores/');
+                if (!response.ok) {
+                    container.innerHTML = '<div class="empty-mini">Erro ao carregar avaliadores.</div>';
+                    return;
+                }
+                const data = await response.json();
+                const lista = Array.isArray(data) ? data : (data?.results || []);
+
+                // Filtra apenas ativos e remove quem já está vinculado ao evento
+                const vinculadosIds = new Set(avaliadoresVinculados.map(v => String(v.avaliador)));
+                todosAvaliadores = lista.filter(a =>
+                    a.ativo !== false && !vinculadosIds.has(String(a.id))
+                );
+
+                renderizarCandidatos(eventoId);
+            } catch (e) {
+                console.error(e);
+                container.innerHTML = '<div class="empty-mini">Erro de comunicação.</div>';
+            }
+        }
+
+        function renderizarCandidatos(eventoId) {
+            const container = document.getElementById('lista-candidatos');
+
+            if (todosAvaliadores.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-mini">
+                        Nenhum avaliador disponível para adicionar.<br>
+                        <small>Ou todos os avaliadores já estão vinculados a este evento,
+                        ou ninguém se cadastrou como avaliador ainda.</small>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = todosAvaliadores.map(a => `
+                <div class="candidato-item">
+                    <div class="candidato-item-info">
+                        <div class="candidato-item-nome">${escaparHtml(a.usuario_nome || 'Avaliador')}</div>
+                        <div class="candidato-item-email">${escaparHtml(a.usuario_email || '')}</div>
+                        ${(a.areas_nomes || []).length > 0 ? `
+                            <div class="candidato-item-areas">
+                                ${a.areas_nomes.map(nome => `<span class="area-tag">${escaparHtml(nome)}</span>`).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                    <button type="button"
+                            class="btn btn-sm btn-primary btn-adicionar-candidato"
+                            data-avaliador-id="${escaparHtml(a.id)}">
+                        Adicionar
+                    </button>
+                </div>
+            `).join('');
+
+            container.querySelectorAll('.btn-adicionar-candidato').forEach(btn => {
+                btn.addEventListener('click', () => vincularAvaliador(eventoId, btn.dataset.avaliadorId, btn));
+            });
+        }
+
+        async function vincularAvaliador(eventoId, avaliadorId, botao) {
+            const textoOriginal = botao.textContent;
+            botao.disabled = true;
+            botao.textContent = '...';
+
+            try {
+                const response = await apiFetch('/avaliadores-evento/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        evento: Number(eventoId),
+                        avaliador: Number(avaliadorId),
+                    }),
+                });
+
+                const resultado = await response.json().catch(() => ({}));
+
+                if (!response.ok) {
+                    showAlert('mensagem-alerta', resultado.detail || JSON.stringify(resultado), 'danger');
+                    botao.disabled = false;
+                    botao.textContent = textoOriginal;
+                    return;
+                }
+
+                showAlert('mensagem-alerta', 'Avaliador vinculado ao evento.', 'success');
+                await carregarAvaliadoresDoEvento(eventoId);
+
+                // Remove da lista de candidatos visível
+                const linha = botao.closest('.candidato-item');
+                if (linha) linha.remove();
+
+                // Se acabou, mostra empty
+                if (containerVazio(document.getElementById('lista-candidatos'))) {
+                    renderizarCandidatos(eventoId);
+                }
+
+            } catch (e) {
+                console.error(e);
+                showAlert('mensagem-alerta', 'Erro de comunicação ao vincular.', 'danger');
+                botao.disabled = false;
+                botao.textContent = textoOriginal;
+            }
+        }
+
+        function containerVazio(el) {
+            return el.querySelectorAll('.candidato-item').length === 0;
+        }
+
+        // ============================================================
+        // AÇÕES DO ORGANIZADOR (já existentes)
+        // ============================================================
 
         function setupAcoesOrganizador(eventoId) {
             document.getElementById('btn-acao-publicar').addEventListener('click', async () => {

@@ -30,6 +30,10 @@
                 <a href="../index.html" class="btn btn-secondary">Explorar Eventos</a>
                 <button type="button" onclick="logout()" class="btn btn-danger btn-sm">Encerrar Sessão</button>
             </div>
+            <div id="avaliador">
+                
+                
+            </div>
         </div>
 
         <div id="mensagem-alerta" style="display: none;"></div>
@@ -172,9 +176,11 @@
             }
 
             atualizarCabecalhoUsuario('perfil');
+            renderizarPerfilAvaliador();
             carregarPerfil();
             carregarContadores();
             setupFormularios();
+            
         });
 
         async function carregarPerfil() {
@@ -233,6 +239,8 @@
             document.getElementById('id_nome_completo').value = u.nome_completo || '';
             document.getElementById('id_telefone').value = u.telefone || '';
             document.getElementById('id_data_nascimento').value = u.data_nascimento || '';
+
+
         }
 
         function renderizarPerfilOrg(org) {
@@ -269,6 +277,24 @@
                     document.getElementById('preview-banner-img').src = org.banner;
                 }
             }
+        }
+
+        //Perfil de Avaliador =====================
+
+        async function renderizarPerfilAvaliador(){
+            const divAv = document.getElementById("avaliador");
+
+            if(usuarioEhAvaliador()){
+                divAv.innerHTML=`
+                    <a href="../submissao/meu-perfil-avaliador.html" class="btn btn-secondary">Perfil de avaliador(a)</a>
+                `
+            }else{
+                divAv.innerHTML=`
+                    <a href="../submissao/cadastro-avaliador.html" class="btn btn-secondary">Cadastrar como avaliador(a)</a>
+                `
+            }
+
+
         }
 
         function setupFormularios() {
