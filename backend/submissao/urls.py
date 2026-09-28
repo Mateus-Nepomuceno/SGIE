@@ -9,6 +9,10 @@ router = DefaultRouter()
 router.register(r'submissoes', views.SubmissaoViewSet, basename='sgie_submissoes')
 
 urlpatterns = [
-    path('submissao/', views.SubmissaoViewSet.as_view({'get': 'list', 'post': 'create'}), name='submissao'),
+    path(
+        'submissao/',
+        views.SubmissaoViewSet.as_view({'get': 'list', 'post': 'create'}),
+        name='submissao',
+    ),
     path('', include(router.urls)),
 ]
