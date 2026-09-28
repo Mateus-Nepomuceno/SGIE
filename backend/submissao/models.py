@@ -144,6 +144,12 @@ class Submissao(models.Model):
         db_index=True,
     )
 
+    sem_avaliador_disponivel = models.BooleanField(
+        _('Sem Avaliador Disponível'),
+        default=False,
+        help_text=_('Marcado quando o sorteio não encontrou avaliadores elegíveis para esta submissão.'),
+    )
+
     criado_em = models.DateTimeField(_('Criado em'), auto_now_add=True)
     atualizado_em = models.DateTimeField(_('Atualizado em'), auto_now=True)
 
@@ -580,3 +586,92 @@ class Avaliador(models.Model):
 
         if self.linkedin_url:
             validar_url(self.linkedin_url)
+
+
+class StatusAtribuicao(models.TextChoices):
+
+    PENDENTE = 'Pendente', _('Pendente')
+    CONCLUIDA = 'Concluída', _('Concluída')
+    CANCELADA = 'Cancelada', _('Cancelada')
+
+
+class AvaliadorEvento(models.Model):
+
+    id = models.BigAutoField(primary_key=True)
+
+    evento = models.ForeignKey(
+        'eventos.Evento',
+        on_delete=models.CASCADE,
+        related_name='avaliadores_vinculados',
+        verbose_name=_('Evento'),
+        help_text=_('Evento em que o avaliador está habilitado a atuar.'),
+    )
+
+    avaliador = models.ForeignKey(
+        Avaliador,
+        on_delete=models.CASCADE,
+        related_name='eventos_vinculados',
+        verbose_name=_('Avaliador'),
+        help_text=_('Avaliador vinculado ao evento pelo organizador.'),
+    )
+
+    criado_em = models.DateTimeField(_('Criado em'), auto_now_add=True)
+
+    class Meta:
+        verbose_name = _('Avaliador do Evento')
+        verbose_name_plural = _('Avaliadores do Evento')
+        ordering = ['avaliador__usuario__nome_completo']
+        unique_together = [['evento', 'avaliador']]
+        indexes = [
+            models.Index(fields=['evento']),
+            models.Index(fields=['avaliador']),
+        ]
+
+    def __str__(self) -> str:
+        nome = getattr(self.avaliador.usuario, 'nome_completo', None) or str(self.avaliador.usuario)
+        return f'{nome} — {self.evento.nome}'
+
+
+class AtribuicaoAvaliacao(models.Model):
+
+    id = models.BigAutoField(primary_key=True)
+
+    submissao = models.OneToOneField(
+        Submissao,
+        on_delete=models.CASCADE,
+        related_name='atribuicao_avaliacao',
+        verbose_name=_('Submissão'),
+        help_text=_('Submissão designada para este avaliador.'),
+    )
+
+    avaliador = models.ForeignKey(
+        Avaliador,
+        on_delete=models.PROTECT,
+        related_name='atribuicoes',
+        verbose_name=_('Avaliador Sorteado'),
+        help_text=_('Avaliador sorteado para avaliar esta submissão.'),
+    )
+
+    status = models.CharField(
+        _('Status da Atribuição'),
+        max_length=20,
+        choices=StatusAtribuicao.choices,
+        default=StatusAtribuicao.PENDENTE,
+        db_index=True,
+    )
+
+    criado_em = models.DateTimeField(_('Criado em'), auto_now_add=True)
+    atualizado_em = models.DateTimeField(_('Atualizado em'), auto_now=True)
+
+    class Meta:
+        verbose_name = _('Atribuição de Avaliação')
+        verbose_name_plural = _('Atribuições de Avaliação')
+        ordering = ['-criado_em']
+        indexes = [
+            models.Index(fields=['submissao', 'status']),
+            models.Index(fields=['avaliador', 'status']),
+        ]
+
+    def __str__(self) -> str:
+        nome = getattr(self.avaliador.usuario, 'nome_completo', None) or str(self.avaliador.usuario)
+        return f'{nome} → {self.submissao.titulo} ({self.get_status_display()})'

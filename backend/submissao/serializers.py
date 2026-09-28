@@ -8,13 +8,16 @@ from rest_framework import serializers
 from .models import (
     Apresentacao,
     Area,
+    AtribuicaoAvaliacao,     # NOVO
     Avaliacao,
+    Avaliador,               # já deve estar
+    AvaliadorEvento,         # NOVO
     Local,
+    StatusAtribuicao,        # NOVO (se for usar choices no serializer)
     Submissao,
     SubmissaoAutor,
     SubmissaoVersao,
     TipoSubmissao,
-    Avaliador
 )
 from .services import SubmissaoService
 from .validators import (
@@ -177,6 +180,7 @@ class SubmissaoListSerializer(serializers.ModelSerializer):
     area_nome = serializers.CharField(source='area.nome', read_only=True)
     autor_nome = serializers.CharField(source='autor_principal.nome_completo', read_only=True)
     evento_nome = serializers.CharField(source='evento.nome', read_only=True)
+    sem_avaliador_disponivel = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = Submissao
@@ -195,56 +199,9 @@ class SubmissaoListSerializer(serializers.ModelSerializer):
             'autor_nome',
             'criado_em',
             'atualizado_em',
+            'sem_avaliador_disponivel',
         ]
 
-
-class SubmissaoDetailSerializer(serializers.ModelSerializer):
-
-    status_display = serializers.CharField(source='get_status_display', read_only=True)
-    tipo_display = serializers.CharField(source='get_tipo_display', read_only=True)
-    area_nome = serializers.CharField(source='area.nome', read_only=True)
-    autor_nome = serializers.CharField(source='autor_principal.nome_completo', read_only=True)
-    autor_email = serializers.CharField(source='autor_principal.email', read_only=True)
-    evento_nome = serializers.CharField(source='evento.nome', read_only=True)
-
-    pode_editar = serializers.BooleanField(read_only=True)
-    pode_submeter = serializers.BooleanField(read_only=True)
-
-    autores = SubmissaoAutorSerializer(many=True, read_only=True)
-    versoes = SubmissaoVersaoSerializer(many=True, read_only=True)
-    avaliacoes = AvaliacaoSerializer(many=True, read_only=True)
-    apresentacoes = ApresentacaoSerializer(many=True, read_only=True)
-
-    class Meta:
-        model = Submissao
-        fields = [
-            'id',
-            'evento',
-            'evento_nome',
-            'autor_principal',
-            'autor_nome',
-            'autor_email',
-            'titulo',
-            'descricao',
-            'abstract',
-            'resumo',
-            'palavras_chave',
-            'tipo',
-            'tipo_display',
-            'status',
-            'status_display',
-            'area',
-            'area_nome',
-            'pode_editar',
-            'pode_submeter',
-            'autores',
-            'versoes',
-            'avaliacoes',
-            'apresentacoes',
-            'criado_em',
-            'atualizado_em',
-        ]
-        read_only_fields = ['id', 'criado_em', 'atualizado_em', 'evento', 'autor_principal']
 
 
 class SubmissaoCreateUpdateSerializer(serializers.ModelSerializer):
@@ -535,3 +492,110 @@ class AvaliadorSerializer(serializers.ModelSerializer):
         if not value:
             raise serializers.ValidationError(_('Informe ao menos uma área de atuação.'))
         return value
+
+
+class AvaliadorEventoSerializer(serializers.ModelSerializer):
+
+    avaliador_nome = serializers.CharField(source='avaliador.usuario.nome_completo', read_only=True)
+    avaliador_email = serializers.CharField(source='avaliador.usuario.email', read_only=True)
+    avaliador_areas_nomes = serializers.SerializerMethodField()
+    evento_nome = serializers.CharField(source='evento.nome', read_only=True)
+
+    class Meta:
+        model = AvaliadorEvento
+        fields = [
+            'id',
+            'evento',
+            'evento_nome',
+            'avaliador',
+            'avaliador_nome',
+            'avaliador_email',
+            'avaliador_areas_nomes',
+            'criado_em',
+        ]
+        read_only_fields = ['id', 'criado_em']
+        extra_kwargs = {
+            'evento': {'required': False},
+        }
+
+    def get_avaliador_areas_nomes(self, obj):
+        return list(obj.avaliador.areas.values_list('nome', flat=True))
+
+
+class AtribuicaoAvaliacaoSerializer(serializers.ModelSerializer):
+
+    avaliador_nome = serializers.CharField(source='avaliador.usuario.nome_completo', read_only=True)
+    avaliador_email = serializers.CharField(source='avaliador.usuario.email', read_only=True)
+    status_display = serializers.CharField(source='get_status_display', read_only=True)
+
+    class Meta:
+        model = AtribuicaoAvaliacao
+        fields = [
+            'id',
+            'submissao',
+            'avaliador',
+            'avaliador_nome',
+            'avaliador_email',
+            'status',
+            'status_display',
+            'criado_em',
+            'atualizado_em',
+            'atribuicao_avaliacao',
+            'sem_avaliador_disponivel',
+        ]
+        read_only_fields = ['id', 'criado_em', 'atualizado_em']
+
+
+
+
+
+class SubmissaoDetailSerializer(serializers.ModelSerializer):
+
+    status_display = serializers.CharField(source='get_status_display', read_only=True)
+    tipo_display = serializers.CharField(source='get_tipo_display', read_only=True)
+    area_nome = serializers.CharField(source='area.nome', read_only=True)
+    autor_nome = serializers.CharField(source='autor_principal.nome_completo', read_only=True)
+    autor_email = serializers.CharField(source='autor_principal.email', read_only=True)
+    evento_nome = serializers.CharField(source='evento.nome', read_only=True)
+
+    pode_editar = serializers.BooleanField(read_only=True)
+    pode_submeter = serializers.BooleanField(read_only=True)
+
+    autores = SubmissaoAutorSerializer(many=True, read_only=True)
+    versoes = SubmissaoVersaoSerializer(many=True, read_only=True)
+    avaliacoes = AvaliacaoSerializer(many=True, read_only=True)
+    apresentacoes = ApresentacaoSerializer(many=True, read_only=True)
+
+    atribuicao_avaliacao = AtribuicaoAvaliacaoSerializer(read_only=True)
+    sem_avaliador_disponivel = serializers.BooleanField(read_only=True)
+
+    class Meta:
+        model = Submissao
+        fields = [
+            'id',
+            'evento',
+            'evento_nome',
+            'autor_principal',
+            'autor_nome',
+            'autor_email',
+            'titulo',
+            'descricao',
+            'abstract',
+            'resumo',
+            'palavras_chave',
+            'tipo',
+            'tipo_display',
+            'status',
+            'status_display',
+            'area',
+            'area_nome',
+            'pode_editar',
+            'pode_submeter',
+            'autores',
+            'versoes',
+            'avaliacoes',
+            'apresentacoes',
+            'criado_em',
+            'atualizado_em',
+        ]
+        read_only_fields = ['id', 'criado_em', 'atualizado_em', 'evento', 'autor_principal']

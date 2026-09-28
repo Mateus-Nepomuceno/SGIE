@@ -14,6 +14,7 @@ router.register(r'avaliacoes', views.AvaliacaoViewSet, basename='sgie_avaliacoes
 router.register(r'locais-apresentacao', views.LocalViewSet, basename='sgie_locais_apresentacao')
 router.register(r'apresentacoes', views.ApresentacaoViewSet, basename='sgie_apresentacoes')
 router.register(r'avaliadores', views.AvaliadorViewSet, basename='sgie_avaliadores')
+router.register(r'avaliadores-evento', views.AvaliadorEventoViewSet, basename='sgie_avaliadores_evento')
 
 urlpatterns = [
     path('', include(router.urls)),

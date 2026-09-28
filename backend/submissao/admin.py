@@ -4,12 +4,14 @@ from django.utils.translation import gettext_lazy as _
 from .models import (
     Apresentacao,
     Area,
+    AtribuicaoAvaliacao,       # NOVO
     Avaliacao,
+    Avaliador,                 # já deve estar
+    AvaliadorEvento,           # NOVO
     Local,
     Submissao,
     SubmissaoAutor,
     SubmissaoVersao,
-    Avaliador
 )
 
 
@@ -279,6 +281,50 @@ class AvaliadorAdmin(admin.ModelAdmin):
                     'maior_titulacao',
                 ]
             },
+        ),
+        (
+            _('Datas'),
+            {'fields': ['criado_em', 'atualizado_em']},
+        ),
+    ]
+
+
+@admin.register(AvaliadorEvento)
+class AvaliadorEventoAdmin(admin.ModelAdmin):
+    list_display = ['id', 'evento', 'avaliador', 'criado_em']
+    list_filter = ['evento', 'criado_em']
+    search_fields = [
+        'evento__nome',
+        'avaliador__usuario__nome_completo',
+        'avaliador__usuario__email',
+    ]
+    readonly_fields = ['criado_em']
+    fieldsets = [
+        (
+            _('Vínculo'),
+            {'fields': ['evento', 'avaliador']},
+        ),
+        (
+            _('Datas'),
+            {'fields': ['criado_em']},
+        ),
+    ]
+
+
+@admin.register(AtribuicaoAvaliacao)
+class AtribuicaoAvaliacaoAdmin(admin.ModelAdmin):
+    list_display = ['id', 'submissao', 'avaliador', 'status', 'criado_em']
+    list_filter = ['status', 'criado_em']
+    search_fields = [
+        'submissao__titulo',
+        'avaliador__usuario__nome_completo',
+        'avaliador__usuario__email',
+    ]
+    readonly_fields = ['criado_em', 'atualizado_em']
+    fieldsets = [
+        (
+            _('Atribuição'),
+            {'fields': ['submissao', 'avaliador', 'status']},
         ),
         (
             _('Datas'),

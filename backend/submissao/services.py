@@ -8,17 +8,21 @@ from django.utils.translation import gettext_lazy as _
 from eventos.models import Evento
 from usuarios.models import Usuario
 
+import random
+
 from .models import (
     Apresentacao,
+    AtribuicaoAvaliacao,      # NOVO
     Avaliacao,
+    AvaliadorEvento,          # NOVO
     Local,
+    StatusAtribuicao,         # NOVO
     StatusParecer,
     StatusSubmissao,
     Submissao,
     SubmissaoAutor,
     SubmissaoVersao,
     TipoParticipacaoAutor,
-    Avaliador
 )
 from .validators import validar_arquivo_submissao
 
@@ -40,6 +44,8 @@ class SubmissaoService:
 
         return submissao.evento.usuario_representante_id == usuario.id
 
+
+    
     @staticmethod
     def usuario_pode_avaliar_submissao(usuario: Usuario, submissao: Submissao) -> bool:
         if not (usuario and usuario.is_authenticated and usuario.is_active):
@@ -48,7 +54,16 @@ class SubmissaoService:
         if usuario.is_staff or usuario.is_superuser:
             return True
 
-        return submissao.evento.usuario_representante_id == usuario.id
+        if submissao.evento.usuario_representante_id == usuario.id:
+            return True
+
+        # Avaliador sorteado para esta submissão também pode emitir parecer
+        atribuicao = getattr(submissao, 'atribuicao_avaliacao', None)
+        if atribuicao and atribuicao.avaliador.usuario_id == usuario.id:
+            return True
+
+        return False
+    
 
     @classmethod
     @transaction.atomic
@@ -214,6 +229,8 @@ class SubmissaoService:
         logger.info(f'Submissão {submissao.id} atualizada por usuário {usuario.id}')
         return submissao
 
+
+
     @classmethod
     @transaction.atomic
     def submeter_trabalho(cls, submissao: Submissao, arquivo, usuario: Usuario) -> SubmissaoVersao:
@@ -240,8 +257,13 @@ class SubmissaoService:
         submissao.status = StatusSubmissao.SUBMETIDA
         submissao.save()
 
+        # NOVO: sorteia avaliador automaticamente
+        cls.sortear_avaliador(submissao)
+
         logger.info(f'Trabalho {submissao.id} submetido em versão {numero_versao} por usuário {usuario.id}')
         return versao
+
+
 
     @classmethod
     @transaction.atomic
@@ -267,12 +289,20 @@ class SubmissaoService:
         avaliacao.full_clean()
         avaliacao.save()
 
+        # NOVO: marca a atribuição como concluída, se existir e for do mesmo avaliador
+        atribuicao = getattr(submissao, 'atribuicao_avaliacao', None)
+        if atribuicao and atribuicao.avaliador.usuario_id == avaliador.id:
+            atribuicao.status = StatusAtribuicao.CONCLUIDA
+            atribuicao.save(update_fields=['status'])
+
         if submissao.status not in {StatusSubmissao.EM_AVALIACAO, StatusSubmissao.CORRECOES_SOLICITADAS}:
             submissao.status = StatusSubmissao.EM_AVALIACAO
             submissao.save()
 
         logger.info(f'Avaliação criada para submissão {submissao.id} por avaliador {avaliador.id}')
         return avaliacao
+
+
 
     @classmethod
     @transaction.atomic
@@ -358,3 +388,64 @@ class SubmissaoService:
 
         logger.info(f'Apresentação agendada para submissão {submissao.id} por usuário {usuario.id}')
         return apresentacao
+
+
+    @classmethod
+    @transaction.atomic
+    def sortear_avaliador(cls, submissao: Submissao) -> Optional[AtribuicaoAvaliacao]:
+        """
+        Sorteia 1 avaliador ativo do evento para a submissão.
+        Prioriza avaliadores da área da submissão; se não houver, considera todos.
+        Exclui autores da submissão.
+        Se não houver candidato, marca sem_avaliador_disponivel=True.
+        """
+        # 1. Candidatos vinculados ao evento
+        candidatos = AvaliadorEvento.objects.filter(
+            evento=submissao.evento,
+        ).select_related('avaliador__usuario')
+
+        # 2. Exclui autores (principal + coautores)
+        autores_ids = SubmissaoAutor.objects.filter(
+            submissao=submissao,
+        ).values_list('usuario_id', flat=True)
+
+        candidatos = candidatos.exclude(avaliador__usuario_id__in=autores_ids)
+
+        # 3. Filtra por área da submissão (com fallback)
+        por_area = candidatos.filter(avaliador__areas=submissao.area)
+
+        if por_area.exists():
+            pool = list(por_area)
+        else:
+            pool = list(candidatos)
+
+        # 4. Sem candidato → marca flag e sai
+        if not pool:
+            submissao.sem_avaliador_disponivel = True
+            submissao.save(update_fields=['sem_avaliador_disponivel'])
+            logger.warning(
+                f'Nenhum avaliador disponível para submissão {submissao.id} '
+                f'(evento {submissao.evento_id}, área {submissao.area_id})'
+            )
+            return None
+
+        # 5. Sorteia
+        escolhido = random.choice(pool)
+
+        # 6. Cria/atualiza a atribuição (OneToOne)
+        atribuicao, _ = AtribuicaoAvaliacao.objects.update_or_create(
+            submissao=submissao,
+            defaults={
+                'avaliador': escolhido.avaliador,
+                'status': StatusAtribuicao.PENDENTE,
+            },
+        )
+
+        submissao.sem_avaliador_disponivel = False
+        submissao.save(update_fields=['sem_avaliador_disponivel'])
+
+        logger.info(
+            f'Avaliador {escolhido.avaliador_id} sorteado para submissão {submissao.id}'
+        )
+        return atribuicao
+

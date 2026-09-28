@@ -8,26 +8,37 @@ from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
+from usuarios.models import Papel
+from django.core.exceptions import PermissionDenied
+
+
 from .models import (
     Apresentacao,
     Area,
+    AtribuicaoAvaliacao,      # NOVO
     Avaliacao,
+    Avaliador,                # já deve estar
+    AvaliadorEvento,          # NOVO
     Local,
     Submissao,
     SubmissaoAutor,
     SubmissaoVersao,
-    Avaliador
 )
+
 from .permissions import (
     IsAvaliadorOrReadOnly,
     IsOrganiadorEventoOrReadOnly,
     IsSubmissaoAutorOrReadOnly,
 )
+
 from .serializers import (
     ApresentacaoSerializer,
     AprovarSubmissaoSerializer,
     AreaSerializer,
+    AtribuicaoAvaliacaoSerializer,      # NOVO
     AvaliacaoSerializer,
+    AvaliadorEventoSerializer,          # NOVO
+    AvaliadorSerializer,                # já deve estar
     LocalSerializer,
     RejeitarSubmissaoSerializer,
     SolicitarCorrecaoSerializer,
@@ -37,8 +48,9 @@ from .serializers import (
     SubmissaoDetailSerializer,
     SubmissaoListSerializer,
     SubmissaoVersaoSerializer,
-    AvaliadorSerializer
 )
+
+
 from .services import SubmissaoService
 
 
@@ -84,7 +96,7 @@ class SubmissaoViewSet(viewsets.ModelViewSet):
             'versoes',
             'avaliacoes',
             'apresentacoes',
-        )
+        ).select_related('atribuicao_avaliacao__avaliador__usuario')   # NOVO
 
         if not (user and user.is_authenticated):
             return queryset.none()
@@ -224,6 +236,41 @@ class SubmissaoViewSet(viewsets.ModelViewSet):
             )
 
 
+    @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
+    def sortear_avaliador(self, request, pk=None):
+        """Sorteia (ou refaz o sorteio de) um avaliador para esta submissão."""
+        submissao = self.get_object()
+
+        # Só organizador/staff pode forçar sorteio
+        user = request.user
+        if not (
+            user.is_staff
+            or user.is_superuser
+            or submissao.evento.usuario_representante_id == user.id
+            or user.has_role(submissao.evento_id, Papel.ORGANIZADOR)
+        ):
+            return Response(
+                {'detail': 'Apenas organizadores do evento podem sortear avaliadores.'},
+                status=status.HTTP_403_FORBIDDEN,
+            )
+
+        try:
+            atribuicao = SubmissaoService.sortear_avaliador(submissao)
+        except Exception as exc:
+            return Response({'detail': str(exc)}, status=status.HTTP_400_BAD_REQUEST)
+
+        if atribuicao is None:
+            return Response(
+                {'detail': 'Nenhum avaliador elegível disponível para esta submissão.'},
+                status=status.HTTP_200_OK,
+            )
+
+        return Response(
+            AtribuicaoAvaliacaoSerializer(atribuicao).data,
+            status=status.HTTP_200_OK,
+        )
+
+
 class SubmissaoAutorViewSet(viewsets.ModelViewSet):
 
     permission_classes = [IsSubmissaoAutorOrReadOnly]
@@ -343,3 +390,50 @@ class AvaliadorViewSet(viewsets.ModelViewSet):
         serializer.save(usuario=self.request.user)
 
 
+class AvaliadorEventoViewSet(viewsets.ModelViewSet):
+
+    serializer_class = AvaliadorEventoSerializer
+    parser_classes = [JSONParser, FormParser]
+    permission_classes = [IsOrganiadorEventoOrReadOnly]
+
+    def get_queryset(self):
+        user = self.request.user
+        queryset = AvaliadorEvento.objects.all().select_related(
+            'evento', 'avaliador__usuario'
+        ).prefetch_related('avaliador__areas')
+
+        if not (user and user.is_authenticated):
+            return queryset.none()
+
+        if not (user.is_staff or user.is_superuser):
+            queryset = queryset.filter(
+                Q(evento__usuario_representante=user)
+                | Q(evento__submissoes__autor_principal=user)
+            ).distinct()
+
+        evento = self.request.query_params.get('evento') or self.request.query_params.get('evento_id')
+        if evento:
+            queryset = queryset.filter(evento_id=evento)
+
+        return queryset
+
+    def perform_create(self, serializer):
+        evento = serializer.validated_data.get('evento')
+        avaliador = serializer.validated_data.get('avaliador')
+
+        if not evento:
+            raise ValidationError({'evento': 'Informe o evento.'})
+        if not avaliador:
+            raise ValidationError({'avaliador': 'Informe o avaliador.'})
+
+        # Só o organizador do evento (ou staff) pode vincular
+        user = self.request.user
+        if not (
+            user.is_staff
+            or user.is_superuser
+            or evento.usuario_representante_id == user.id
+            or user.has_role(evento.id, Papel.ORGANIZADOR)
+        ):
+            raise PermissionDenied('Apenas organizadores do evento podem vincular avaliadores.')
+
+        serializer.save()
