@@ -6,6 +6,7 @@ from rest_framework.permissions import SAFE_METHODS, BasePermission
 from usuarios.models import Papel
 
 from .models import Submissao
+from .models import Avaliador
 
 
 class CanCreateSubmissaoPermission(BasePermission):
@@ -110,3 +111,24 @@ class IsOrganiadorEventoOrReadOnly(BasePermission):
             return True
 
         return request.user.has_role(evento.id, Papel.ORGANIZADOR)
+
+
+
+class IsAvaliadorDonoOrReadOnly(BasePermission):
+    message = _('Apenas o próprio avaliador ou a administração pode alterar este perfil.')
+
+    @override
+    def has_permission(self, request, view):
+        if request.method in SAFE_METHODS:
+            return True
+        return bool(request.user and request.user.is_authenticated)
+
+    @override
+    def has_object_permission(self, request, view, obj):
+        if request.method in SAFE_METHODS:
+            return True
+        return bool(
+            request.user.is_staff
+            or request.user.is_superuser
+            or obj.usuario_id == request.user.id
+        )

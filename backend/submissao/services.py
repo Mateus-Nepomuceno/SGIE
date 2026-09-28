@@ -18,6 +18,7 @@ from .models import (
     SubmissaoAutor,
     SubmissaoVersao,
     TipoParticipacaoAutor,
+    Avaliador
 )
 from .validators import validar_arquivo_submissao
 

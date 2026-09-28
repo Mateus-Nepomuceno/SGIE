@@ -14,6 +14,7 @@ from .models import (
     SubmissaoAutor,
     SubmissaoVersao,
     TipoSubmissao,
+    Avaliador
 )
 from .services import SubmissaoService
 from .validators import (
@@ -489,3 +490,48 @@ class SolicitarCorrecaoSerializer(serializers.Serializer):
         default=7,
         help_text=_('Prazo em dias para o autor enviar a nova versão.'),
     )
+
+
+
+class AvaliadorSerializer(serializers.ModelSerializer):
+
+    usuario_nome = serializers.CharField(source='usuario.nome_completo', read_only=True)
+    usuario_email = serializers.CharField(source='usuario.email', read_only=True)
+    areas_nomes = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Avaliador
+        fields = [
+            'id',
+            'usuario',
+            'usuario_nome',
+            'usuario_email',
+            'areas',
+            'areas_nomes',
+            'lattes_url',
+            'linkedin_url',
+            'afiliacao_institucional',
+            'maior_titulacao',
+            'ativo',
+            'criado_em',
+            'atualizado_em',
+        ]
+        read_only_fields = ['id', 'criado_em', 'atualizado_em']
+
+    def get_areas_nomes(self, obj):
+        return list(obj.areas.values_list('nome', flat=True))
+
+    def validate_lattes_url(self, value):
+        if value:
+            validar_url(value)
+        return value
+
+    def validate_linkedin_url(self, value):
+        if value:
+            validar_url(value)
+        return value
+
+    def validate_areas(self, value):
+        if not value:
+            raise serializers.ValidationError(_('Informe ao menos uma área de atuação.'))
+        return value

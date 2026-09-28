@@ -6,6 +6,8 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+from .validators import validar_url
+
 
 class TipoSubmissao(models.TextChoices):
 
@@ -495,3 +497,86 @@ class Apresentacao(models.Model):
     def fim(self) -> models.DateTimeField:
         """Calcula o horário de término da apresentação."""
         return self.inicio + timedelta(minutes=self.duracao_minutos)
+
+
+
+class Avaliador(models.Model):
+
+    id = models.BigAutoField(primary_key=True)
+
+    usuario = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name='perfil_avaliador',
+        verbose_name=_('Usuário'),
+        help_text=_('Usuário cadastrado como avaliador de submissões.'),
+    )
+
+    areas = models.ManyToManyField(
+        Area,
+        related_name='avaliadores',
+        verbose_name=_('Áreas de Atuação'),
+        help_text=_('Áreas temáticas em que o avaliador pode atuar.'),
+    )
+
+    lattes_url = models.URLField(
+        _('Currículo Lattes'),
+        max_length=500,
+        blank=True,
+        default='',
+        help_text=_('URL do currículo Lattes do avaliador.'),
+    )
+
+    linkedin_url = models.URLField(
+        _('Perfil LinkedIn'),
+        max_length=500,
+        blank=True,
+        default='',
+        help_text=_('URL do perfil LinkedIn do avaliador.'),
+    )
+
+    afiliacao_institucional = models.CharField(
+        _('Afiliação Institucional'),
+        max_length=255,
+        blank=True,
+        default='',
+        help_text=_('Universidade ou instituição de vínculo.'),
+    )
+
+    maior_titulacao = models.CharField(
+        _('Maior Titulação'),
+        max_length=100,
+        blank=True,
+        default='',
+        help_text=_('Grau acadêmico do avaliador (e.g., Mestrado, Doutorado).'),
+    )
+
+    ativo = models.BooleanField(
+        _('Ativo'),
+        default=True,
+        help_text=_('Desmarque para impedir que este avaliador seja sorteado.'),
+    )
+
+    criado_em = models.DateTimeField(_('Criado em'), auto_now_add=True)
+    atualizado_em = models.DateTimeField(_('Atualizado em'), auto_now=True)
+
+    class Meta:
+        verbose_name = _('Avaliador')
+        verbose_name_plural = _('Avaliadores')
+        ordering = ['usuario__nome_completo']
+        indexes = [
+            models.Index(fields=['ativo']),
+        ]
+
+    def __str__(self) -> str:
+        nome = getattr(self.usuario, 'nome_completo', None) or str(self.usuario)
+        return f'{nome} (Avaliador)'
+
+    def clean(self):
+        super().clean()
+
+        if self.lattes_url:
+            validar_url(self.lattes_url)
+
+        if self.linkedin_url:
+            validar_url(self.linkedin_url)

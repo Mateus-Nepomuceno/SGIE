@@ -13,6 +13,7 @@ router.register(r'versoes-submissao', views.SubmissaoVersaoViewSet, basename='sg
 router.register(r'avaliacoes', views.AvaliacaoViewSet, basename='sgie_avaliacoes')
 router.register(r'locais-apresentacao', views.LocalViewSet, basename='sgie_locais_apresentacao')
 router.register(r'apresentacoes', views.ApresentacaoViewSet, basename='sgie_apresentacoes')
+router.register(r'avaliadores', views.AvaliadorViewSet, basename='sgie_avaliadores')
 
 urlpatterns = [
     path('', include(router.urls)),

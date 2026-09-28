@@ -19,6 +19,7 @@ from .models import (
     SubmissaoVersao,
     TipoParticipacaoAutor,
     TipoSubmissao,
+    Avaliador
 )
 from .services import SubmissaoService
 

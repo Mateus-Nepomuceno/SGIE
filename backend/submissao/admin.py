@@ -9,6 +9,7 @@ from .models import (
     Submissao,
     SubmissaoAutor,
     SubmissaoVersao,
+    Avaliador
 )
 
 
@@ -246,6 +247,37 @@ class ApresentacaoAdmin(admin.ModelAdmin):
             _('Apresentação'),
             {
                 'fields': ['submissao', 'local', 'inicio', 'duracao_minutos', 'fim']
+            },
+        ),
+        (
+            _('Datas'),
+            {'fields': ['criado_em', 'atualizado_em']},
+        ),
+    ]
+
+
+
+@admin.register(Avaliador)
+class AvaliadorAdmin(admin.ModelAdmin):
+    list_display = ['id', 'usuario', 'ativo', 'criado_em']
+    list_filter = ['ativo', 'areas', 'criado_em']
+    search_fields = ['usuario__nome_completo', 'usuario__email']
+    readonly_fields = ['criado_em', 'atualizado_em']
+    filter_horizontal = ['areas']
+    fieldsets = [
+        (
+            _('Vinculação'),
+            {'fields': ['usuario', 'areas', 'ativo']},
+        ),
+        (
+            _('Perfil Profissional'),
+            {
+                'fields': [
+                    'lattes_url',
+                    'linkedin_url',
+                    'afiliacao_institucional',
+                    'maior_titulacao',
+                ]
             },
         ),
         (

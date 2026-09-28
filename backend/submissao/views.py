@@ -16,6 +16,7 @@ from .models import (
     Submissao,
     SubmissaoAutor,
     SubmissaoVersao,
+    Avaliador
 )
 from .permissions import (
     IsAvaliadorOrReadOnly,
@@ -36,6 +37,7 @@ from .serializers import (
     SubmissaoDetailSerializer,
     SubmissaoListSerializer,
     SubmissaoVersaoSerializer,
+    AvaliadorSerializer
 )
 from .services import SubmissaoService
 
@@ -315,3 +317,29 @@ class ApresentacaoViewSet(viewsets.ModelViewSet):
         return queryset.filter(
             Q(submissao__autor_principal=user) | Q(submissao__evento__usuario_representante=user)
         ).distinct()
+
+
+class AvaliadorViewSet(viewsets.ModelViewSet):
+
+    serializer_class = AvaliadorSerializer
+    parser_classes = [JSONParser, FormParser]
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        queryset = Avaliador.objects.all().select_related('usuario').prefetch_related('areas')
+
+        if not (user and user.is_authenticated):
+            return queryset.none()
+
+        if user.is_staff or user.is_superuser:
+            return queryset
+
+        # Qualquer autenticado pode ver a lista (organizador precisa listar candidatos),
+        # mas só vê o próprio perfil + os ativos.
+        return queryset.filter(Q(ativo=True) | Q(usuario=user)).distinct()
+
+    def perform_create(self, serializer):
+        serializer.save(usuario=self.request.user)
+
+
