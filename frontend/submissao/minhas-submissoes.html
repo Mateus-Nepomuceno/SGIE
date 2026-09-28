@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Submissões - SGIE</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        .submissoes-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+        .filtros-status {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .chip-status {
+            border: 1px solid var(--border-color, #e2e8f0);
+            background: #fff;
+            padding: 0.4rem 0.9rem;
+            border-radius: 999px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            color: var(--text-color, #1e293b);
+        }
+        .chip-status:hover {
+            background: #f1f5f9;
+        }
+        .chip-status.ativo {
+            background: var(--primary-color, #2563eb);
+            color: #fff;
+            border-color: var(--primary-color, #2563eb);
+        }
+        .submissoes-lista {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .submissao-card {
+            background: #fff;
+            border: 1px solid var(--border-color, #e2e8f0);
+            border-radius: var(--radius-sm, 8px);
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            transition: box-shadow 0.15s ease;
+        }
+        .submissao-card:hover {
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .submissao-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .submissao-card-titulo {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 0;
+            color: var(--text-color, #1e293b);
+        }
+        .submissao-card-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.875rem;
+            color: var(--text-muted, #64748b);
+        }
+        .submissao-card-meta span strong {
+            color: var(--text-color, #1e293b);
+            font-weight: 500;
+        }
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+        }
+        .badge-rascunho { background: #e2e8f0; color: #475569; }
+        .badge-submetida { background: #dbeafe; color: #1d4ed8; }
+        .badge-avaliacao { background: #fef3c7; color: #b45309; }
+        .badge-correcoes { background: #ffedd5; color: #c2410c; }
+        .badge-aprovada { background: #dcfce7; color: #15803d; }
+        .badge-rejeitada { background: #fee2e2; color: #b91c1c; }
+        .submissao-card-acoes {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: flex-end;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: #f8fafc;
+            border-radius: var(--radius-sm, 8px);
+            border: 1px dashed var(--border-color, #e2e8f0);
+        }
+        .empty-state h3 {
+            margin: 0 0 0.5rem 0;
+            color: var(--text-color, #1e293b);
+        }
+        .empty-state p {
+            margin: 0 0 1rem 0;
+            color: var(--text-muted, #64748b);
+        }
+        .loading-box {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted, #64748b);
+        }
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 1rem;
+        }
+        .modal-box {
+            background: #fff;
+            border-radius: var(--radius-sm, 8px);
+            padding: 1.5rem;
+            max-width: 480px;
+            width: 100%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .modal-box h3 {
+            margin: 0 0 0.5rem 0;
+        }
+        .modal-box p {
+            margin: 0 0 1rem 0;
+            color: var(--text-muted, #64748b);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="navbar-container">
+            <a href="../index.html" class="brand">
+                SGIE
+                <span class="brand-badge">Submissões</span>
+            </a>
+            <ul class="nav-links"></ul>
+            <div class="nav-user" id="nav-user-area"></div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="page-header">
+            <div>
+                <h1 class="page-title">Minhas Submissões</h1>
+                <p class="page-subtitle">Acompanhe o status dos seus trabalhos submetidos.</p>
+            </div>
+            <div>
+                <a href="#" id="link-nova-submissao" class="btn btn-primary">+ Nova Submissão</a>
+            </div>
+        </header>
+
+        <div id="mensagem-alerta" style="display: none;"></div>
+
+        <div class="submissoes-toolbar">
+            <div class="filtros-status" id="filtros-status">
+                <button class="chip-status ativo" data-status="">Todas</button>
+                <button class="chip-status" data-status="Rascunho">Rascunho</button>
+                <button class="chip-status" data-status="Submetida">Submetida</button>
+                <button class="chip-status" data-status="Em avaliação">Em avaliação</button>
+                <button class="chip-status" data-status="Correções solicitadas">Correções solicitadas</button>
+                <button class="chip-status" data-status="Aprovada">Aprovada</button>
+                <button class="chip-status" data-status="Rejeitada">Rejeitada</button>
+            </div>
+            <div>
+                <input type="search" id="busca-titulo" class="input-field" placeholder="Buscar por título..." style="min-width: 240px;">
+            </div>
+        </div>
+
+        <div id="conteudo-submissoes">
+            <div class="loading-box">Carregando suas submissões...</div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container" style="padding-top: 0; padding-bottom: 0;">
+            <p>SGIE — Sistema de Gestão de Inscrições e Eventos Universitários</p>
+        </div>
+    </footer>
+
+    <script src="../config.js"></script>
+    <script src="../api.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+
+            // ============================================================
+            // 1. AUTENTICAÇÃO
+            // ============================================================
+
+            if (!isAuthenticated()) {
+                window.location.href = '../usuarios/login.html';
+                return;
+            }
+
+            atualizarCabecalhoUsuario();
+
+            const usuarioLogado = getUser();
+            if (!usuarioLogado) {
+                window.location.href = '../usuarios/login.html';
+                return;
+            }
+
+
+            // ============================================================
+            // 2. ELEMENTOS
+            // ============================================================
+
+            const conteudo = document.getElementById('conteudo-submissoes');
+            const filtrosStatus = document.getElementById('filtros-status');
+            const buscaTitulo = document.getElementById('busca-titulo');
+            const linkNova = document.getElementById('link-nova-submissao');
+
+            // Ajuste este link conforme o fluxo real de "nova submissão" (escolher evento etc.)
+            linkNova.href = '../eventos/lista_eventos.html';
+
+
+            // ============================================================
+            // 3. ESTADO
+            // ============================================================
+
+            let submissoes = [];
+            let statusFiltro = '';
+            let termoBusca = '';
+
+
+            // ============================================================
+            // 4. UTILITÁRIOS
+            // ============================================================
+
+            function escaparHtml(valor) {
+                if (valor === null || valor === undefined) return '';
+                return String(valor)
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/"/g, '&quot;')
+                    .replace(/'/g, '&#39;');
+            }
+
+            function formatarDataHoraSegura(iso) {
+                if (!iso) return '—';
+                try {
+                    if (typeof formatarDataHora === 'function') {
+                        return formatarDataHora(iso);
+                    }
+                    const d = new Date(iso);
+                    if (Number.isNaN(d.getTime())) return '—';
+                    return d.toLocaleString('pt-BR');
+                } catch {
+                    return '—';
+                }
+            }
+
+            function formatarErroApi(erro) {
+                if (!erro) return 'Ocorreu um erro desconhecido.';
+                if (typeof erro === 'string') return escaparHtml(erro);
+                if (erro.detail) return escaparHtml(erro.detail);
+                if (erro.message) return escaparHtml(erro.message);
+                if (typeof erro === 'object') {
+                    return Object.entries(erro)
+                        .map(([campo, mensagens]) => {
+                            const texto = Array.isArray(mensagens)
+                                ? mensagens.join(', ')
+                                : String(mensagens);
+                            return `${escaparHtml(campo)}: ${escaparHtml(texto)}`;
+                        })
+                        .join('<br>');
+                }
+                return 'Não foi possível concluir a operação.';
+            }
+
+            async function lerResposta(response) {
+                const texto = await response.text();
+                if (!texto) return null;
+                try { return JSON.parse(texto); }
+                catch { return texto; }
+            }
+
+            function badgeClasse(status) {
+                switch (status) {
+                    case 'Rascunho': return 'badge-rascunho';
+                    case 'Submetida': return 'badge-submetida';
+                    case 'Em avaliação': return 'badge-avaliacao';
+                    case 'Correções solicitadas': return 'badge-correcoes';
+                    case 'Aprovada': return 'badge-aprovada';
+                    case 'Rejeitada': return 'badge-rejeitada';
+                    default: return 'badge-rascunho';
+                }
+            }
+
+            function podeEditar(s) {
+                return s.status === 'Rascunho' || s.status === 'Correções solicitadas';
+            }
+
+            function podeSubmeter(s) {
+                return s.status === 'Rascunho' || s.status === 'Correções solicitadas';
+            }
+
+            function podeExcluir(s) {
+                return s.status === 'Rascunho';
+            }
+
+
+            // ============================================================
+            // 5. CARREGAR SUBMISSÕES
+            // ============================================================
+
+            async function carregarSubmissoes() {
+                conteudo.innerHTML = '<div class="loading-box">Carregando suas submissões...</div>';
+
+                try {
+                    // O backend já filtra por autor_principal via get_queryset.
+                    const response = await apiFetch('/submissoes/');
+
+                    if (!response.ok) {
+                        const erro = await lerResposta(response);
+                        console.error('Erro ao carregar submissões:', erro);
+                        conteudo.innerHTML = '';
+                        showAlert('mensagem-alerta', formatarErroApi(erro), 'danger');
+                        return;
+                    }
+
+                    const data = await lerResposta(response);
+                    // Suporta lista pura ou paginada ({results: []})
+                    submissoes = Array.isArray(data) ? data : (data?.results || []);
+
+                    renderizar();
+
+                } catch (erro) {
+                    console.error('Erro ao carregar submissões:', erro);
+                    conteudo.innerHTML = '';
+                    showAlert('mensagem-alerta', 'Erro de comunicação ao carregar as submissões.', 'danger');
+                }
+            }
+
+
+            // ============================================================
+            // 6. RENDERIZAR
+            // ============================================================
+
+            function aplicarFiltros(lista) {
+                return lista.filter(s => {
+                    if (statusFiltro && s.status !== statusFiltro) return false;
+                    if (termoBusca) {
+                        const t = (s.titulo || '').toLowerCase();
+                        if (!t.includes(termoBusca)) return false;
+                    }
+                    return true;
+                });
+            }
+
+            function renderizar() {
+                const lista = aplicarFiltros(submissoes);
+
+                if (submissoes.length === 0) {
+                    conteudo.innerHTML = `
+                        <div class="empty-state">
+                            <h3>Você ainda não tem submissões</h3>
+                            <p>Quando você enviar um trabalho para um evento, ele aparecerá aqui.</p>
+                            <a href="${escaparHtml(linkNova.href)}" class="btn btn-primary">Explorar eventos</a>
+                        </div>
+                    `;
+                    return;
+                }
+
+                if (lista.length === 0) {
+                    conteudo.innerHTML = `
+                        <div class="empty-state">
+                            <h3>Nenhuma submissão encontrada</h3>
+                            <p>Tente ajustar o filtro de status ou o termo de busca.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const cards = lista.map(s => {
+                    const id = encodeURIComponent(s.id);
+                    const detalhesUrl = `detalhes-submissao.html?id=${id}`;
+                    const editarUrl = `submissao.html?id=${id}`;
+
+                    const acoes = [];
+                    acoes.push(`<a href="${detalhesUrl}" class="btn btn-secondary btn-sm">Ver detalhes</a>`);
+
+                    if (podeEditar(s)) {
+                        acoes.push(`<a href="${editarUrl}" class="btn btn-secondary btn-sm">Editar</a>`);
+                    }
+
+                    if (podeSubmeter(s)) {
+                        acoes.push(`<button type="button" class="btn btn-primary btn-sm btn-submeter" data-id="${id}">Submeter</button>`);
+                    }
+
+                    if (podeExcluir(s)) {
+                        acoes.push(`<button type="button" class="btn btn-danger btn-sm btn-excluir" data-id="${id}">Excluir</button>`);
+                    }
+
+                    return `
+                        <div class="submissao-card" data-id="${id}">
+                            <div class="submissao-card-header">
+                                <h3 class="submissao-card-titulo">${escaparHtml(s.titulo || 'Sem título')}</h3>
+                                <span class="badge ${badgeClasse(s.status)}">${escaparHtml(s.status_display || s.status || '—')}</span>
+                            </div>
+
+                            <div class="submissao-card-meta">
+                                <span><strong>Evento:</strong> ${escaparHtml(s.evento_nome || '—')}</span>
+                                <span><strong>Tipo:</strong> ${escaparHtml(s.tipo_display || s.tipo || '—')}</span>
+                                <span><strong>Área:</strong> ${escaparHtml(s.area_nome || '—')}</span>
+                                <span><strong>Criado em:</strong> ${escaparHtml(formatarDataHoraSegura(s.criado_em))}</span>
+                            </div>
+
+                            <div class="submissao-card-acoes">
+                                ${acoes.join('')}
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                conteudo.innerHTML = `<div class="submissoes-lista">${cards}</div>`;
+
+                // Bind dos botões de submeter
+                conteudo.querySelectorAll('.btn-submeter').forEach(btn => {
+                    btn.addEventListener('click', () => abrirModalSubmeter(btn.dataset.id));
+                });
+
+                // Bind dos botões de excluir
+                conteudo.querySelectorAll('.btn-excluir').forEach(btn => {
+                    btn.addEventListener('click', () => confirmarExclusao(btn.dataset.id));
+                });
+            }
+
+
+            // ============================================================
+            // 7. SUBMETER (upload via action /submeter/)
+            // ============================================================
+
+            function abrirModalSubmeter(id) {
+                const overlay = document.createElement('div');
+                overlay.className = 'modal-overlay';
+                overlay.innerHTML = `
+                    <div class="modal-box">
+                        <h3>Submeter trabalho</h3>
+                        <p>Envie o arquivo PDF ou DOCX. Isso criará uma nova versão e mudará o status para <strong>Submetida</strong>.</p>
+                        <form id="form-submeter">
+                            <div class="form-group">
+                                <label class="form-label">Arquivo <span class="req">*</span></label>
+                                <input type="file" id="modal-arquivo" class="input-field" accept=".pdf,.docx" required>
+                            </div>
+                            <div class="btn-group" style="justify-content:flex-end; margin-top:1rem;">
+                                <button type="button" class="btn btn-secondary" id="modal-cancelar">Cancelar</button>
+                                <button type="submit" class="btn btn-primary" id="modal-enviar">Enviar</button>
+                            </div>
+                        </form>
+                    </div>
+                `;
+                document.body.appendChild(overlay);
+
+                const fechar = () => overlay.remove();
+                overlay.querySelector('#modal-cancelar').addEventListener('click', fechar);
+                overlay.addEventListener('click', (e) => { if (e.target === overlay) fechar(); });
+
+                overlay.querySelector('#form-submeter').addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const input = overlay.querySelector('#modal-arquivo');
+                    const btn = overlay.querySelector('#modal-enviar');
+
+                    if (!input.files || input.files.length === 0) {
+                        showAlert('mensagem-alerta', 'Selecione um arquivo.', 'danger');
+                        return;
+                    }
+
+                    const arquivo = input.files[0];
+                    const nome = arquivo.name.toLowerCase();
+                    if (!nome.endsWith('.pdf') && !nome.endsWith('.docx')) {
+                        showAlert('mensagem-alerta', 'O arquivo deve ser PDF ou DOCX.', 'danger');
+                        return;
+                    }
+
+                    btn.disabled = true;
+                    btn.textContent = 'Enviando...';
+
+                    try {
+                        const formData = new FormData();
+                        formData.append('arquivo', arquivo);
+
+                        // NÃO definir Content-Type manualmente.
+                        const response = await apiFetch(
+                            `/submissoes/${encodeURIComponent(id)}/submeter/`,
+                            { method: 'POST', body: formData }
+                        );
+
+                        const resultado = await lerResposta(response);
+
+                        if (!response.ok) {
+                            showAlert('mensagem-alerta', formatarErroApi(resultado), 'danger');
+                            btn.disabled = false;
+                            btn.textContent = 'Enviar';
+                            return;
+                        }
+
+                        fechar();
+                        showAlert('mensagem-alerta', 'Submissão enviada com sucesso!', 'success');
+                        await carregarSubmissoes();
+
+                    } catch (erro) {
+                        console.error('Erro ao submeter:', erro);
+                        showAlert('mensagem-alerta', 'Erro de comunicação ao enviar o arquivo.', 'danger');
+                        btn.disabled = false;
+                        btn.textContent = 'Enviar';
+                    }
+                });
+            }
+
+
+            // ============================================================
+            // 8. EXCLUIR (só rascunho)
+            // ============================================================
+
+            async function confirmarExclusao(id) {
+                const alvo = submissoes.find(s => String(s.id) === String(id));
+                if (!alvo) return;
+
+                const confirmado = window.confirm(
+                    `Excluir a submissão "${alvo.titulo}"? Esta ação não pode ser desfeita.`
+                );
+                if (!confirmado) return;
+
+                try {
+                    const response = await apiFetch(
+                        `/submissoes/${encodeURIComponent(id)}/`,
+                        { method: 'DELETE' }
+                    );
+
+                    if (response.status !== 204 && !response.ok) {
+                        const erro = await lerResposta(response);
+                        showAlert('mensagem-alerta', formatarErroApi(erro), 'danger');
+                        return;
+                    }
+
+                    showAlert('mensagem-alerta', 'Submissão excluída.', 'success');
+                    await carregarSubmissoes();
+
+                } catch (erro) {
+                    console.error('Erro ao excluir:', erro);
+                    showAlert('mensagem-alerta', 'Erro de comunicação ao excluir.', 'danger');
+                }
+            }
+
+
+            // ============================================================
+            // 9. FILTROS E BUSCA
+            // ============================================================
+
+            filtrosStatus.addEventListener('click', (e) => {
+                const btn = e.target.closest('.chip-status');
+                if (!btn) return;
+
+                filtrosStatus.querySelectorAll('.chip-status').forEach(b => b.classList.remove('ativo'));
+                btn.classList.add('ativo');
+
+                statusFiltro = btn.dataset.status || '';
+                renderizar();
+            });
+
+            buscaTitulo.addEventListener('input', () => {
+                termoBusca = buscaTitulo.value.trim().toLowerCase();
+                renderizar();
+            });
+
+
+            // ============================================================
+            // 10. INICIALIZAÇÃO
+            // ============================================================
+
+            await carregarSubmissoes();
+
+        });
+    </script>
+</body>
+</html>

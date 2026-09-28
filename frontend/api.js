@@ -244,6 +244,9 @@ function atualizarCabecalhoUsuario(activePage = '') {
         if (user && isAuthenticated()) {
             linksHtml += `
                 <li><a href="${resolveAppUrl('inscricao/minhas-inscricoes.html')}" class="${activePage === 'minhas-inscricoes' ? 'active' : ''}">Minhas Inscrições</a></li>
+                
+                <li><a href="${resolveAppUrl('submissao/minhas-submissoes.html')}" class="${activePage === 'minhas-submissoes' ? 'active' : ''}">Minhas Submissões</a></li>
+                
                 <li><a href="${resolveAppUrl('eventos/criar_evento.html')}" class="btn btn-sm btn-primary ${activePage === 'novo' ? 'active' : ''}">+ Criar Evento</a></li>
             `;
         }

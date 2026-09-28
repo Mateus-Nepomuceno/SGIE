@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     atualizarCabecalhoUsuario('minhas-inscricoes');
+    atualizarCabecalhoUsuario('minhas-submissoes');
 
     document.getElementById('btn-aplicar-filtros').addEventListener('click', () => carregarInscricoes());
     document.getElementById('btn-limpar-filtros').addEventListener('click', () => {
