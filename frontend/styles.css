@@ -799,6 +799,11 @@ textarea.input-field {
         url("assets/icons/logout.svg");
 }
 
+.user-greeting .icon-chevron-down {
+    width: 10px;
+    height: 10px;
+}
+
 .btn-logout .icon-logout {
     width: 14px;
     height: 14px;
@@ -811,6 +816,73 @@ textarea.input-field {
 
     mask-image:
         url("assets/icons/chevron-down.svg");
+}
+
+
+/* Ícones da tela Explorar Eventos (reutilizáveis nas demais telas de eventos) */
+.icon-search {
+    -webkit-mask-image: url("assets/icons/search.svg");
+    mask-image: url("assets/icons/search.svg");
+}
+
+.icon-clock {
+    -webkit-mask-image: url("assets/icons/clock.svg");
+    mask-image: url("assets/icons/clock.svg");
+}
+
+.icon-monitor {
+    -webkit-mask-image: url("assets/icons/monitor.svg");
+    mask-image: url("assets/icons/monitor.svg");
+}
+
+.icon-repeat {
+    -webkit-mask-image: url("assets/icons/repeat.svg");
+    mask-image: url("assets/icons/repeat.svg");
+}
+
+.icon-map-pin {
+    -webkit-mask-image: url("assets/icons/map-pin.svg");
+    mask-image: url("assets/icons/map-pin.svg");
+}
+
+.icon-users {
+    -webkit-mask-image: url("assets/icons/users.svg");
+    mask-image: url("assets/icons/users.svg");
+}
+
+.icon-settings {
+    -webkit-mask-image: url("assets/icons/settings.svg");
+    mask-image: url("assets/icons/settings.svg");
+}
+
+.icon-arrow-right {
+    -webkit-mask-image: url("assets/icons/arrow-right.svg");
+    mask-image: url("assets/icons/arrow-right.svg");
+}
+
+.icon-user-plus {
+    -webkit-mask-image: url("assets/icons/user-plus.svg");
+    mask-image: url("assets/icons/user-plus.svg");
+}
+
+.icon-shield-check {
+    -webkit-mask-image: url("assets/icons/shield-check.svg");
+    mask-image: url("assets/icons/shield-check.svg");
+}
+
+.icon-alert-circle {
+    -webkit-mask-image: url("assets/icons/alert-circle.svg");
+    mask-image: url("assets/icons/alert-circle.svg");
+}
+
+.icon-graduation-cap {
+    -webkit-mask-image: url("assets/icons/graduation-cap.svg");
+    mask-image: url("assets/icons/graduation-cap.svg");
+}
+
+.icon-filter {
+    -webkit-mask-image: url("assets/icons/filter.svg");
+    mask-image: url("assets/icons/filter.svg");
 }
 
 

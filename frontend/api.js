@@ -89,7 +89,7 @@ function isAuthenticated() {
 
 function logout() {
     clearAuth();
-    window.location.href = resolveAppUrl('usuarios/login.html');
+    window.location.href = resolveAppUrl('usuarios/login/login.html');
 }
 
 async function refreshToken() {
@@ -273,13 +273,13 @@ function atualizarCabecalhoUsuario(activePage = '') {
             const nomeBruto = user.nome_completo ? user.nome_completo.split(' ')[0] : user.email.split('@')[0];
             const nomeExibicao = nomeBruto.replace(/[<>&"']/g, '');
             navUserArea.innerHTML = `
-                <a href="${resolveAppUrl('usuarios/perfil.html')}" class="user-greeting ${ativo('perfil')}">Olá, ${nomeExibicao}<span class="icon icon-chevron-down"></span></a>
+                <a href="${resolveAppUrl('usuarios/perfil/perfil.html')}" class="user-greeting ${ativo('perfil')}">Olá, ${nomeExibicao}<span class="icon icon-chevron-down"></span></a>
                 <button type="button" onclick="logout()" class="btn-logout"><span class="icon icon-logout"></span>Sair</button>
             `;
         } else {
             navUserArea.innerHTML = `
-                <a href="${resolveAppUrl('usuarios/login.html')}" class="nav-link ${ativo('login')}">Entre</a>
-                <a href="${resolveAppUrl('usuarios/cadastro.html')}" class="btn btn-sm btn-primary ${ativo('cadastro')}">Cadastre-se</a>
+                <a href="${resolveAppUrl('usuarios/login/login.html')}" class="nav-link ${ativo('login')}">Entre</a>
+                <a href="${resolveAppUrl('usuarios/cadastro/cadastro.html')}" class="btn btn-sm btn-primary ${ativo('cadastro')}">Cadastre-se</a>
             `;
         }
     }
