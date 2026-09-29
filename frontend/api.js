@@ -10,6 +10,16 @@ const API_BASE_URL = (function() {
         if (customUrl) {
             return String(customUrl).replace(/\/+$/, '');
         }
+        const hostname = window.location.hostname;
+        const protocol = window.location.protocol;
+        if (hostname && (hostname.endsWith('.app.github.dev') || hostname.endsWith('.github.dev'))) {
+            const apiHost = hostname.replace(/-\d+(\.app\.github\.dev|\.github\.dev)$/, '-8000$1');
+            return `${protocol}//${apiHost}/api/sgie/v1`;
+        }
+        if (hostname && hostname !== '') {
+            const apiProtocol = protocol === 'https:' ? 'https:' : 'http:';
+            return `${apiProtocol}//${hostname}:8000/api/sgie/v1`;
+        }
     }
     return 'http://127.0.0.1:8000/api/sgie/v1';
 })();

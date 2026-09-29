@@ -144,20 +144,20 @@ document.addEventListener("DOMContentLoaded", () => {
                             );
 
 
-                        const data =
-                            await response.json();
-
-
-                        if (response.ok) {
-
-                            setAuth(data);
-
-                            window.location.href =
-                                destino;
-
-                            return;
+                        let data;
+                        try {
+                            data = await response.json();
+                        } catch (parseError) {
+                            const text = await response.text().catch(() => "");
+                            data = { detail: text || `Erro ${response.status}: ${response.statusText}` };
                         }
 
+                        if (response.ok) {
+                            setAuth(data);
+                            window.location.href =
+                                destino;
+                            return;
+                        }
 
                         showAlert(
                             "mensagem-alerta",
@@ -166,13 +166,12 @@ document.addEventListener("DOMContentLoaded", () => {
                         );
 
                     } catch (error) {
-
+                        console.error("Erro na autenticação:", error);
                         showAlert(
                             "mensagem-alerta",
-                            "Erro ao conectar à API do SGIE. Verifique se o servidor está ativo.",
+                            "Erro ao conectar à API do SGIE. Verifique se o servidor backend está ativo na porta 8000.",
                             "danger"
                         );
-
                     } finally {
 
                         btnEntrar.disabled = false;

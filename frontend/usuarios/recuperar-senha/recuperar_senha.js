@@ -91,23 +91,23 @@ const STORAGE_KEY =
                                 );
 
 
-                            const data =
-                                await response.json();
-
+                            let data;
+                            try {
+                                data = await response.json();
+                            } catch (parseError) {
+                                const text = await response.text().catch(() => "");
+                                data = { detail: text || `Erro ${response.status}: ${response.statusText}` };
+                            }
 
                             if (response.ok) {
-
                                 sessionStorage.setItem(
                                     STORAGE_KEY,
                                     email
                                 );
-
                                 window.location.href =
                                     "../definir-senha/definir_senha.html";
-
                                 return;
                             }
-
 
                             showAlert(
                                 "mensagem-alerta",
@@ -116,13 +116,12 @@ const STORAGE_KEY =
                             );
 
                         } catch (error) {
-
+                            console.error("Falha ao solicitar recuperação de senha:", error);
                             showAlert(
                                 "mensagem-alerta",
-                                "Falha ao comunicar com o servidor.",
+                                "Falha ao comunicar com o servidor da API. Verifique se o backend está ativo na porta 8000.",
                                 "danger"
                             );
-
                         } finally {
 
                             btn.disabled = false;

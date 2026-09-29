@@ -238,23 +238,23 @@ const STORAGE_KEY =
                                 );
 
 
-                            const data =
-                                await response.json();
-
+                            let data;
+                            try {
+                                data = await response.json();
+                            } catch (parseError) {
+                                const text = await response.text().catch(() => "");
+                                data = { detail: text || `Erro ${response.status}: ${response.statusText}` };
+                            }
 
                             if (response.ok) {
-
                                 showAlert(
                                     "mensagem-alerta",
                                     "Código reenviado. Verifique seu e-mail.",
                                     "success"
                                 );
-
                                 iniciarEspera();
-
                                 return;
                             }
-
 
                             showAlert(
                                 "mensagem-alerta",
@@ -263,10 +263,10 @@ const STORAGE_KEY =
                             );
 
                         } catch (error) {
-
+                            console.error("Falha ao reenviar código:", error);
                             showAlert(
                                 "mensagem-alerta",
-                                "Falha ao comunicar com o servidor.",
+                                "Falha ao comunicar com o servidor da API. Verifique se o backend está ativo na porta 8000.",
                                 "danger"
                             );
                         }
@@ -390,48 +390,42 @@ const STORAGE_KEY =
                                 );
 
 
-                            const data =
-                                await response.json();
-
+                            let data;
+                            try {
+                                data = await response.json();
+                            } catch (parseError) {
+                                const text = await response.text().catch(() => "");
+                                data = { detail: text || `Erro ${response.status}: ${response.statusText}` };
+                            }
 
                             if (!response.ok) {
-
                                 showAlert(
                                     "mensagem-alerta",
                                     data,
                                     "danger"
                                 );
-
                                 return;
                             }
-
 
                             sessionStorage.removeItem(
                                 STORAGE_KEY
                             );
 
-
                             /*
                              * A API redefine a senha,
                              * mas não cria sessão.
-                             *
-                             * Por isso fazemos login
-                             * automaticamente logo depois.
+                             * Por isso fazemos login automaticamente logo depois.
                              */
-
                             try {
-
                                 const login =
                                     await fetch(
                                         `${API_BASE_URL}/auth/token/`,
                                         {
                                             method: "POST",
-
                                             headers: {
                                                 "Content-Type":
                                                     "application/json"
                                             },
-
                                             body:
                                                 JSON.stringify({
                                                     identificador:
@@ -442,36 +436,28 @@ const STORAGE_KEY =
                                         }
                                     );
 
-
                                 if (login.ok) {
-
                                     const loginData =
                                         await login.json();
-
                                     setAuth(loginData);
-
                                     window.location.href =
                                         "../../index.html";
-
                                     return;
                                 }
-
                             } catch (error) {
-                                /* fallback para login */
+                                /* fallback para redirecionamento ao login */
                             }
-
 
                             window.location.href =
                                 "../login/login.html?redefinido=1";
 
                         } catch (error) {
-
+                            console.error("Erro ao salvar nova senha:", error);
                             showAlert(
                                 "mensagem-alerta",
-                                "Erro ao salvar nova senha.",
+                                "Erro ao salvar nova senha. Verifique a conexão com o backend.",
                                 "danger"
                             );
-
                         } finally {
 
                             btn.disabled = false;

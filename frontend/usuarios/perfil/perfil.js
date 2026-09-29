@@ -205,11 +205,24 @@ async function carregarPerfil() {
             );
         }
     } catch (error) {
+        console.error('Falha ao carregar perfil:', error);
         showAlert(
             'mensagem-alerta',
-            'Falha ao conectar com o servidor.',
+            'Falha ao conectar com o servidor da API. Verifique se o backend está ativo.',
             'danger'
         );
+    }
+
+    // Se a API não trouxe perfil_organizador embutido, busca diretamente
+    if (dados && !dados.perfil_organizador) {
+        try {
+            const orgResp = await apiFetch(PERFIL_ENDPOINTS.organizador);
+            if (orgResp.ok) {
+                const orgData = await orgResp.json();
+                dados.perfil_organizador = orgData;
+                setUser({ ...getUser(), ...dados });
+            }
+        } catch (_) {}
     }
 
     // Se a API falhar, usa o que já está salvo no login.
@@ -217,7 +230,7 @@ async function carregarPerfil() {
 }
 
 function preencherPerfil(u) {
-    const org = u.perfil_organizador || u.organizador || u;
+    const org = u.perfil_organizador || u.organizador || {};
 
     estado.nomeExibicao = u.nome_completo || '';
 
@@ -249,28 +262,35 @@ function preencherPerfil(u) {
         : '';
 
     // Formulário de organizador
-    $('id_biografia').value = org.biografia || org.mini_bio || '';
+    $('id_biografia').value = org.biografia || org.bio_do_organizador || org.mini_bio || '';
     $('contador-bio').textContent = $('id_biografia').value.length;
 
     $('banner-nome').textContent = org.nome_organizacao || u.nome_completo || 'Organizador';
 
-    estado.fotoUrlOriginal = org.foto || org.foto_perfil || null;
+    estado.fotoUrlOriginal = org.foto || org.foto_de_perfil || org.foto_perfil || null;
 
     definirFoto(estado.fotoUrlOriginal);
     definirBanner(org.banner || org.banner_capa || null);
+
+    const btnOrg = $('btn-salvar-organizador');
+    if (btnOrg) {
+        const jaPossui = Boolean(org.id || org.bio_do_organizador || org.biografia || org.foto_de_perfil || org.banner);
+        btnOrg.textContent = jaPossui ? 'Atualizar Dados de Organizador' : 'Submeter Dados de Organizador';
+    }
 }
 
 function preencherPapelOrganizador(u, org) {
     const badge = $('resumo-papel');
 
     const status = String(org.status_homologacao || org.status || '').toLowerCase();
+    const temSolicitacao = Boolean(org.id || org.bio_do_organizador || org.biografia || org.foto_de_perfil || org.foto || org.banner);
 
     badge.className = 'badge';
 
-    if (u.is_organizador || status === 'homologado' || status === 'aprovado') {
+    if (u.is_organizador || u.organizador === true || org.homologado === true || status === 'homologado' || status === 'aprovado') {
         badge.classList.add('badge-success');
         badge.textContent = 'Homologado ✓';
-    } else if (status === 'pendente' || status === 'em_analise') {
+    } else if (temSolicitacao || status === 'pendente' || status === 'em_analise') {
         badge.classList.add('badge-warning');
         badge.textContent = 'Em análise';
     } else {
@@ -441,7 +461,8 @@ async function salvarDadosPessoais(event) {
             showAlert('mensagem-alerta', await lerErro(response), 'danger');
         }
     } catch (error) {
-        showAlert('mensagem-alerta', 'Falha ao conectar com o servidor.', 'danger');
+        console.error('Falha ao salvar dados pessoais:', error);
+        showAlert('mensagem-alerta', 'Falha ao conectar com o servidor da API. Verifique se o backend está ativo.', 'danger');
     } finally {
         btn.disabled = false;
         btn.textContent = textoOriginal;
@@ -465,8 +486,12 @@ async function salvarDadosOrganizador(event) {
     const formData = new FormData();
 
     formData.append('biografia', biografia);
+    formData.append('bio_do_organizador', biografia);
 
-    if (estado.foto) formData.append('foto', estado.foto);
+    if (estado.foto) {
+        formData.append('foto', estado.foto);
+        formData.append('foto_de_perfil', estado.foto);
+    }
     if (estado.banner) formData.append('banner', estado.banner);
     if (estado.removerFoto) formData.append('remover_foto', 'true');
 
@@ -485,7 +510,14 @@ async function salvarDadosOrganizador(event) {
         if (response.ok) {
             const atualizado = await response.json().catch(() => ({}));
 
-            setUser({ ...getUser(), ...atualizado });
+            const usuarioAtual = getUser() || {};
+            setUser({
+                ...usuarioAtual,
+                perfil_organizador: {
+                    ...(usuarioAtual.perfil_organizador || {}),
+                    ...atualizado,
+                },
+            });
 
             estado.foto = null;
             estado.banner = null;
@@ -495,14 +527,15 @@ async function salvarDadosOrganizador(event) {
 
             showAlert(
                 'mensagem-alerta',
-                'Dados de organizador enviados com sucesso.',
+                'Dados de organizador enviados com sucesso! Sua solicitação está em análise e aguarda homologação do administrador.',
                 'success'
             );
         } else {
             showAlert('mensagem-alerta', await lerErro(response), 'danger');
         }
     } catch (error) {
-        showAlert('mensagem-alerta', 'Falha ao conectar com o servidor.', 'danger');
+        console.error('Falha ao salvar dados de organizador:', error);
+        showAlert('mensagem-alerta', 'Falha ao conectar com o servidor da API. Verifique se o backend está ativo.', 'danger');
     } finally {
         btn.disabled = false;
         btn.textContent = textoOriginal;

@@ -246,18 +246,19 @@ function dataBRparaISO(valor) {
                                 );
 
 
-                            const data =
-                                await response.json();
-
-
-                            if (response.ok) {
-
-                                window.location.href =
-                                    "../login/login.html?cadastrado=1";
-
-                                return;
+                            let data;
+                            try {
+                                data = await response.json();
+                            } catch (parseError) {
+                                const text = await response.text().catch(() => "");
+                                data = { detail: text || `Erro ${response.status}: ${response.statusText}` };
                             }
 
+                            if (response.ok) {
+                                window.location.href =
+                                    "../login/login.html?cadastrado=1";
+                                return;
+                            }
 
                             showAlert(
                                 "mensagem-alerta",
@@ -266,13 +267,12 @@ function dataBRparaISO(valor) {
                             );
 
                         } catch (error) {
-
+                            console.error("Falha na requisição de cadastro:", error);
                             showAlert(
                                 "mensagem-alerta",
-                                "Falha ao conectar com o servidor.",
+                                "Falha ao conectar com o servidor da API. Verifique se o backend está ativo na porta 8000.",
                                 "danger"
                             );
-
                         } finally {
 
                             btn.disabled = false;

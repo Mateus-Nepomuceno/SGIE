@@ -929,3 +929,16 @@ textarea.input-field {
         min-height: 44px;
     }
 }
+
+/* ==========================================================================
+   17. SUPRESSÃO DE POPUPS DO FIVE SERVER EM DESENVOLVIMENTO
+   ========================================================================== */
+
+#fiveserver-info-wrapper,
+#fiveserver-info,
+[id^="fiveserver-info"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
