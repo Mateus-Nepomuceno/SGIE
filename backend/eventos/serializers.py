@@ -62,6 +62,7 @@ class RegraSubmissaoSerializer(serializers.ModelSerializer):
 
 class EventoListSerializer(serializers.ModelSerializer):
 
+    usuario_representante = serializers.PrimaryKeyRelatedField(read_only=True)
     status_display = serializers.CharField(source='get_status_display', read_only=True)
     modalidade_display = serializers.CharField(source='get_modalidade_display', read_only=True)
     categoria_display = serializers.CharField(source='get_categoria_display', read_only=True)
@@ -70,7 +71,7 @@ class EventoListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Evento
         fields = [
-            'id','nome','descricao','data','hora_inicio','hora_fim','local_tipo','local',
+            'id','usuario_representante','nome','descricao','data','hora_inicio','hora_fim','local_tipo','local',
             'modalidade','modalidade_display','capacidade','status','status_display','categoria',
             'categoria_display','categoria_personalizada','e_gratuito','preco','visibilidade',
             'inscricoes_abertas','criado_em',

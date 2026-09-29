@@ -22,8 +22,8 @@ class Modalidade(models.TextChoices):
 class LocalTipo(models.TextChoices):
 
     AUDITORIO = 'Auditório', _('Auditório')
-    SALA_1 = 'Sala 1', _('Sala 1')
-    LABORATORIO_2 = 'Laboratório 2', _('Laboratório 2')
+    SALA = 'Sala', _('Sala')
+    LABORATORIO = 'Laboratório', _('Laboratório')
     OUTRO = 'Outro', _('Outro')
 
 

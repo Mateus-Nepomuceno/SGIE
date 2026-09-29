@@ -116,6 +116,9 @@ class EventoViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'], url_path='meus-eventos', permission_classes=[IsAuthenticated])
     def meus_eventos(self, request):
         user = request.user
+        if not user or not user.is_authenticated:
+            return Response({'detail': _('Autenticação necessária.')}, status=status.HTTP_401_UNAUTHORIZED)
+
         papeis_evento_ids = user.papeis_contextuais.filter(
             papel=Papel.ORGANIZADOR,
             ativo=True,
