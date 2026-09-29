@@ -1,9 +1,28 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
 
 from .forms import UsuarioChangeForm, UsuarioCreationForm
 from .models import CodigoRecuperacao, PapelContextual, PerfilOrganizador, Usuario
+
+
+class PerfilOrganizadorInline(admin.StackedInline):
+    """Permite visualizar e homologar o perfil de organizador diretamente na edição do usuário."""
+
+    model = PerfilOrganizador
+    can_delete = False
+    extra = 0
+    verbose_name = _('Perfil de Organizador')
+    verbose_name_plural = _('Perfil de Organizador')
+    fields = [
+        'homologado',
+        'bio_do_organizador',
+        'foto_de_perfil',
+        'banner',
+        'atualizado_em',
+    ]
+    readonly_fields = ['atualizado_em']
 
 
 @admin.register(Usuario)
@@ -12,6 +31,7 @@ class UsuarioAdmin(BaseUserAdmin):
 
     form = UsuarioChangeForm
     add_form = UsuarioCreationForm
+    inlines = [PerfilOrganizadorInline]
 
     list_display = [
         'id',
@@ -26,6 +46,23 @@ class UsuarioAdmin(BaseUserAdmin):
     list_filter = ['is_active', 'is_staff', 'is_superuser', 'date_joined']
     search_fields = ['email', 'cpf', 'nome_completo']
     ordering = ['id']
+    actions = ['homologar_como_organizador', 'revogar_homologacao_organizador']
+
+    @admin.action(description=_('Homologar organizador do(s) usuário(s) selecionado(s)'))
+    def homologar_como_organizador(self, request, queryset):
+        total = 0
+        for usuario in queryset:
+            perfil, _ = PerfilOrganizador.objects.get_or_create(usuario=usuario)
+            if not perfil.homologado:
+                perfil.homologado = True
+                perfil.save(update_fields=['homologado', 'atualizado_em'])
+                total += 1
+        self.message_user(request, _('%(count)d usuário(s) homologado(s) como organizador.') % {'count': total})
+
+    @admin.action(description=_('Revogar homologação de organizador do(s) usuário(s) selecionado(s)'))
+    def revogar_homologacao_organizador(self, request, queryset):
+        atualizados = PerfilOrganizador.objects.filter(usuario__in=queryset, homologado=True).update(homologado=False)
+        self.message_user(request, _('%(count)d usuário(s) desomologado(s) com sucesso.') % {'count': atualizados})
 
     fieldsets = (
         (None, {'fields': ('email', 'password')}),
@@ -77,10 +114,19 @@ class PerfilOrganizadorAdmin(admin.ModelAdmin):
     """Administração dos perfis de organizador com ação de homologação rápida."""
 
     list_select_related = ['usuario']
-    list_display = ['id', 'usuario', 'homologado', 'atualizado_em']
+    list_display = ['usuario', 'homologado', 'preview_foto', 'atualizado_em']
+    list_editable = ['homologado']
     list_filter = ['homologado']
-    search_fields = ['usuario__email', 'usuario__cpf', 'usuario__nome_completo']
+    search_fields = ['usuario__email', 'usuario__cpf', 'usuario__nome_completo', 'bio_do_organizador']
     actions = ['homologar_perfis', 'desomologar_perfis']
+    fields = ['usuario', 'homologado', 'bio_do_organizador', 'foto_de_perfil', 'banner', 'atualizado_em']
+    readonly_fields = ['atualizado_em']
+
+    @admin.display(description=_('Foto'))
+    def preview_foto(self, obj):
+        if obj.foto_de_perfil:
+            return mark_safe(f'<img src="{obj.foto_de_perfil.url}" style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover;" />')
+        return '—'
 
     @admin.action(description=_('Homologar organizadores selecionados'))
     def homologar_perfis(self, request, queryset):

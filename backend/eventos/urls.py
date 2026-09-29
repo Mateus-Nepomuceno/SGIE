@@ -11,5 +11,6 @@ router.register(r'organizadores-evento', views.EquipeOrganizadoraViewSet, basena
 router.register(r'regras-submissao', views.RegraSubmissaoViewSet, basename='sgie_regras_submissao')
 
 urlpatterns = [
+    path('eventos/meus/', views.EventoViewSet.as_view({'get': 'meus_eventos'}), name='api_v1_meus_eventos_alias'),
     path('', include(router.urls)),
 ]

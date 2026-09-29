@@ -29,6 +29,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
 
     cpf_formatado = serializers.CharField(read_only=True)
     organizador = serializers.BooleanField(source='is_organizador', read_only=True)
+    perfil_organizador = serializers.SerializerMethodField()
     ativo = serializers.BooleanField(source='is_active')
     acesso_admin = serializers.BooleanField(source='is_staff', read_only=True)
     superusuario = serializers.BooleanField(source='is_superuser', read_only=True)
@@ -46,6 +47,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
             'data_nascimento',
             'telefone',
             'organizador',
+            'perfil_organizador',
             'ativo',
             'acesso_admin',
             'superusuario',
@@ -56,11 +58,18 @@ class UsuarioSerializer(serializers.ModelSerializer):
             'id',
             'cpf_formatado',
             'organizador',
+            'perfil_organizador',
             'acesso_admin',
             'superusuario',
             'data_cadastro',
             'ultimo_acesso',
         ]
+
+    def get_perfil_organizador(self, obj):
+        perfil = getattr(obj, 'perfil_organizador', None)
+        if not perfil:
+            return None
+        return PerfilOrganizadorSerializer(perfil, context=self.context).data
 
 
 class UsuarioCadastroSerializer(serializers.ModelSerializer):
@@ -304,6 +313,9 @@ class PerfilOrganizadorSerializer(serializers.ModelSerializer):
     """Serializer para o perfil estendido de organizador (RF04, RN04)."""
 
     usuario_nome = serializers.CharField(source='usuario.nome_completo', read_only=True)
+    status_homologacao = serializers.SerializerMethodField()
+    biografia = serializers.CharField(source='bio_do_organizador', required=False, allow_blank=True)
+    foto = serializers.ImageField(source='foto_de_perfil', required=False, allow_null=True)
 
     class Meta:
         model = PerfilOrganizador
@@ -312,12 +324,35 @@ class PerfilOrganizadorSerializer(serializers.ModelSerializer):
             'usuario',
             'usuario_nome',
             'foto_de_perfil',
+            'foto',
             'banner',
             'bio_do_organizador',
+            'biografia',
             'homologado',
+            'status_homologacao',
             'atualizado_em',
         ]
-        read_only_fields = ['id', 'usuario', 'usuario_nome', 'homologado', 'atualizado_em']
+        read_only_fields = ['id', 'usuario', 'usuario_nome', 'homologado', 'status_homologacao', 'atualizado_em']
+
+    def get_status_homologacao(self, obj) -> str:
+        return 'homologado' if obj.homologado else 'pendente'
+
+    def to_internal_value(self, data):
+        if hasattr(data, 'copy'):
+            data = data.copy()
+        elif isinstance(data, dict):
+            data = dict(data)
+
+        if 'biografia' in data and 'bio_do_organizador' not in data:
+            data['bio_do_organizador'] = data['biografia']
+        if 'foto' in data and 'foto_de_perfil' not in data:
+            data['foto_de_perfil'] = data['foto']
+
+        remover_foto = str(data.get('remover_foto', '')).lower() in {'true', '1'}
+        if remover_foto and 'foto_de_perfil' not in data:
+            data['foto_de_perfil'] = None
+
+        return super().to_internal_value(data)
 
     @staticmethod
     def validate_foto_de_perfil(value):

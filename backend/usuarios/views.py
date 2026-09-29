@@ -80,7 +80,7 @@ class UsuarioViewSet(viewsets.ModelViewSet):
     serializer_class = UsuarioSerializer
 
     def get_permissions(self):
-        if self.action == 'create':
+        if self.action in {'create', 'metadata'} or (self.request and self.request.method == 'OPTIONS'):
             return [AllowAny()]
         return [IsAuthenticated(), IsSelfOrAdmin()]
 

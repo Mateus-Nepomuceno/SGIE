@@ -13,6 +13,7 @@ router.register(r'papeis-contextuais', views.PapelContextualViewSet, basename='s
 urlpatterns = [
     path('usuarios/cadastro/', views.UsuarioViewSet.as_view({'post': 'create'}), name='api_v1_cadastro'),
     path('usuarios/perfil/', views.UsuarioViewSet.as_view({'get': 'me', 'put': 'me', 'patch': 'me'}), name='api_v1_perfil'),
+    path('usuarios/perfil/organizador/', views.PerfilOrganizadorViewSet.as_view({'get': 'me', 'post': 'me', 'put': 'me', 'patch': 'me'}), name='api_v1_perfil_organizador'),
     path('usuarios/recuperar-senha/', views.SolicitarRecuperacaoSenhaAPIView.as_view(), name='api_v1_recuperar_senha'),
     path('usuarios/redefinir-senha/', views.RedefinirSenhaAPIView.as_view(), name='api_v1_redefinir_senha'),
     path('usuarios/dados-cadastrais/', views.DadosCadastraisAPIView.as_view(), name='api_v1_dados_cadastrais_me'),
