@@ -40,10 +40,15 @@
 
             <!-- Seletor do Evento Ativo -->
             <div class="credenciamento__active-event-bar-live-gate-summary-kpi-strip" style="width: 100%;">
-              <div class="credenciamento__selector-status-pill" style="width: 100%; padding: 12px 18px; border-radius: 12px; border: 1.5px solid #cbd5e1; background: #ffffff;">
-                <label for="select-evento" class="credenciamento__label" style="font-weight: 700; color: #0f172a; margin-right: 12px;"><p class="credenciamento__text">Evento Ativo:</p></label>
-                <div style="flex: 1 1 auto;">
-                  <select id="select-evento" class="credenciamento__select-field" style="width: 100%; border: none; font-family: inherit; font-size: 15px; font-weight: 600; color: #0f172a; outline: none; background: transparent; cursor: pointer;">
+              <div class="credenciamento__event-selector-container">
+                <label for="select-evento" class="credenciamento__event-selector-label">
+                  <svg viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="credenciamento__event-icon" aria-hidden="true">
+                    <path d="M6 2V4M14 2V4M3 7H17M4 3H16C17.1046 3 18 3.89543 18 5V17C18 18.1046 17.1046 19 16 19H4C2.89543 19 2 18.1046 2 17V5C2 3.89543 2.89543 3 4 3Z" stroke="#006d41" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                  <span>Evento Ativo:</span>
+                </label>
+                <div class="credenciamento__event-select-wrapper">
+                  <select id="select-evento" class="credenciamento__select-field">
                     <option value="">Carregando seus eventos...</option>
                   </select>
                 </div>

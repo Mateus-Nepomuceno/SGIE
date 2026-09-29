@@ -244,12 +244,12 @@ svg {
   width: 100%;
 }
 .minhas-inscricoes__filter-action-buttons {
-  align-items: safe center;
+  align-items: center;
   display: flex;
   flex-direction: row;
   gap: 8px;
   height: 44px;
-  justify-content: safe flex-end;
+  justify-content: flex-start;
   position: relative;
   left: auto;
   top: auto;
@@ -257,123 +257,122 @@ svg {
   width: auto;
 }
 .minhas-inscricoes__button {
-  align-items: safe center;
+  align-items: center;
   background-color: rgb(0, 168, 104);
-  border-radius: 12px;
+  border: none;
+  border-radius: 10px;
   box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
-  display: flex;
-  flex: 1 1 180.14px;
+  display: inline-flex;
+  flex: 0 0 auto;
   flex-direction: row;
-  gap: 4px;
+  gap: 8px;
   height: 44px;
-  justify-content: safe center;
-  min-width: 0;
+  justify-content: center;
+  padding: 0 18px;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: background-color 0.2s, box-shadow 0.2s;
+}
+.minhas-inscricoes__button:hover {
+  background-color: rgb(0, 143, 88);
 }
 .minhas-inscricoes__container-5 {
-  align-items: safe center;
-  display: flex;
+  align-items: center;
+  display: inline-flex;
   flex: 0 0 auto;
-  flex-direction: column;
-  height: 13.5px;
-  justify-content: safe flex-start;
-  width: 13.5px;
+  height: 14px;
+  justify-content: center;
+  width: 14px;
 }
 .minhas-inscricoes__icon {
   display: block;
   flex: 0 0 auto;
-  height: 13.5px;
-  width: 13.5px;
+  height: 14px;
+  width: 14px;
 }
 .minhas-inscricoes__container-6 {
-  align-items: safe center;
-  display: flex;
+  align-items: center;
+  display: inline-flex;
   flex: 0 0 auto;
-  flex-direction: column;
-  height: 18px;
-  justify-content: safe flex-start;
-  width: 45.03px;
+  height: auto;
+  justify-content: center;
+  width: auto;
 }
 .minhas-inscricoes__text-2 {
   color: rgb(255, 255, 255);
-  display: flex;
-  flex: 0 0 auto;
-  flex-direction: column;
+  display: inline-block;
   font-family: "Plus Jakarta Sans", system-ui, sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  min-height: 18px;
-  height: auto;
-  justify-content: center;
-  letter-spacing: 0.13px;
-  line-height: 18px;
-  overflow-wrap: break-word;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
   text-align: center;
-  white-space: normal;
-  max-width: 100%;
-  width: fit-content;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  margin: 0;
+  padding: 0;
 }
 .minhas-inscricoes__button-2 {
-  align-items: safe center;
+  align-items: center;
   background-color: rgb(248, 250, 252);
-  border-radius: 12px;
-  display: flex;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 10px;
+  display: inline-flex;
   flex: 0 0 auto;
   flex-direction: row;
-  gap: 4px;
+  gap: 8px;
   height: 44px;
-  justify-content: safe center;
-  padding: 0px 16px 0px 16px;
-  width: 91.86px;
+  justify-content: center;
+  padding: 0 16px;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
+}
+.minhas-inscricoes__button-2:hover {
+  background-color: rgb(241, 245, 249);
+  border-color: #94a3b8;
+  color: #0f172a;
 }
 .minhas-inscricoes__container-7 {
-  align-items: safe center;
-  display: flex;
+  align-items: center;
+  display: inline-flex;
   flex: 0 0 auto;
-  flex-direction: column;
-  height: 13.84px;
-  justify-content: safe flex-start;
+  height: 14px;
+  justify-content: center;
   width: 12px;
 }
 .minhas-inscricoes__icon-2 {
   display: block;
   flex: 0 0 auto;
-  height: 13.84px;
+  height: 14px;
   width: 12px;
 }
 .minhas-inscricoes__container-8 {
-  align-items: safe center;
-  display: flex;
+  align-items: center;
+  display: inline-flex;
   flex: 0 0 auto;
-  flex-direction: column;
-  height: 18px;
-  justify-content: safe flex-start;
-  width: 43.86px;
+  height: auto;
+  justify-content: center;
+  width: auto;
 }
 .minhas-inscricoes__text-3 {
   color: rgb(100, 116, 139);
-  display: flex;
-  flex: 0 0 auto;
-  flex-direction: column;
+  display: inline-block;
   font-family: "Plus Jakarta Sans", system-ui, sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
-  min-height: 18px;
-  height: auto;
-  justify-content: center;
-  letter-spacing: 0.13px;
-  line-height: 18px;
-  overflow-wrap: break-word;
+  line-height: 1;
   text-align: center;
-  white-space: normal;
-  max-width: 100%;
-  width: fit-content;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  margin: 0;
+  padding: 0;
 }
 .minhas-inscricoes__text-search-field {
-  align-items: safe flex-start;
+  align-items: center;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   height: 44px;
-  justify-content: safe flex-start;
+  justify-content: flex-start;
   position: relative;
   left: auto;
   top: auto;
@@ -422,22 +421,23 @@ svg {
   white-space: normal;
 }
 .minhas-inscricoes__container-10 {
-  align-items: safe flex-start;
+  align-items: center;
   display: flex;
-  flex-direction: column;
-  height: 15px;
-  justify-content: safe flex-start;
+  justify-content: center;
+  height: 16px;
   position: absolute;
   left: 14px;
   top: 50%;
   transform: translateY(-50%);
-  width: 15px;
+  width: 16px;
+  pointer-events: none;
+  z-index: 2;
 }
 .minhas-inscricoes__icon-3 {
   display: block;
   flex: 0 0 auto;
-  height: 15px;
-  width: 15px;
+  height: 16px;
+  width: 16px;
 }
 .minhas-inscricoes__status-dropdown-filter {
   align-items: safe flex-start;
@@ -3378,9 +3378,10 @@ svg {
 
 .minhas-inscricoes__input-field {
   width: 100%;
+  height: 44px;
   border: 1.5px solid #cbd5e1;
   background-color: #ffffff;
-  padding: 10px 14px 10px 38px;
+  padding: 0 16px 0 42px;
   border-radius: 10px;
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 14px;
@@ -3397,9 +3398,10 @@ svg {
 
 .minhas-inscricoes__select-field {
   width: 100%;
+  height: 44px;
   border: 1.5px solid #cbd5e1;
   background-color: #ffffff;
-  padding: 10px 14px;
+  padding: 0 14px;
   border-radius: 10px;
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 14px;
