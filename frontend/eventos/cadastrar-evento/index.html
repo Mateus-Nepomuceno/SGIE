@@ -61,7 +61,7 @@
               </div>
             </header>
 
-            <form id="form-cadastrar-evento" class="cadastrar-evento__two-column-master-grid">
+            <form id="form-cadastrar-evento" class="cadastrar-evento__two-column-master-grid" novalidate>
               
               <!-- Coluna Principal do Formulário -->
               <div class="cadastrar-evento__primary-form-column-col-1-8-66">
@@ -444,19 +444,6 @@
                     </div>
                   </div>
                 </section>
-                
-                <!-- Botão de Ação Submit -->
-                <div class="cadastrar-evento__card-de-acoes" style="margin-top: 24px;">
-                  <button type="submit" id="btn-submit-evento" class="cadastrar-evento__button" style="cursor: pointer; width: 100%;">
-                    <span class="cadastrar-evento__container-106"><p class="cadastrar-evento__salvar-e-publicar-evento">Salvar e Publicar Evento</p></span>
-                    <span class="cadastrar-evento__container-107">
-                      <svg viewBox="0 0 13.333 13.333" xmlns="http://www.w3.org/2000/svg" fill="none" class="cadastrar-evento__icon-19" role="img">
-                        <path d="M10.146 7.5 L0 7.5 L0 5.833 L10.146 5.833 L5.479 1.167 L6.667 0 L13.333 6.667 L6.667 13.333 L5.479 12.167 L10.146 7.5 Z" fill="rgb(255, 255, 255)" />
-                      </svg>
-                    </span>
-                  </button>
-                </div>
-
               </div>
 
               <!-- Coluna Lateral: Prévia em Tempo Real -->
@@ -542,7 +529,18 @@
                         <p class="cadastrar-evento__text-35">Ver Detalhes</p>
                       </div>
                     </div>
-                  </div>
+                </div>
+
+                <!-- Card de Ações na Coluna Lateral (espelhando editar-evento) -->
+                <div class="cadastrar-evento__card-de-acoes" style="margin-top: 24px;">
+                  <button type="submit" id="btn-submit-evento" class="cadastrar-evento__button" style="cursor: pointer; width: 100%;">
+                    <span class="cadastrar-evento__container-106"><p class="cadastrar-evento__salvar-e-publicar-evento">Salvar e Publicar Evento</p></span>
+                    <span class="cadastrar-evento__container-107">
+                      <svg viewBox="0 0 13.333 13.333" xmlns="http://www.w3.org/2000/svg" fill="none" class="cadastrar-evento__icon-19" role="img">
+                        <path d="M10.146 7.5 L0 7.5 L0 5.833 L10.146 5.833 L5.479 1.167 L6.667 0 L13.333 6.667 L6.667 13.333 L5.479 12.167 L10.146 7.5 Z" fill="rgb(255, 255, 255)" />
+                      </svg>
+                    </span>
+                  </button>
                 </div>
               </aside>
 

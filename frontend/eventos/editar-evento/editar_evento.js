@@ -119,6 +119,13 @@ function configurarFormulario(ev) {
     if (prevStatus) prevStatus.textContent = ev.status_display || ev.status || 'Publicado';
     if (prevPreco) prevPreco.textContent = ev.e_gratuito ? 'Gratuito' : (formatarMoeda ? formatarMoeda(ev.preco) : `R$ ${ev.preco}`);
 
+    // Verificação de Evento Cancelado
+    const alertaCancelado = document.getElementById('alerta-evento-cancelado');
+    const ehCancelado = ev.status === 'Cancelado';
+    if (alertaCancelado) {
+        alertaCancelado.style.display = ehCancelado ? 'flex' : 'none';
+    }
+
     // Verificação de Prazos Regimentais (Congelamento de Campos)
     const alertaData = document.getElementById('alerta-bloqueio-data');
     const tagDataCongelada = document.getElementById('tag-data-congelada');
@@ -146,6 +153,22 @@ function configurarFormulario(ev) {
         campoDescricao.disabled = false;
         if (alertaHorario) alertaHorario.style.display = 'none';
         if (alertaDescricao) alertaDescricao.style.display = 'none';
+    }
+
+    // Se o evento estiver cancelado, desabilita todo o formulário de edição
+    if (ehCancelado && form) {
+        form.querySelectorAll('input, select, textarea, button[type="submit"]').forEach(el => {
+            el.disabled = true;
+        });
+    }
+
+    // Gerenciador de visibilidade do container de alertas: só exibe espaço se houver algum alerta ativo
+    const containerAlertas = document.querySelector('.editar-evento__alertas-dinamicos-de-bloqueio-de-prazos-rfs13');
+    if (containerAlertas) {
+        const algumVisivel = [alertaCancelado, alertaData, alertaHorario, alertaDescricao].some(
+            el => el && el.style.display === 'flex'
+        );
+        containerAlertas.style.display = algumVisivel ? 'flex' : 'none';
     }
 
     function atualizarPrevia() {
@@ -216,7 +239,10 @@ function configurarFormulario(ev) {
         }
 
         try {
-            const nome = campoNome.value.trim();
+            const formatarTitulo = (str) => str ? str.trim().split(/\s+/).map(p => p ? p.charAt(0).toUpperCase() + p.slice(1) : '').join(' ') : '';
+            const rawNome = campoNome.value.trim();
+            const nome = formatarTitulo(rawNome);
+            if (nome) campoNome.value = nome;
             const descricao = campoDescricao.value.trim();
             const categoria = campoCategoria.value;
             const modalidade = campoModalidade.value;

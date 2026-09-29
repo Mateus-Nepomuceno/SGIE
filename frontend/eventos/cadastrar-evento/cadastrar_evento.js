@@ -149,23 +149,53 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Função auxiliar para capitalizar palavras no padrão regimental SGIE (Title Case)
+    function formatarTitulo(str) {
+        if (!str) return '';
+        return str.trim().split(/\s+/).map(p => p ? p.charAt(0).toUpperCase() + p.slice(1) : '').join(' ');
+    }
+
     // Inicializar visual de prévia na carga inicial
     atualizarPrevia();
 
     // 6. Envio do Formulário para a API
+    const btnSubmit = document.getElementById('btn-submit-evento');
+    const btnSubmitBottom = document.getElementById('btn-submit-evento-bottom');
+
+    function setSubmitting(isSubmitting) {
+        [btnSubmit, btnSubmitBottom].forEach(btn => {
+            if (btn) {
+                btn.disabled = isSubmitting;
+                btn.style.opacity = isSubmitting ? '0.7' : '1';
+            }
+        });
+    }
+
+    // Garante que o clique nos botões envie o formulário
+    [btnSubmit, btnSubmitBottom].forEach(btn => {
+        if (btn) {
+            btn.addEventListener('click', (e) => {
+                if (form) {
+                    // Previne duplicação caso requestSubmit dispare evento normal
+                    if (typeof form.requestSubmit === 'function') {
+                        e.preventDefault();
+                        form.requestSubmit();
+                    }
+                }
+            });
+        }
+    });
+
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
         clearAlert('mensagem-alerta');
-
-        const btnSubmit = document.getElementById('btn-submit-evento');
-        const txtBotaoOriginal = btnSubmit ? btnSubmit.innerHTML : '';
-        if (btnSubmit) {
-            btnSubmit.disabled = true;
-            btnSubmit.style.opacity = '0.7';
-        }
+        setSubmitting(true);
 
         try {
-            const nome = campoNome.value.trim();
+            const rawNome = campoNome.value.trim();
+            const nome = formatarTitulo(rawNome);
+            if (nome) campoNome.value = nome;
+
             const descricao = campoDescricao.value.trim();
             const categoria = campoCategoria.value;
             const modalidade = campoModalidade.value;
@@ -181,16 +211,59 @@ document.addEventListener('DOMContentLoaded', () => {
             const necessitaComprovante = campoComprovante ? campoComprovante.checked : false;
             const programacaoGeral = campoProgramacao ? campoProgramacao.value.trim() : '';
 
-            // Validações básicas de frontend
-            if (!nome || !descricao || !data || !horaInicio || !horaFim || !local || !capacidade) {
-                showAlert('mensagem-alerta', 'Por favor, preencha todos os campos obrigatórios destacados com asterisco (*).', 'danger');
-                if (btnSubmit) { btnSubmit.disabled = false; btnSubmit.style.opacity = '1'; }
+            // Validações com feedback direto e claro ao usuário
+            if (!nome) {
+                showAlert('mensagem-alerta', 'Por favor, informe o título do evento.', 'danger');
+                campoNome.focus();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setSubmitting(false);
+                return;
+            }
+
+            if (!descricao) {
+                showAlert('mensagem-alerta', 'Por favor, preencha a descrição acadêmica do evento.', 'danger');
+                campoDescricao.focus();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setSubmitting(false);
+                return;
+            }
+
+            if (!data) {
+                showAlert('mensagem-alerta', 'Por favor, selecione a data de realização do evento.', 'danger');
+                campoData.focus();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setSubmitting(false);
+                return;
+            }
+
+            if (!horaInicio || !horaFim) {
+                showAlert('mensagem-alerta', 'Por favor, informe os horários de início e término.', 'danger');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setSubmitting(false);
                 return;
             }
 
             if (horaFim <= horaInicio) {
                 showAlert('mensagem-alerta', 'O horário de término deve ser estritamente posterior ao horário de início.', 'danger');
-                if (btnSubmit) { btnSubmit.disabled = false; btnSubmit.style.opacity = '1'; }
+                campoHoraFim.focus();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setSubmitting(false);
+                return;
+            }
+
+            if (!local) {
+                showAlert('mensagem-alerta', 'Por favor, especifique o local ou espaço no campus para o evento.', 'danger');
+                campoLocal.focus();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setSubmitting(false);
+                return;
+            }
+
+            if (!capacidade || capacidade <= 0) {
+                showAlert('mensagem-alerta', 'A capacidade máxima deve ser um número inteiro positivo (mínimo 1 vaga).', 'danger');
+                campoCapacidade.focus();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                setSubmitting(false);
                 return;
             }
 
@@ -208,6 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 capacidade,
                 e_gratuito: eGratuito,
                 preco,
+                status: 'Publicado',
                 necessita_comprovante: necessitaComprovante,
                 programacao_geral: programacaoGeral,
             };
@@ -218,7 +292,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const subFim = campoSubmissaoFim ? campoSubmissaoFim.value : '';
                 if (!subInicio || !subFim) {
                     showAlert('mensagem-alerta', 'Para habilitar submissões de trabalhos, defina o início e o término do prazo.', 'danger');
-                    if (btnSubmit) { btnSubmit.disabled = false; btnSubmit.style.opacity = '1'; }
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    setSubmitting(false);
                     return;
                 }
                 payload.regra_submissao = {
@@ -236,7 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const dataResposta = await response.json().catch(() => ({}));
 
             if (!response.ok) {
-                let msg = 'Erro ao cadastrar evento.';
+                let msg = 'Erro ao cadastrar e publicar evento.';
                 if (dataResposta.detail) {
                     msg = dataResposta.detail;
                 } else if (typeof dataResposta === 'object') {
@@ -247,11 +322,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
                 showAlert('mensagem-alerta', msg, 'danger');
                 window.scrollTo({ top: 0, behavior: 'smooth' });
-                if (btnSubmit) { btnSubmit.disabled = false; btnSubmit.style.opacity = '1'; }
+                setSubmitting(false);
                 return;
             }
 
-            showAlert('mensagem-alerta', 'Evento cadastrado com sucesso! Redirecionando para a página do evento...', 'success');
+            showAlert('mensagem-alerta', 'Evento publicado e cadastrado com sucesso! Redirecionando para a página do evento...', 'success');
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
             const novoId = dataResposta.id || (dataResposta.evento && dataResposta.evento.id);
@@ -267,7 +342,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Erro de requisição:', err);
             showAlert('mensagem-alerta', 'Não foi possível conectar com o servidor do SGIE.', 'danger');
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            if (btnSubmit) { btnSubmit.disabled = false; btnSubmit.style.opacity = '1'; }
+            setSubmitting(false);
         }
     });
 });
