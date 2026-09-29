@@ -1,0 +1,2377 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  width: 100%;
+  min-height: 100%;
+}
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  font-synthesis: none;
+  background-color: rgb(248, 250, 252);
+  display: flex;
+  flex-direction: column;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+figure,
+blockquote {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+}
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+button {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+img,
+svg {
+  display: block;
+}
+[data-missing-asset] {
+  outline: 1px dashed #f0a;
+  outline-offset: -1px;
+}
+.realizar-inscricao {
+  min-height: 100vh;
+  height: auto;
+  position: relative;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+.realizar-inscricao__realizar-inscricao {
+  align-items: center;
+  background-image: linear-gradient(rgb(248, 250, 252), rgb(248, 250, 252)),
+    linear-gradient(rgb(255, 255, 255), rgb(255, 255, 255));
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
+  background-size:
+    100% 100%,
+    100% 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  height: auto;
+  justify-content: safe flex-start;
+  left: 0px;
+  padding: 0;
+  position: relative;
+  top: 0px;
+  width: 100%;
+}
+.realizar-inscricao__main {
+  align-self: stretch;
+  background-color: rgb(248, 250, 252);
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  align-items: center;
+  min-height: calc(100vh - 81px);
+  height: auto;
+  position: relative;
+  padding: 105px 24px 48px 24px;
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+.realizar-inscricao__container {
+  align-items: safe flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: auto;
+  min-height: auto;
+  justify-content: safe flex-start;
+  left: 0px;
+  max-width: 1280px;
+  padding: 105px 32px 40px 32px;
+  position: relative;
+  top: 0px;
+
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+.realizar-inscricao__page-header {
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 8px;
+  height: auto;
+  min-height: auto;
+  position: relative;
+  margin-bottom: 24px;
+  width: 100%;
+}
+.realizar-inscricao__heading-1 {
+  height: auto;
+  min-height: 48px;
+  position: static;
+  width: 100%;
+}
+.realizar-inscricao__realizar-inscricao-no-evento {
+  color: rgb(19, 27, 46);
+  display: flex;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 40px;
+  font-weight: 800;
+  min-height: 48px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: -1px;
+  line-height: 48px;
+  overflow-wrap: break-word;
+  position: static;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.realizar-inscricao__container-2 {
+  height: auto;
+  min-height: 22px;
+  position: static;
+  width: 100%;
+}
+.realizar-inscricao__simposio-de-inteligencia-artificial-e-etica-na-e {
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  min-height: 22px;
+  height: auto;
+  justify-content: center;
+  line-height: 22px;
+  overflow-wrap: break-word;
+  position: static;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.realizar-inscricao__two-column-form-layout {
+  align-self: stretch;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 32px;
+  height: auto;
+  min-height: auto;
+  position: relative;
+  width: 100%;
+}
+.realizar-inscricao__coluna-direita {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  flex: 0 0 360px;
+  width: 360px;
+  max-width: 100%;
+  position: static;
+}
+.realizar-inscricao__left-column-main-form {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 1 1 700px;
+  max-width: 784px;
+  width: 100%;
+  flex-direction: column;
+  gap: 24px;
+  height: auto;
+  min-height: auto;
+  justify-content: safe flex-start;
+  position: static;
+  left: auto;
+  top: auto;
+}
+.realizar-inscricao__section-card-1-participant-identity-profile-sess {
+  align-items: safe flex-start;
+  align-self: stretch;
+  background-color: rgb(255, 255, 255);
+  border-radius: 16px;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 20px;
+  height: auto;
+  min-height: 302px;
+  justify-content: safe flex-start;
+  padding: 28px 28px 28px 28px;
+}
+.realizar-inscricao__container-3 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 12px;
+  height: 46px;
+  justify-content: safe flex-start;
+}
+.realizar-inscricao__container-4 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 33.33px;
+  justify-content: safe flex-start;
+  padding: 10px 0px 10px 0px;
+  width: 13.33px;
+}
+.realizar-inscricao__icon {
+  display: block;
+  flex: 0 0 auto;
+  height: 13.33px;
+  width: 13.33px;
+}
+.realizar-inscricao__container-5 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 46px;
+  justify-content: safe flex-start;
+  width: 369.91px;
+}
+.realizar-inscricao__heading-2 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 28px;
+  justify-content: safe flex-start;
+}
+.realizar-inscricao__text {
+  color: rgb(19, 27, 46);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  min-height: 28px;
+  height: auto;
+  justify-content: center;
+  line-height: 28px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.realizar-inscricao__container-6 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+}
+.realizar-inscricao__text-2 {
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.realizar-inscricao__background {
+  align-items: safe center;
+  align-self: stretch;
+  background-color: rgb(242, 243, 255);
+  border-radius: 12px;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  height: 92px;
+  justify-content: space-between;
+  padding: 24px 20px 20px 20px;
+}
+.realizar-inscricao__container-7 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 14px;
+  height: 48px;
+  justify-content: safe flex-start;
+  width: 454.17px;
+}
+.realizar-inscricao__background-2 {
+  align-items: safe center;
+  background-color: rgb(0, 168, 104);
+  border-radius: 9999px;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  height: 48px;
+  justify-content: safe center;
+  padding: 9.5px 0px 10.5px 0px;
+  width: 48px;
+}
+.realizar-inscricao__text-3 {
+  color: rgb(255, 255, 255);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  min-height: 28px;
+  height: auto;
+  justify-content: center;
+  line-height: 28px;
+  overflow-wrap: break-word;
+  text-align: center;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.realizar-inscricao__container-8 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 42px;
+  justify-content: safe flex-start;
+  width: 392.17px;
+}
+.realizar-inscricao__container-9 {
+  align-items: safe center;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 8px;
+  height: 24px;
+  justify-content: safe flex-start;
+}
+.realizar-inscricao__heading-3 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 24px;
+  justify-content: safe flex-start;
+  width: 171.39px;
+}
+.realizar-inscricao__text-4 {
+  color: rgb(19, 27, 46);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  min-height: 24px;
+  height: auto;
+  justify-content: center;
+  line-height: 24px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.realizar-inscricao__overlay {
+  align-items: safe center;
+  background-color: rgba(130, 245, 193, 0.6);
+  border-radius: 9999px;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 4px;
+  height: 20px;
+  justify-content: safe flex-start;
+  padding: 2px 10px 2px 10px;
+  width: 212.78px;
+}
+.realizar-inscricao__container-10 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 10.5px;
+  justify-content: safe flex-start;
+  width: 11px;
+}
+.realizar-inscricao__icon-2 {
+  display: block;
+  flex: 0 0 auto;
+  height: 10.5px;
+  width: 11px;
+}
+.realizar-inscricao__text-5 {
+  color: rgb(0, 113, 78);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  min-height: 16px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.33px;
+  line-height: 16px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.realizar-inscricao__container-11 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+}
+.realizar-inscricao__text-6 {
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.realizar-inscricao__container-12 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 16px;
+  height: 68px;
+  justify-content: safe center;
+}
+.realizar-inscricao__container-13 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 1 1 356px;
+  flex-direction: column;
+  gap: 6px;
+  height: 68px;
+  justify-content: safe flex-start;
+  min-width: 0;
+}
+.realizar-inscricao__label {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+}
+.realizar-inscricao__documento-identificador-cpf {
+  align-self: stretch;
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.13px;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+}
+.realizar-inscricao__background-3 {
+  align-items: safe center;
+  align-self: stretch;
+  background-color: rgb(242, 243, 255);
+  border-radius: 12px;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  height: 44px;
+  justify-content: safe flex-start;
+  padding: 0px 14px 0px 14px;
+}
+.realizar-inscricao__text-7 {
+  color: rgb(19, 27, 46);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  min-height: 22px;
+  height: auto;
+  justify-content: center;
+  line-height: 22px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.realizar-inscricao__container-14 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 1 1 356px;
+  flex-direction: column;
+  gap: 6px;
+  height: 68px;
+  justify-content: safe flex-start;
+  min-width: 0;
+}
+.realizar-inscricao__label-2 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+}
+.realizar-inscricao__tipo-de-credenciamento {
+  align-self: stretch;
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.13px;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+}
+.realizar-inscricao__background-4 {
+  align-items: safe center;
+  align-self: stretch;
+  background-color: rgb(242, 243, 255);
+  border-radius: 12px;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  height: 44px;
+  justify-content: safe flex-start;
+  padding: 0px 14px 0px 14px;
+}
+.realizar-inscricao__text-8 {
+  color: rgb(19, 27, 46);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  min-height: 22px;
+  height: auto;
+  justify-content: center;
+  line-height: 22px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.realizar-inscricao__section-card-2-attachment-proof-of-institutional {
+  align-items: safe flex-start;
+  align-self: stretch;
+  background-color: rgb(255, 255, 255);
+  border-radius: 16px;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 16px;
+  height: auto;
+  min-height: 452px;
+  justify-content: safe flex-start;
+  padding: 28px 28px 28px 28px;
+}
+.realizar-inscricao__container-15 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  height: 46px;
+  justify-content: safe flex-start;
+}
+.realizar-inscricao__container-16 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 12px;
+  height: 46px;
+  justify-content: safe flex-start;
+  width: 224.95px;
+}
+.realizar-inscricao__container-17 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 36.67px;
+  justify-content: safe flex-start;
+  padding: 10px 0px 10px 0px;
+  width: 16.67px;
+}
+.realizar-inscricao__icon-3 {
+  display: block;
+  flex: 0 0 auto;
+  height: 16.67px;
+  width: 16.67px;
+}
+.realizar-inscricao__container-18 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 46px;
+  justify-content: safe flex-start;
+  width: 196.28px;
+}
+.realizar-inscricao__heading-2-2 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 28px;
+  justify-content: safe flex-start;
+}
+.realizar-inscricao__text-9 {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 28px;
+  justify-content: center;
+  width: 149.72px;
+}
+.realizar-inscricao__text-9-runs {
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 20px;
+  line-height: 28px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+}
+.realizar-inscricao__text-9-run-1 {
+  color: rgb(19, 27, 46);
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+}
+.realizar-inscricao__text-9-run-2 {
+  color: rgb(19, 27, 46);
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 28px;
+}
+.realizar-inscricao__container-19 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+}
+.realizar-inscricao__text-10 {
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.realizar-inscricao__background-5 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  background-color: rgb(242, 243, 255);
+  border-radius: 12px;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 12px;
+  height: 54px;
+  justify-content: safe flex-start;
+  padding: 16px 16px 16px 16px;
+}
+.realizar-inscricao__margin {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 22px;
+  justify-content: safe flex-start;
+  padding: 2px 0px 2px 0px;
+  width: 20px;
+}
+.realizar-inscricao__icon-4 {
+  display: block;
+  flex: 0 0 auto;
+  height: 20px;
+  width: 20px;
+}
+.realizar-inscricao__text-11 {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: center;
+  width: 464.7px;
+}
+.realizar-inscricao__text-11-runs {
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 12px;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+}
+.realizar-inscricao__text-11-run-1 {
+  color: rgb(51, 65, 85);
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+}
+.realizar-inscricao__text-11-run-2 {
+  color: rgb(51, 65, 85);
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+}
+.realizar-inscricao__text-11-run-3 {
+  color: rgb(51, 65, 85);
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+}
+.realizar-inscricao__drag-and-drop-dropzone {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 8px;
+  height: auto;
+  justify-content: safe flex-start;
+  padding: 4px 0px 4px 0px;
+}
+.realizar-inscricao__label-3 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 24px;
+  justify-content: safe flex-start;
+}
+.realizar-inscricao__anexar-documento-comprobatorio {
+  align-self: stretch;
+  color: rgb(19, 27, 46);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  min-height: 24px;
+  height: auto;
+  justify-content: center;
+  line-height: 24px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+}
+.realizar-inscricao__overlay-2 {
+  align-items: safe center;
+  align-self: stretch;
+  background-color: rgba(242, 243, 255, 0.7);
+  border-radius: 16px;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: auto;
+  min-height: 228px;
+  justify-content: safe center;
+  padding: 32px 32px 32px 32px;
+}
+.realizar-inscricao__margin-2 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 68px;
+  justify-content: safe flex-start;
+  padding: 0px 0px 12px 0px;
+  width: 56px;
+}
+.realizar-inscricao__background-shadow {
+  align-items: safe center;
+  background-color: rgb(230, 247, 240);
+  border-radius: 16px;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  height: 56px;
+  justify-content: safe center;
+  width: 56px;
+}
+.realizar-inscricao__container-20 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 20px;
+  justify-content: safe flex-start;
+  width: 27.5px;
+}
+.realizar-inscricao__icon-5 {
+  display: block;
+  flex: 0 0 auto;
+  height: 20px;
+  width: 27.5px;
+}
+.realizar-inscricao__margin-3 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 28px;
+  justify-content: safe flex-start;
+  padding: 0px 0px 4px 0px;
+  width: 361.08px;
+}
+.realizar-inscricao__container-21 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 24px;
+  justify-content: safe flex-start;
+  width: 361.08px;
+}
+.realizar-inscricao__text-12 {
+  color: rgb(19, 27, 46);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  min-height: 24px;
+  height: auto;
+  justify-content: center;
+  line-height: 24px;
+  overflow-wrap: break-word;
+  text-align: center;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.realizar-inscricao__margin-4 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 34px;
+  justify-content: safe flex-start;
+  padding: 0px 0px 16px 0px;
+  width: 167.28px;
+}
+.realizar-inscricao__container-22 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+  width: 167.28px;
+}
+.realizar-inscricao__text-13 {
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: center;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.realizar-inscricao__button {
+  align-items: safe center;
+  background-color: rgb(255, 255, 255);
+  border-radius: 12px;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 34px;
+  justify-content: safe center;
+  padding: 8px 16px 8px 16px;
+  width: 152.27px;
+}
+.realizar-inscricao__text-14 {
+  color: rgb(0, 109, 65);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.13px;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: center;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.realizar-inscricao__section-card-3-additional-needs-and-accessibilit {
+  align-items: safe flex-start;
+  align-self: stretch;
+  background-color: rgb(255, 255, 255);
+  border-radius: 16px;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 16px;
+  height: auto;
+  min-height: 346px;
+  justify-content: safe flex-start;
+  padding: 28px 28px 28px 28px;
+}
+.realizar-inscricao__container-23 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 12px;
+  height: 46px;
+  justify-content: safe flex-start;
+}
+.realizar-inscricao__container-24 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 36.25px;
+  justify-content: safe flex-start;
+  padding: 10px 0px 10px 0px;
+  width: 13.33px;
+}
+.realizar-inscricao__icon-6 {
+  display: block;
+  flex: 0 0 auto;
+  height: 16.25px;
+  width: 13.33px;
+}
+.realizar-inscricao__container-25 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 46px;
+  justify-content: safe flex-start;
+  width: 423.38px;
+}
+.realizar-inscricao__heading-2-3 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 28px;
+  justify-content: safe flex-start;
+}
+.realizar-inscricao__text-15 {
+  color: rgb(19, 27, 46);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  min-height: 28px;
+  height: auto;
+  justify-content: center;
+  line-height: 28px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.realizar-inscricao__container-26 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+}
+.realizar-inscricao__text-16 {
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.realizar-inscricao__container-27 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 8px;
+  height: auto;
+  justify-content: safe flex-start;
+}
+.realizar-inscricao__label-4 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 24px;
+  justify-content: safe flex-start;
+}
+.realizar-inscricao__necessidades-especiais-ou-comentarios-opcional {
+  align-self: stretch;
+  color: rgb(19, 27, 46);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  min-height: 24px;
+  height: auto;
+  justify-content: center;
+  line-height: 24px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+}
+.realizar-inscricao__container-28 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 36px;
+  justify-content: safe flex-start;
+}
+.realizar-inscricao__informe-se-necessita-de-interprete-de-libras-gui {
+  align-self: stretch;
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  min-height: 36px;
+  height: auto;
+  justify-content: center;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+}
+.realizar-inscricao__textarea {
+  align-items: safe flex-start;
+  align-self: stretch;
+  background-color: rgb(242, 243, 255);
+  border-radius: 12px;
+  box-shadow: inset 0px 2px 4px 0px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  height: auto;
+  min-height: 100px;
+  justify-content: safe center;
+  overflow: hidden;
+  padding: 14px;
+}
+.realizar-inscricao__container-29 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  height: auto;
+  min-height: 44px;
+  justify-content: safe flex-start;
+  min-width: 0;
+}
+.realizar-inscricao__ex-necessidade-de-interprete-de-libras-para-as-s {
+  align-self: stretch;
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  min-height: 44px;
+  height: auto;
+  justify-content: center;
+  line-height: 22px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+}
+.realizar-inscricao__container-30 {
+  align-items: safe center;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  height: 28px;
+  justify-content: space-between;
+  padding: 10px 0px 10px 0px;
+}
+.realizar-inscricao__container-31 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+  width: 152.13px;
+}
+.realizar-inscricao__text-17 {
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.realizar-inscricao__container-32 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+  width: 42.98px;
+}
+.realizar-inscricao__text-18 {
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.realizar-inscricao__live-preview-simulation-card-mirroring-existing {
+  display: none;
+}
+.realizar-inscricao__simulated-event-card {
+  align-items: safe flex-start;
+  background-color: rgb(255, 255, 255);
+  border-radius: 12px;
+  box-shadow:
+    0px 2px 4px -2px rgba(0, 0, 0, 0.1),
+    0px 4px 6px -1px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  min-height: 408px;
+  justify-content: safe flex-start;
+  overflow: hidden;
+  position: static;
+  left: auto;
+  top: auto;
+  width: 100%;
+}
+.realizar-inscricao__visual-card-header-with-graphic-and-badges {
+  align-items: safe flex-start;
+  align-self: stretch;
+  background-image: linear-gradient(
+    90deg,
+    rgb(0, 109, 65) 0%,
+    rgb(0, 168, 104) 100%
+  );
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 144px;
+  justify-content: space-between;
+  overflow: hidden;
+  padding: 16px 16px 16px 16px;
+  position: relative;
+}
+.realizar-inscricao__background-geometric-motif {
+  background-color: rgba(130, 245, 193, 0.2);
+  border-radius: 9999px;
+  filter: blur(12px);
+  height: 128px;
+  left: 221.34px;
+  position: absolute;
+  top: 40px;
+  width: 128px;
+}
+.realizar-inscricao__border {
+  border-radius: 9999px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+  height: 80px;
+  left: 197.34px;
+  position: absolute;
+  top: 8px;
+  width: 80px;
+}
+.realizar-inscricao__container-33 {
+  align-items: safe center;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  height: 24px;
+  justify-content: space-between;
+}
+.realizar-inscricao__overlay-shadow-overlayblur {
+  -webkit-backdrop-filter: blur(2px);
+  align-items: safe flex-start;
+  backdrop-filter: blur(2px);
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 9999px;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 24px;
+  justify-content: safe flex-start;
+  padding: 4px 10px 4px 10px;
+  width: 124.3px;
+}
+.realizar-inscricao__text-19 {
+  color: rgb(0, 109, 65);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  min-height: 16px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.33px;
+  line-height: 16px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.realizar-inscricao__background-shadow-2 {
+  align-items: safe flex-start;
+  background-color: rgb(255, 255, 255);
+  border-radius: 9999px;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 24px;
+  justify-content: safe flex-start;
+  padding: 4px 10px 4px 10px;
+  width: 67.42px;
+}
+.realizar-inscricao__text-20 {
+  color: rgb(19, 27, 46);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  min-height: 16px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.33px;
+  line-height: 16px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.realizar-inscricao__container-34 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 24px;
+  justify-content: safe flex-start;
+  padding: 5px 0px 2px 0px;
+}
+.realizar-inscricao__overlay-overlayblur {
+  -webkit-backdrop-filter: blur(2px);
+  align-items: center;
+  backdrop-filter: blur(2px);
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  display: inline-flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  height: 20px;
+  justify-content: center;
+  padding: 2px 10px;
+  width: auto;
+  min-width: fit-content;
+}
+.realizar-inscricao__text-21 {
+  color: rgb(255, 255, 255);
+  display: inline-block;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 16px;
+  letter-spacing: 0.28px;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: nowrap !important;
+  width: auto !important;
+}
+.realizar-inscricao__card-body {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 12px;
+  height: auto;
+  min-height: 264px;
+  justify-content: safe flex-start;
+  padding: 16px 16px 16px 16px;
+}
+.realizar-inscricao__heading-4 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 24px;
+  justify-content: safe flex-start;
+  overflow: hidden;
+}
+.realizar-inscricao__simposio-de-inteligencia-artificial-e {
+  align-self: stretch;
+  color: rgb(19, 27, 46);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  min-height: 24px;
+  height: auto;
+  justify-content: center;
+  line-height: 24px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+}
+.realizar-inscricao__container-35 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: auto;
+  min-height: 36px;
+  justify-content: safe flex-start;
+}
+.realizar-inscricao__espaco-colaborativo-interdisciplinar-focado-em-d {
+  align-self: stretch;
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  min-height: 36px;
+  height: auto;
+  justify-content: center;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+}
+.realizar-inscricao__container-36 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 6px;
+  height: auto;
+  min-height: 102px;
+  justify-content: safe flex-start;
+  padding: 4px 0px 8px 0px;
+}
+.realizar-inscricao__container-37 {
+  align-items: safe center;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 8px;
+  height: 18px;
+  justify-content: safe flex-start;
+}
+.realizar-inscricao__container-38 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 13.33px;
+  justify-content: safe flex-start;
+  width: 12px;
+}
+.realizar-inscricao__icon-7 {
+  display: block;
+  flex: 0 0 auto;
+  height: 13.33px;
+  width: 12px;
+}
+.realizar-inscricao__container-39 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+  width: 109.27px;
+}
+.realizar-inscricao__text-22 {
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.realizar-inscricao__container-40 {
+  align-items: safe center;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 8px;
+  height: 18px;
+  justify-content: safe flex-start;
+}
+.realizar-inscricao__container-41 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 13.33px;
+  justify-content: safe flex-start;
+  width: 13.33px;
+}
+.realizar-inscricao__icon-8 {
+  display: block;
+  flex: 0 0 auto;
+  height: 13.33px;
+  width: 13.33px;
+}
+.realizar-inscricao__container-42 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+  width: 83.39px;
+}
+.realizar-inscricao__text-23 {
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.realizar-inscricao__container-43 {
+  align-items: safe center;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 8px;
+  height: 18px;
+  justify-content: safe flex-start;
+}
+.realizar-inscricao__container-44 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 15.33px;
+  justify-content: safe flex-start;
+  width: 16px;
+}
+.realizar-inscricao__icon-9 {
+  display: block;
+  flex: 0 0 auto;
+  height: 15.33px;
+  width: 16px;
+}
+.realizar-inscricao__container-45 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+  width: 41.91px;
+}
+.realizar-inscricao__text-24 {
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.realizar-inscricao__container-46 {
+  align-items: safe center;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 8px;
+  height: 18px;
+  justify-content: safe flex-start;
+}
+.realizar-inscricao__container-47 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 10.67px;
+  justify-content: safe flex-start;
+  width: 14.67px;
+}
+.realizar-inscricao__icon-10 {
+  display: block;
+  flex: 0 0 auto;
+  height: 10.67px;
+  width: 14.67px;
+}
+.realizar-inscricao__container-48 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+  width: 125.52px;
+}
+.realizar-inscricao__text-25 {
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.realizar-inscricao__background-6 {
+  align-items: safe center;
+  align-self: stretch;
+  background-color: rgb(230, 247, 240);
+  border-radius: 12px;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 34px;
+  justify-content: safe flex-start;
+  padding: 8px 0px 8px 0px;
+}
+.realizar-inscricao__text-26 {
+  color: rgb(0, 109, 65);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.13px;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: center;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.realizar-inscricao__card-de-acoes {
+  align-items: safe flex-start;
+  background-color: rgb(255, 255, 255);
+  border-radius: 16px;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: auto;
+  justify-content: safe flex-start;
+  padding: 20px;
+  position: static;
+  left: auto;
+  top: auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+.realizar-inscricao__button-2 {
+  align-items: safe center;
+  align-self: stretch;
+  background-color: rgb(0, 168, 104);
+  border-radius: 12px;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 8.01px;
+  height: 48px;
+  justify-content: safe center;
+}
+.realizar-inscricao__container-49 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: auto;
+  justify-content: safe flex-start;
+  width: auto;
+}
+.realizar-inscricao__realizar-inscricao-2 {
+  color: rgb(255, 255, 255);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.13px;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: center;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.realizar-inscricao__container-50 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 13.33px;
+  justify-content: safe flex-start;
+  width: 13.33px;
+}
+.realizar-inscricao__icon-11 {
+  display: block;
+  flex: 0 0 auto;
+  height: 13.33px;
+  width: 13.33px;
+}
+.realizar-inscricao__group-47 {
+  height: 81px;
+  left: 0px;
+  position: absolute;
+  top: 0px;
+  width: 100%;
+  z-index: 1000;
+}
+.realizar-inscricao__group-44 {
+  height: 81px;
+  left: 0px;
+  position: absolute;
+  top: 0px;
+  width: 100%;
+}
+.realizar-inscricao__header {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 81px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  -webkit-backdrop-filter: blur(6px);
+
+  backdrop-filter: blur(6px);
+  background-color: rgb(254, 243, 199);
+  box-shadow:
+    inset 0 0 0 1px rgb(252, 211, 77),
+    0px 1px 8px 0px rgba(0, 0, 0, 0.04);
+
+  flex-direction: column;
+}
+.realizar-inscricao__container-51 {
+  align-self: stretch;
+  flex: 0 0 auto;
+  height: 80px;
+  max-width: 1280px;
+  position: relative;
+
+  margin: 0 auto;
+  width: 100%;
+}
+.realizar-inscricao__nav {
+  height: 30px;
+  left: 645.7px;
+  position: absolute;
+  top: 25px;
+  width: 141px;
+}
+.realizar-inscricao__container-52 {
+  align-items: safe center;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  height: 26px;
+  justify-content: safe flex-start;
+  left: 1230.4px;
+  padding: 4px 4px 4px 4px;
+  position: absolute;
+  top: 27px;
+  width: 25.6px;
+}
+.realizar-inscricao__container-53 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+  width: 1px;
+}
+.realizar-inscricao__container-54 {
+  align-items: safe flex-end;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+
+  margin: 0 auto;
+  width: 100%;
+}
+.realizar-inscricao__container-55 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 5.54px;
+  justify-content: safe flex-start;
+  width: 8.6px;
+}
+.realizar-inscricao__nav-2 {
+  align-items: safe center;
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  height: 30px;
+  justify-content: safe flex-start;
+  left: 424px;
+  position: absolute;
+  top: 26px;
+  width: 464.02px;
+}
+.realizar-inscricao__link {
+  align-items: safe flex-start;
+  border-radius: 9999px;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 30px;
+  justify-content: safe flex-start;
+  padding: 6px 16px 6px 16px;
+  width: 140px;
+}
+.realizar-inscricao__explorar-eventos {
+  color: rgb(15, 23, 42);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.13px;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.realizar-inscricao__link-2 {
+  align-items: safe flex-start;
+  border-radius: 9999px;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 30px;
+  justify-content: safe flex-start;
+  padding: 6px 16px 6px 16px;
+  width: 145.02px;
+}
+.realizar-inscricao__text-27 {
+  color: rgb(15, 23, 42);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.13px;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.realizar-inscricao__button-3 {
+  align-items: safe center;
+  background-color: rgb(0, 168, 104);
+  border-radius: 12px;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 4px;
+  height: 30px;
+  justify-content: safe flex-start;
+  padding: 12px 24px 12px 24px;
+  width: 171px;
+}
+.realizar-inscricao__container-56 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 9.97px;
+  justify-content: safe flex-start;
+  width: 9.97px;
+}
+.realizar-inscricao__icon-12 {
+  display: block;
+  flex: 0 0 auto;
+  height: 9.97px;
+  width: 9.97px;
+}
+.realizar-inscricao__container-57 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+  width: 110.97px;
+}
+.realizar-inscricao__text-28 {
+  color: rgb(255, 255, 255);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.13px;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: center;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.realizar-inscricao__nav-3 {
+  align-items: safe center;
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  height: 30px;
+  justify-content: safe flex-start;
+  left: 1065px;
+  position: absolute;
+  top: 26px;
+  width: 166.1px;
+}
+.realizar-inscricao__frame-36 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 10px;
+  height: 25px;
+  justify-content: safe flex-start;
+  width: 99.6px;
+}
+.realizar-inscricao__container-58 {
+  align-self: stretch;
+  border-radius: 12px;
+  flex: 0 0 auto;
+  height: 25px;
+  position: relative;
+}
+.realizar-inscricao__container-59 {
+  align-items: safe flex-start;
+  display: flex;
+  flex-direction: column;
+  height: 17px;
+  justify-content: safe flex-start;
+  left: 4px;
+  position: absolute;
+  top: 4px;
+  width: 75px;
+}
+.realizar-inscricao__container-60 {
+  align-items: safe flex-end;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 17px;
+  justify-content: safe flex-start;
+}
+.realizar-inscricao__ola-camila {
+  color: rgb(15, 23, 42);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  min-height: 17px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.13px;
+  line-height: 17px;
+  overflow-wrap: break-word;
+  text-align: right;
+  white-space: nowrap;
+  max-width: 100%;
+  width: fit-content;
+}
+.realizar-inscricao__container-61 {
+  align-items: safe flex-start;
+  display: flex;
+  flex-direction: column;
+  height: 5.54px;
+  justify-content: safe flex-start;
+  left: 87px;
+  position: absolute;
+  top: 9.73px;
+  width: 8.6px;
+}
+.realizar-inscricao__icon-13 {
+  display: block;
+  flex: 0 0 auto;
+  height: 5.54px;
+  width: 8.6px;
+}
+.realizar-inscricao__button-sair {
+  align-items: safe center;
+  border-radius: 9999px;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 4px;
+  height: 30px;
+  justify-content: safe flex-start;
+  padding: 6px 10px 6px 10px;
+  width: 62.5px;
+}
+.realizar-inscricao__container-62 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 13.5px;
+  justify-content: safe flex-start;
+  width: 13.5px;
+}
+.realizar-inscricao__icon-14 {
+  display: block;
+  flex: 0 0 auto;
+  height: 13.5px;
+  width: 13.5px;
+}
+.realizar-inscricao__container-63 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+  width: 25px;
+}
+.realizar-inscricao__sair {
+  color: rgb(186, 26, 26);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.13px;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: center;
+  white-space: nowrap;
+  max-width: 100%;
+  width: fit-content;
+}
+.realizar-inscricao__frame {
+  height: 66px;
+  left: 20px;
+  overflow: hidden;
+  position: absolute;
+  top: 10px;
+  width: 178px;
+}
+.realizar-inscricao__vector {
+  display: block;
+  height: 16.72px;
+  left: 49.01px;
+  position: absolute;
+  top: 25.1px;
+  width: 49.93px;
+}
+.realizar-inscricao__vector-2 {
+  display: block;
+  height: 11.77px;
+  left: 106.25px;
+  position: absolute;
+  top: 30.05px;
+  width: 65.56px;
+}
+.realizar-inscricao__container-64 {
+  align-items: safe flex-end;
+  display: flex;
+  flex-direction: column;
+  height: 14.67px;
+  justify-content: safe flex-start;
+  left: 1250.4px;
+  position: absolute;
+  top: 39.11px;
+  width: 31px;
+}
+.realizar-inscricao__footer {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: auto;
+  background-color: rgb(255, 255, 255);
+  box-shadow: inset 0 0 0 1px rgb(226, 232, 240);
+  flex-shrink: 0;
+  height: 72px;
+  padding: 24px 0px 24px 0px;
+}
+.realizar-inscricao__container-65 {
+  align-items: safe center;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  height: 18px;
+  justify-content: safe center;
+  max-width: 1280px;
+  padding: 0px 24px 0px 24px;
+}
+.realizar-inscricao__container-66 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+  width: 365.33px;
+}
+.realizar-inscricao__text-29 {
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: center;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+
+@media (max-width: 1240px) {
+  .realizar-inscricao__main {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .realizar-inscricao__two-column-form-layout {
+    flex-direction: column;
+  }
+  .realizar-inscricao__left-column-main-form,
+  .realizar-inscricao__coluna-direita {
+    width: 100%;
+    max-width: 100%;
+    flex: 1 1 auto;
+  }
+}
+@media (max-width: 768px) {
+  .realizar-inscricao__container-12 {
+    flex-direction: column;
+    height: auto;
+  }
+  .realizar-inscricao__container-13,
+  .realizar-inscricao__container-14 {
+    width: 100%;
+    flex: 1 1 auto;
+  }
+}
+
+/* SGIE Layout Normalization & Form Elements */
+.realizar-inscricao__main {
+  padding: 0 !important;
+}
+.realizar-inscricao__container {
+  padding: 32px 24px 48px 24px !important;
+  margin: 0 auto !important;
+}
+.realizar-inscricao__textarea-field {
+  width: 100%;
+  min-height: 100px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1.5px solid #cbd5e1;
+  background-color: #ffffff;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #0f172a;
+  box-sizing: border-box;
+  resize: vertical;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.realizar-inscricao__textarea-field:focus {
+  border-color: #006d41;
+  box-shadow: 0 0 0 3px rgba(0, 109, 65, 0.15);
+}
+.realizar-inscricao__drag-and-drop-dropzone {
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+.realizar-inscricao__drag-and-drop-dropzone.dragover {
+  border-color: #006d41 !important;
+  background-color: #ecfdf5 !important;
+}
+

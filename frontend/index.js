@@ -180,7 +180,7 @@ function htmlCard(ev, user, logado) {
                  <a href="${detalhes}" class="btn btn-primary"><span class="icon icon-settings"></span>Gerenciar</a>`;
     } else if (logado && !esgotado && ev.status === 'Inscrições abertas' && ev.inscricoes_abertas !== false) {
         acoes = `<a href="${detalhes}" class="btn btn-secondary btn-detalhes">Detalhes</a>
-                 <a href="inscricao/inscricao.html?evento=${encodeURIComponent(ev.id)}" class="btn btn-primary"><span class="icon icon-user-plus"></span>Realizar Inscrição</a>`;
+                 <a href="inscricao/realizar-inscricao/index.html?evento=${encodeURIComponent(ev.id)}" class="btn btn-primary"><span class="icon icon-user-plus"></span>Realizar Inscrição</a>`;
     } else {
         acoes = `<a href="${detalhes}" class="btn btn-soft">Ver Detalhes${logado ? '<span class="icon icon-arrow-right"></span>' : ''}</a>`;
     }

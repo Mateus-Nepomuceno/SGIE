@@ -270,7 +270,7 @@ function atualizarCabecalhoUsuario(activePage = '') {
         `;
         if (logado) {
             linksHtml += `
-                <li><a href="${resolveAppUrl('inscricao/minhas-inscricoes.html')}" class="nav-link ${ativo('minhas-inscricoes')}">Minhas Inscrições</a></li>
+                <li><a href="${resolveAppUrl('inscricao/minhas-inscricoes/index.html')}" class="nav-link ${ativo('minhas-inscricoes')}">Minhas Inscrições</a></li>
                 <li><a href="${resolveAppUrl('eventos/cadastrar-evento/index.html')}" class="btn btn-sm btn-primary ${ativo('novo')}"><span class="icon icon-plus"></span>Cadastrar Evento</a></li>
             `;
         }

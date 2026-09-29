@@ -1,0 +1,3495 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  width: 100%;
+  min-height: 100%;
+}
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  font-synthesis: none;
+  background-color: rgb(248, 250, 252);
+  display: flex;
+  flex-direction: column;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+figure,
+blockquote {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+}
+ul,
+ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+button {
+  appearance: none;
+  background: none;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-align: inherit;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+img,
+svg {
+  display: block;
+}
+[data-missing-asset] {
+  outline: 1px dashed #f0a;
+  outline-offset: -1px;
+}
+.minhas-inscricoes {
+  min-height: 100vh;
+  height: auto;
+  position: relative;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+.minhas-inscricoes__minhas-inscricoes {
+  align-items: center;
+  background-image: linear-gradient(rgb(248, 250, 252), rgb(248, 250, 252)),
+    linear-gradient(rgb(255, 255, 255), rgb(255, 255, 255));
+  background-position: center, center;
+  background-repeat: no-repeat, no-repeat;
+  background-size:
+    100% 100%,
+    100% 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  height: auto;
+  justify-content: safe flex-start;
+  left: 0px;
+  padding: 0;
+  position: relative;
+  top: 0px;
+  width: 100%;
+}
+.minhas-inscricoes__main {
+  align-items: center;
+  align-self: stretch;
+  background-color: rgb(248, 250, 252);
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  min-height: calc(100vh - 81px);
+  height: auto;
+  justify-content: safe flex-start;
+  padding: 96px 24px 32px 24px;
+  width: 100%;
+}
+.minhas-inscricoes__container {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 1 0 auto;
+  flex-direction: column;
+  height: auto;
+  min-height: auto;
+  justify-content: safe flex-start;
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+.minhas-inscricoes__section-page-header-margin {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: auto;
+  min-height: auto;
+  justify-content: safe flex-start;
+  padding: 0px 0px 32px 0px;
+}
+.minhas-inscricoes__section-page-header {
+  align-items: safe center;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  height: auto;
+  min-height: auto;
+  justify-content: safe flex-start;
+}
+.minhas-inscricoes__container-2 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 4px;
+  height: auto;
+  min-height: auto;
+  justify-content: safe flex-start;
+  max-width: 768px;
+  padding: 4px 0px 4px 0px;
+  width: 100%;
+}
+.minhas-inscricoes__heading-1 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 48px;
+  justify-content: safe flex-start;
+}
+.minhas-inscricoes__minhas-inscricoes-2 {
+  color: rgb(19, 27, 46);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 40px;
+  font-weight: 800;
+  min-height: 48px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: -1px;
+  line-height: 48px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-3 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 52px;
+  justify-content: safe flex-start;
+}
+.minhas-inscricoes__text {
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  min-height: 52px;
+  height: auto;
+  justify-content: center;
+  line-height: 26px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__section-search-filter-toolbar-margin {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: auto;
+  min-height: auto;
+  justify-content: safe flex-start;
+  padding: 0px 0px 32px 0px;
+}
+.minhas-inscricoes__section-search-filter-toolbar {
+  align-items: safe flex-start;
+  align-self: stretch;
+  background-color: rgb(255, 255, 255);
+  border-radius: 16px;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: auto;
+  min-height: 92px;
+  justify-content: safe flex-start;
+  padding: 24px 24px 24px 24px;
+}
+.minhas-inscricoes__container-4 {
+  align-self: stretch;
+  flex: 0 0 auto;
+  height: auto;
+  min-height: 44px;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+}
+.minhas-inscricoes__filter-action-buttons {
+  align-items: safe center;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  height: 44px;
+  justify-content: safe flex-end;
+  position: relative;
+  left: auto;
+  top: auto;
+  flex: 0 0 auto;
+  width: auto;
+}
+.minhas-inscricoes__button {
+  align-items: safe center;
+  background-color: rgb(0, 168, 104);
+  border-radius: 12px;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex: 1 1 180.14px;
+  flex-direction: row;
+  gap: 4px;
+  height: 44px;
+  justify-content: safe center;
+  min-width: 0;
+}
+.minhas-inscricoes__container-5 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 13.5px;
+  justify-content: safe flex-start;
+  width: 13.5px;
+}
+.minhas-inscricoes__icon {
+  display: block;
+  flex: 0 0 auto;
+  height: 13.5px;
+  width: 13.5px;
+}
+.minhas-inscricoes__container-6 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+  width: 45.03px;
+}
+.minhas-inscricoes__text-2 {
+  color: rgb(255, 255, 255);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.13px;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: center;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__button-2 {
+  align-items: safe center;
+  background-color: rgb(248, 250, 252);
+  border-radius: 12px;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 4px;
+  height: 44px;
+  justify-content: safe center;
+  padding: 0px 16px 0px 16px;
+  width: 91.86px;
+}
+.minhas-inscricoes__container-7 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 13.84px;
+  justify-content: safe flex-start;
+  width: 12px;
+}
+.minhas-inscricoes__icon-2 {
+  display: block;
+  flex: 0 0 auto;
+  height: 13.84px;
+  width: 12px;
+}
+.minhas-inscricoes__container-8 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+  width: 43.86px;
+}
+.minhas-inscricoes__text-3 {
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.13px;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: center;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__text-search-field {
+  align-items: safe flex-start;
+  display: flex;
+  flex-direction: column;
+  height: 44px;
+  justify-content: safe flex-start;
+  position: relative;
+  left: auto;
+  top: auto;
+  flex: 2 1 300px;
+  min-width: 220px;
+  width: auto;
+}
+.minhas-inscricoes__input {
+  align-items: safe flex-start;
+  align-self: stretch;
+  background-color: rgb(248, 250, 252);
+  border-radius: 12px;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  height: 44px;
+  justify-content: safe center;
+  overflow: hidden;
+  padding: 13px 16px 13px 44px;
+}
+.minhas-inscricoes__container-9 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 1 1 508px;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+  min-width: 0;
+  overflow: hidden;
+}
+.minhas-inscricoes__buscar-por-titulo-do-evento-codigo-ou-local {
+  align-self: stretch;
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+}
+.minhas-inscricoes__container-10 {
+  align-items: safe flex-start;
+  display: flex;
+  flex-direction: column;
+  height: 15px;
+  justify-content: safe flex-start;
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 15px;
+}
+.minhas-inscricoes__icon-3 {
+  display: block;
+  flex: 0 0 auto;
+  height: 15px;
+  width: 15px;
+}
+.minhas-inscricoes__status-dropdown-filter {
+  align-items: safe flex-start;
+  display: flex;
+  flex-direction: column;
+  height: 44px;
+  justify-content: safe flex-start;
+  position: relative;
+  left: auto;
+  top: auto;
+  flex: 1 1 200px;
+  min-width: 180px;
+  width: auto;
+}
+.minhas-inscricoes__options {
+  align-items: safe center;
+  align-self: stretch;
+  background-color: rgb(248, 250, 252);
+  border-radius: 12px;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  height: 44px;
+  justify-content: safe center;
+  padding: 0px 16px 0px 16px;
+}
+.minhas-inscricoes__container-11 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 1 1 244px;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+  min-width: 0;
+}
+.minhas-inscricoes__todas-as-situacoes {
+  align-self: stretch;
+  color: rgb(19, 27, 46);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.13px;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+}
+.minhas-inscricoes__container-12 {
+  align-items: safe flex-start;
+  display: flex;
+  flex-direction: column;
+  height: 20px;
+  justify-content: safe flex-start;
+  position: absolute;
+  right: 14px;
+  left: auto;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+}
+.minhas-inscricoes__icon-4 {
+  display: block;
+  flex: 0 0 auto;
+  height: 6.17px;
+  width: 10px;
+}
+.minhas-inscricoes__summary-stats-strip-margin {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: auto;
+  min-height: auto;
+  justify-content: safe flex-start;
+  padding: 0px 0px 32px 0px;
+}
+.minhas-inscricoes__summary-stats-strip {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 16px;
+  height: auto;
+  min-height: 78px;
+  justify-content: safe center;
+}
+.minhas-inscricoes__background-shadow {
+  align-items: safe center;
+  background-color: rgb(255, 255, 255);
+  border-radius: 12px;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex: 1 1 288px;
+  flex-direction: row;
+  gap: 16px;
+  height: 78px;
+  justify-content: safe flex-start;
+  min-width: 0;
+  padding: 16px 16px 16px 16px;
+}
+.minhas-inscricoes__background {
+  align-items: safe center;
+  background-color: rgb(230, 247, 240);
+  border-radius: 8px;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  height: 40px;
+  justify-content: safe center;
+  width: 40px;
+}
+.minhas-inscricoes__container-13 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 21px;
+  justify-content: safe flex-start;
+  width: 22px;
+}
+.minhas-inscricoes__icon-5 {
+  display: block;
+  flex: 0 0 auto;
+  height: 21px;
+  width: 22px;
+}
+.minhas-inscricoes__container-14 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 46px;
+  justify-content: safe flex-start;
+  width: 73.77px;
+}
+.minhas-inscricoes__container-15 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+}
+.minhas-inscricoes__text-4 {
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-16 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 28px;
+  justify-content: safe flex-start;
+}
+.minhas-inscricoes__text-5 {
+  color: rgb(19, 27, 46);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  min-height: 28px;
+  height: auto;
+  justify-content: center;
+  line-height: 28px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__background-shadow-2 {
+  align-items: safe center;
+  background-color: rgb(255, 255, 255);
+  border-radius: 12px;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex: 1 1 288px;
+  flex-direction: row;
+  gap: 16px;
+  height: 78px;
+  justify-content: safe flex-start;
+  min-width: 0;
+  padding: 16px 16px 16px 16px;
+}
+.minhas-inscricoes__background-2 {
+  align-items: safe center;
+  background-color: rgb(254, 243, 199);
+  border-radius: 8px;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  height: 40px;
+  justify-content: safe center;
+  width: 40px;
+}
+.minhas-inscricoes__container-17 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 20px;
+  justify-content: safe flex-start;
+  width: 20px;
+}
+.minhas-inscricoes__icon-6 {
+  display: block;
+  flex: 0 0 auto;
+  height: 20px;
+  width: 20px;
+}
+.minhas-inscricoes__container-18 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 46px;
+  justify-content: safe flex-start;
+  width: 61.91px;
+}
+.minhas-inscricoes__container-19 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+}
+.minhas-inscricoes__text-6 {
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-20 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 28px;
+  justify-content: safe flex-start;
+}
+.minhas-inscricoes__text-7 {
+  color: rgb(19, 27, 46);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  min-height: 28px;
+  height: auto;
+  justify-content: center;
+  line-height: 28px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__background-shadow-3 {
+  align-items: safe center;
+  background-color: rgb(255, 255, 255);
+  border-radius: 12px;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex: 1 1 288px;
+  flex-direction: row;
+  gap: 16px;
+  height: 78px;
+  justify-content: safe flex-start;
+  min-width: 0;
+  padding: 16px 16px 16px 16px;
+}
+.minhas-inscricoes__background-3 {
+  align-items: safe center;
+  background-color: rgb(226, 231, 255);
+  border-radius: 8px;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  height: 40px;
+  justify-content: safe center;
+  width: 40px;
+}
+.minhas-inscricoes__container-21 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 20px;
+  justify-content: safe flex-start;
+  width: 16px;
+}
+.minhas-inscricoes__icon-7 {
+  display: block;
+  flex: 0 0 auto;
+  height: 20px;
+  width: 16px;
+}
+.minhas-inscricoes__container-22 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 46px;
+  justify-content: safe flex-start;
+  width: 85.86px;
+}
+.minhas-inscricoes__container-23 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+}
+.minhas-inscricoes__text-8 {
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-24 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 28px;
+  justify-content: safe flex-start;
+}
+.minhas-inscricoes__text-9 {
+  color: rgb(19, 27, 46);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  min-height: 28px;
+  height: auto;
+  justify-content: center;
+  line-height: 28px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__background-shadow-4 {
+  align-items: safe center;
+  background-color: rgb(255, 255, 255);
+  border-radius: 12px;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex: 1 1 288px;
+  flex-direction: row;
+  gap: 16px;
+  height: 78px;
+  justify-content: safe flex-start;
+  min-width: 0;
+  padding: 16px 16px 16px 16px;
+}
+.minhas-inscricoes__background-4 {
+  align-items: safe center;
+  background-color: rgb(234, 237, 255);
+  border-radius: 8px;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  height: 40px;
+  justify-content: safe center;
+  width: 40px;
+}
+.minhas-inscricoes__container-25 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 20px;
+  justify-content: safe flex-start;
+  width: 20px;
+}
+.minhas-inscricoes__icon-8 {
+  display: block;
+  flex: 0 0 auto;
+  height: 20px;
+  width: 20px;
+}
+.minhas-inscricoes__container-26 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 46px;
+  justify-content: safe flex-start;
+  width: 68.17px;
+}
+.minhas-inscricoes__container-27 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+}
+.minhas-inscricoes__text-10 {
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-28 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 28px;
+  justify-content: safe flex-start;
+}
+.minhas-inscricoes__text-11 {
+  color: rgb(19, 27, 46);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  min-height: 28px;
+  height: auto;
+  justify-content: center;
+  line-height: 28px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__registration-cards-container-margin {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: auto;
+  min-height: auto;
+  justify-content: safe flex-start;
+  padding: 0px 0px 48px 0px;
+}
+.minhas-inscricoes__registration-cards-container {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 24px;
+  height: auto;
+  min-height: auto;
+  justify-content: safe flex-start;
+}
+.minhas-inscricoes__article-item-1-confirmada {
+  align-items: safe center;
+  align-self: stretch;
+  background-color: rgb(255, 255, 255);
+  border-radius: 16px;
+  box-shadow:
+    inset 0 0 0 1px rgb(226, 232, 240),
+    0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  height: auto;
+  min-height: 110px;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: space-between;
+  padding: 24px 23.99px 24px 24px;
+}
+.minhas-inscricoes__container-29 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 1 1 1021.63px;
+  flex-direction: column;
+  gap: 4px;
+  height: auto; min-height: 82px; flex: 1 1 500px; width: auto;
+  justify-content: safe flex-start;
+  min-width: 0;
+}
+.minhas-inscricoes__container-30 {
+  align-items: safe center;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 4px;
+  height: 20px;
+  justify-content: safe flex-start;
+}
+.minhas-inscricoes__background-5 {
+  align-items: safe flex-start;
+  background-color: rgb(230, 247, 240);
+  border-radius: 4px;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 20px;
+  justify-content: safe flex-start;
+  padding: 2px 8px 2px 8px;
+  width: 134.98px;
+}
+.minhas-inscricoes__text-12 {
+  color: rgb(0, 109, 65);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  min-height: 16px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.33px;
+  line-height: 16px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: nowrap !important;
+  max-width: auto !important;
+  width: auto !important;
+}
+.minhas-inscricoes__container-31 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+  width: 6.44px;
+}
+.minhas-inscricoes__text-13 {
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-32 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+  width: 122.42px;
+}
+.minhas-inscricoes__text-14 {
+  color: rgb(19, 27, 46);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Liberation Mono", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-33 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+  width: 6.44px;
+}
+.minhas-inscricoes__text-15 {
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-34 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 16px;
+  justify-content: safe flex-start;
+  width: 106.34px;
+}
+.minhas-inscricoes__text-16 {
+  color: rgb(0, 109, 65);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  min-height: 16px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.33px;
+  line-height: 16px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__heading-2 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 28px;
+  justify-content: safe flex-start;
+}
+.minhas-inscricoes__simposio-internacional-de-inteligencia-artificia {
+  align-self: stretch;
+  color: rgb(19, 27, 46);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  min-height: 28px;
+  height: auto;
+  justify-content: center;
+  line-height: 28px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+}
+.minhas-inscricoes__container-35 {
+  align-items: safe center;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 16px;
+  height: auto; flex-wrap: wrap; gap: 12px;
+  justify-content: safe flex-start;
+  padding: 4px 0px 4px 0px;
+}
+.minhas-inscricoes__container-36 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 4px;
+  height: 22px;
+  justify-content: safe flex-start;
+  width: auto; max-width: 100%;
+}
+.minhas-inscricoes__container-37 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 15px;
+  justify-content: safe flex-start;
+  width: 13.5px;
+}
+.minhas-inscricoes__icon-9 {
+  display: block;
+  flex: 0 0 auto;
+  height: 15px;
+  width: 13.5px;
+}
+.minhas-inscricoes__container-38 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 22px;
+  justify-content: safe flex-start;
+  width: auto; max-width: 100%;
+}
+.minhas-inscricoes__text-17 {
+  color: rgb(51, 65, 85);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  min-height: 22px;
+  height: auto;
+  justify-content: center;
+  line-height: 22px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-39 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 4px;
+  height: 22px;
+  justify-content: safe flex-start;
+  width: auto; max-width: 100%;
+}
+.minhas-inscricoes__container-40 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 15px;
+  justify-content: safe flex-start;
+  width: 15px;
+}
+.minhas-inscricoes__icon-10 {
+  display: block;
+  flex: 0 0 auto;
+  height: 15px;
+  width: 15px;
+}
+.minhas-inscricoes__container-41 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 22px;
+  justify-content: safe flex-start;
+  width: auto; max-width: 100%;
+}
+.minhas-inscricoes__text-18 {
+  color: rgb(51, 65, 85);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  min-height: 22px;
+  height: auto;
+  justify-content: center;
+  line-height: 22px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-42 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 4px;
+  height: 22px;
+  justify-content: safe flex-start;
+  width: auto; max-width: 100%;
+}
+.minhas-inscricoes__container-43 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 15px;
+  justify-content: safe flex-start;
+  width: 12px;
+}
+.minhas-inscricoes__icon-11 {
+  display: block;
+  flex: 0 0 auto;
+  height: 15px;
+  width: 12px;
+}
+.minhas-inscricoes__container-44 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 22px;
+  justify-content: safe flex-start;
+  width: auto; max-width: 100%;
+}
+.minhas-inscricoes__text-19 {
+  color: rgb(51, 65, 85);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  min-height: 22px;
+  height: auto;
+  justify-content: center;
+  line-height: 22px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-45 {
+  align-items: safe flex-end;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 8px;
+  height: 72px;
+  justify-content: safe center;
+  width: auto; height: auto; flex: 0 0 auto; align-items: flex-end;
+}
+.minhas-inscricoes__background-border {
+  align-items: safe center;
+  background-color: rgb(236, 253, 245);
+  border-radius: 9999px;
+  box-shadow: inset 0 0 0 1px rgb(167, 243, 208);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 6px;
+  height: 26px;
+  justify-content: safe flex-start;
+  padding: 4px 12px 4px 12px;
+  width: 111.89px;
+}
+.minhas-inscricoes__container-46 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 13.33px;
+  justify-content: safe flex-start;
+  width: 13.33px;
+}
+.minhas-inscricoes__icon-12 {
+  display: block;
+  flex: 0 0 auto;
+  height: 13.33px;
+  width: 13.33px;
+}
+.minhas-inscricoes__text-20 {
+  color: rgb(6, 95, 70);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  min-height: 16px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.33px;
+  line-height: 16px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__button-3 {
+  align-items: safe center;
+  background-color: rgb(0, 168, 104);
+  border-radius: 12px;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 4px;
+  height: 38px;
+  justify-content: safe flex-start;
+  padding: 10px 16px 10px 16px;
+  width: 128.38px;
+}
+.minhas-inscricoes__container-47 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 13.5px;
+  justify-content: safe flex-start;
+  width: 13.5px;
+}
+.minhas-inscricoes__icon-13 {
+  display: block;
+  flex: 0 0 auto;
+  height: 13.5px;
+  width: 13.5px;
+}
+.minhas-inscricoes__container-48 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+  width: 78.88px;
+}
+.minhas-inscricoes__text-21 {
+  color: rgb(255, 255, 255);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.13px;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: center;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__article-item-2-pendente-de-pagamento {
+  align-items: safe center;
+  align-self: stretch;
+  background-color: rgb(255, 255, 255);
+  border-radius: 16px;
+  box-shadow:
+    inset 0 0 0 1px rgb(226, 232, 240),
+    0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  height: auto;
+  min-height: 110px;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: space-between;
+  padding: 24px 24px 24px 24px;
+}
+.minhas-inscricoes__container-49 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 1 1 969.24px;
+  flex-direction: column;
+  gap: 4px;
+  height: auto; min-height: 82px; flex: 1 1 500px; width: auto;
+  justify-content: safe flex-start;
+  min-width: 0;
+}
+.minhas-inscricoes__container-50 {
+  align-items: safe center;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 4px;
+  height: 20px;
+  justify-content: safe flex-start;
+}
+.minhas-inscricoes__background-6 {
+  align-items: safe flex-start;
+  background-color: rgb(254, 243, 199);
+  border-radius: 4px;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 20px;
+  justify-content: safe flex-start;
+  padding: 2px 8px 2px 8px;
+  width: 143.77px;
+}
+.minhas-inscricoes__text-22 {
+  color: rgb(133, 83, 0);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  min-height: 16px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.33px;
+  line-height: 16px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-51 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+
+  margin: 0 auto;
+  width: 100%;
+}
+.minhas-inscricoes__text-23 {
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-52 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+  width: 122.42px;
+}
+.minhas-inscricoes__text-24 {
+  color: rgb(19, 27, 46);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Liberation Mono", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-53 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+  width: 6.44px;
+}
+.minhas-inscricoes__text-25 {
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-54 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 16px;
+  justify-content: safe flex-start;
+
+  margin: 0 auto;
+  width: 100%;
+}
+.minhas-inscricoes__text-26 {
+  color: rgb(133, 83, 0);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  min-height: 16px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.33px;
+  line-height: 16px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__heading-2-2 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 28px;
+  justify-content: safe flex-start;
+}
+.minhas-inscricoes__congresso-academico-de-ciencias-e-inovacao-suste {
+  align-self: stretch;
+  color: rgb(19, 27, 46);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  min-height: 28px;
+  height: auto;
+  justify-content: center;
+  line-height: 28px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+}
+.minhas-inscricoes__container-55 {
+  align-items: safe center;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 16px;
+  height: auto; flex-wrap: wrap; gap: 12px;
+  justify-content: safe flex-start;
+  padding: 4px 0px 4px 0px;
+}
+.minhas-inscricoes__container-56 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 4px;
+  height: 22px;
+  justify-content: safe flex-start;
+  width: auto; max-width: 100%;
+}
+.minhas-inscricoes__container-57 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 15px;
+  justify-content: safe flex-start;
+  width: 13.5px;
+}
+.minhas-inscricoes__icon-14 {
+  display: block;
+  flex: 0 0 auto;
+  height: 15px;
+  width: 13.5px;
+}
+.minhas-inscricoes__container-58 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 22px;
+  justify-content: safe flex-start;
+  width: auto; max-width: 100%;
+}
+.minhas-inscricoes__text-27 {
+  color: rgb(51, 65, 85);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  min-height: 22px;
+  height: auto;
+  justify-content: center;
+  line-height: 22px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-59 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 4px;
+  height: 22px;
+  justify-content: safe flex-start;
+  width: auto; max-width: 100%;
+}
+.minhas-inscricoes__container-60 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 15px;
+  justify-content: safe flex-start;
+  width: 15px;
+}
+.minhas-inscricoes__icon-15 {
+  display: block;
+  flex: 0 0 auto;
+  height: 15px;
+  width: 15px;
+}
+.minhas-inscricoes__container-61 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 22px;
+  justify-content: safe flex-start;
+  width: auto; max-width: 100%;
+}
+.minhas-inscricoes__text-28 {
+  color: rgb(51, 65, 85);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  min-height: 22px;
+  height: auto;
+  justify-content: center;
+  line-height: 22px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-62 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 4px;
+  height: 22px;
+  justify-content: safe flex-start;
+  width: auto; max-width: 100%;
+}
+.minhas-inscricoes__container-63 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 15px;
+  justify-content: safe flex-start;
+  width: 12px;
+}
+.minhas-inscricoes__icon-16 {
+  display: block;
+  flex: 0 0 auto;
+  height: 15px;
+  width: 12px;
+}
+.minhas-inscricoes__container-64 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 22px;
+  justify-content: safe flex-start;
+  width: auto; max-width: 100%;
+}
+.minhas-inscricoes__text-29 {
+  color: rgb(51, 65, 85);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  min-height: 22px;
+  height: auto;
+  justify-content: center;
+  line-height: 22px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-65 {
+  align-items: safe flex-end;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 8px;
+  height: 72px;
+  justify-content: safe center;
+  width: auto; height: auto; flex: 0 0 auto; align-items: flex-end;
+}
+.minhas-inscricoes__background-border-2 {
+  align-items: safe center;
+  background-color: rgb(255, 251, 235);
+  border-radius: 9999px;
+  box-shadow: inset 0 0 0 1px rgb(253, 230, 138);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 6px;
+  height: 26px;
+  justify-content: safe flex-start;
+  padding: 4px 12px 4px 12px;
+  width: 180.76px;
+}
+.minhas-inscricoes__container-66 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 13.33px;
+  justify-content: safe flex-start;
+  width: 10.67px;
+}
+.minhas-inscricoes__icon-17 {
+  display: block;
+  flex: 0 0 auto;
+  height: 13.33px;
+  width: 10.67px;
+}
+.minhas-inscricoes__text-30 {
+  color: rgb(146, 64, 14);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  min-height: 16px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.33px;
+  line-height: 16px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__button-4 {
+  align-items: safe center;
+  background-color: rgb(0, 168, 104);
+  border-radius: 12px;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 4px;
+  height: 38px;
+  justify-content: safe flex-start;
+  padding: 10px 16px 10px 16px;
+  width: 128.86px;
+}
+.minhas-inscricoes__container-67 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 12px;
+  justify-content: safe flex-start;
+  width: 15px;
+}
+.minhas-inscricoes__icon-18 {
+  display: block;
+  flex: 0 0 auto;
+  height: 12px;
+  width: 15px;
+}
+.minhas-inscricoes__container-68 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+  width: 77.86px;
+}
+.minhas-inscricoes__text-31 {
+  color: rgb(255, 255, 255);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.13px;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: center;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__article-item-3-lista-de-espera {
+  align-items: safe center;
+  align-self: stretch;
+  background-color: rgb(255, 255, 255);
+  border-radius: 16px;
+  box-shadow:
+    inset 0 0 0 1px rgb(226, 232, 240),
+    0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  height: auto;
+  min-height: 110px;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: space-between;
+  padding: 24px 24px 24px 24px;
+}
+.minhas-inscricoes__container-69 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 1 1 941.12px;
+  flex-direction: column;
+  gap: 4px;
+  height: auto; min-height: 82px; flex: 1 1 500px; width: auto;
+  justify-content: safe flex-start;
+  min-width: 0;
+}
+.minhas-inscricoes__container-70 {
+  align-items: safe center;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 4px;
+  height: 20px;
+  justify-content: safe flex-start;
+}
+.minhas-inscricoes__background-7 {
+  align-items: safe flex-start;
+  background-color: rgb(226, 231, 255);
+  border-radius: 4px;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 20px;
+  justify-content: safe flex-start;
+  padding: 2px 8px 2px 8px;
+  width: 116.28px;
+}
+.minhas-inscricoes__text-32 {
+  color: rgb(61, 74, 64);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  min-height: 16px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.33px;
+  line-height: 16px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-71 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+  width: 6.44px;
+}
+.minhas-inscricoes__text-33 {
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-72 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+  width: 136.83px;
+}
+.minhas-inscricoes__text-34 {
+  color: rgb(19, 27, 46);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Liberation Mono", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-73 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+  width: 6.44px;
+}
+.minhas-inscricoes__text-35 {
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-74 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 16px;
+  justify-content: safe flex-start;
+  width: 98.61px;
+}
+.minhas-inscricoes__text-36 {
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  min-height: 16px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.33px;
+  line-height: 16px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__heading-2-3 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 28px;
+  justify-content: safe flex-start;
+}
+.minhas-inscricoes__workshop-de-pesquisa-cientifica-e-normalizacao-a {
+  align-self: stretch;
+  color: rgb(19, 27, 46);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  min-height: 28px;
+  height: auto;
+  justify-content: center;
+  line-height: 28px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+}
+.minhas-inscricoes__container-75 {
+  align-items: safe center;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 16px;
+  height: auto; flex-wrap: wrap; gap: 12px;
+  justify-content: safe flex-start;
+  padding: 4px 0px 4px 0px;
+}
+.minhas-inscricoes__container-76 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 4px;
+  height: 22px;
+  justify-content: safe flex-start;
+  width: auto; max-width: 100%;
+}
+.minhas-inscricoes__container-77 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 15px;
+  justify-content: safe flex-start;
+  width: 13.5px;
+}
+.minhas-inscricoes__icon-19 {
+  display: block;
+  flex: 0 0 auto;
+  height: 15px;
+  width: 13.5px;
+}
+.minhas-inscricoes__container-78 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 22px;
+  justify-content: safe flex-start;
+  width: auto; max-width: 100%;
+}
+.minhas-inscricoes__text-37 {
+  color: rgb(51, 65, 85);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  min-height: 22px;
+  height: auto;
+  justify-content: center;
+  line-height: 22px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-79 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 4px;
+  height: 22px;
+  justify-content: safe flex-start;
+  width: auto; max-width: 100%;
+}
+.minhas-inscricoes__container-80 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 15px;
+  justify-content: safe flex-start;
+  width: 15px;
+}
+.minhas-inscricoes__icon-20 {
+  display: block;
+  flex: 0 0 auto;
+  height: 15px;
+  width: 15px;
+}
+.minhas-inscricoes__container-81 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 22px;
+  justify-content: safe flex-start;
+  width: auto; max-width: 100%;
+}
+.minhas-inscricoes__text-38 {
+  color: rgb(51, 65, 85);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  min-height: 22px;
+  height: auto;
+  justify-content: center;
+  line-height: 22px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-82 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 4px;
+  height: 22px;
+  justify-content: safe flex-start;
+  width: auto; max-width: 100%;
+}
+.minhas-inscricoes__container-83 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 13.5px;
+  justify-content: safe flex-start;
+  width: 13.5px;
+}
+.minhas-inscricoes__icon-21 {
+  display: block;
+  flex: 0 0 auto;
+  height: 13.5px;
+  width: 13.5px;
+}
+.minhas-inscricoes__container-84 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 22px;
+  justify-content: safe flex-start;
+  width: auto; max-width: 100%;
+}
+.minhas-inscricoes__text-39 {
+  color: rgb(51, 65, 85);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  min-height: 22px;
+  height: auto;
+  justify-content: center;
+  line-height: 22px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-85 {
+  align-items: safe flex-end;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 8px;
+  height: 52px;
+  justify-content: safe center;
+  width: auto; height: auto; flex: 0 0 auto; align-items: flex-end;
+}
+.minhas-inscricoes__background-border-3 {
+  align-items: safe center;
+  background-color: rgb(240, 249, 255);
+  border-radius: 9999px;
+  box-shadow: inset 0 0 0 1px rgb(186, 230, 253);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 6px;
+  height: 26px;
+  justify-content: safe flex-start;
+  padding: 4px 12px 4px 12px;
+  width: 208.88px;
+}
+.minhas-inscricoes__container-86 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 13.33px;
+  justify-content: safe flex-start;
+  width: 13.33px;
+}
+.minhas-inscricoes__icon-22 {
+  display: block;
+  flex: 0 0 auto;
+  height: 13.33px;
+  width: 13.33px;
+}
+.minhas-inscricoes__text-40 {
+  color: rgb(7, 89, 133);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  min-height: 16px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.33px;
+  line-height: 16px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-87 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+  width: 173.69px;
+}
+.minhas-inscricoes__text-41 {
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__article-item-4-cancelada {
+  align-items: safe center;
+  align-self: stretch;
+  background-color: rgb(255, 255, 255);
+  border-radius: 16px;
+  box-shadow:
+    inset 0 0 0 1px rgb(226, 232, 240),
+    0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  height: auto;
+  min-height: 110px;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: space-between;
+  opacity: 0.75;
+  padding: 24px 24px 24px 24px;
+}
+.minhas-inscricoes__container-88 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 1 1 988.05px;
+  flex-direction: column;
+  gap: 4px;
+  height: 82px;
+  justify-content: safe flex-start;
+  min-width: 0;
+}
+.minhas-inscricoes__container-89 {
+  align-items: safe center;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 4px;
+  height: auto; min-height: 82px; flex: 1 1 500px; width: auto;
+  justify-content: safe flex-start;
+}
+.minhas-inscricoes__background-8 {
+  align-items: safe flex-start;
+  background-color: rgb(234, 237, 255);
+  border-radius: 4px;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 20px;
+  justify-content: safe flex-start;
+  padding: 2px 8px 2px 8px;
+  width: 130.64px;
+}
+.minhas-inscricoes__text-42 {
+  color: rgb(61, 74, 64);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  min-height: 16px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.33px;
+  line-height: 16px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-90 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+  width: 6.44px;
+}
+.minhas-inscricoes__text-43 {
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-91 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+
+  margin: 0 auto;
+  width: 100%;
+}
+.minhas-inscricoes__text-44 {
+  color: rgb(19, 27, 46);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Liberation Mono", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-92 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+  width: 6.44px;
+}
+.minhas-inscricoes__text-45 {
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-93 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 16px;
+  justify-content: safe flex-start;
+  width: 102.98px;
+}
+.minhas-inscricoes__text-46 {
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  min-height: 16px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.33px;
+  line-height: 16px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__heading-2-4 {
+  align-items: safe flex-start;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 28px;
+  justify-content: safe flex-start;
+}
+.minhas-inscricoes__seminario-avancado-de-bioinformatica-e-biologia {
+  align-self: stretch;
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  min-height: 28px;
+  height: auto;
+  justify-content: center;
+  line-height: 28px;
+  overflow-wrap: break-word;
+  text-align: left;
+  text-decoration: line-through;
+  white-space: normal;
+}
+.minhas-inscricoes__container-94 {
+  align-items: safe center;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 16px;
+  height: 26px;
+  justify-content: safe flex-start;
+  padding: 4px 0px 4px 0px;
+}
+.minhas-inscricoes__container-95 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 4px;
+  height: auto; flex-wrap: wrap; gap: 12px;
+  justify-content: safe flex-start;
+  width: 187.09px;
+}
+.minhas-inscricoes__container-96 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 15px;
+  justify-content: safe flex-start;
+  width: auto; max-width: 100%;
+}
+.minhas-inscricoes__icon-23 {
+  display: block;
+  flex: 0 0 auto;
+  height: 15px;
+  width: 13.5px;
+}
+.minhas-inscricoes__container-97 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 22px;
+  justify-content: safe flex-start;
+  width: 169.59px;
+}
+.minhas-inscricoes__text-47 {
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  min-height: 22px;
+  height: auto;
+  justify-content: center;
+  line-height: 22px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-98 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 4px;
+  height: 22px;
+  justify-content: safe flex-start;
+  width: auto; max-width: 100%;
+}
+.minhas-inscricoes__container-99 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 15px;
+  justify-content: safe flex-start;
+  width: auto; max-width: 100%;
+}
+.minhas-inscricoes__icon-24 {
+  display: block;
+  flex: 0 0 auto;
+  height: 15px;
+  width: 15px;
+}
+.minhas-inscricoes__container-100 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 22px;
+  justify-content: safe flex-start;
+
+  margin: 0 auto;
+  width: 100%;
+}
+.minhas-inscricoes__text-48 {
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  min-height: 22px;
+  height: auto;
+  justify-content: center;
+  line-height: 22px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-101 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 4px;
+  height: 22px;
+  justify-content: safe flex-start;
+  width: auto; max-width: 100%;
+}
+.minhas-inscricoes__container-102 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 12px;
+  justify-content: safe flex-start;
+  width: auto; max-width: 100%;
+}
+.minhas-inscricoes__icon-25 {
+  display: block;
+  flex: 0 0 auto;
+  height: 12px;
+  width: 15px;
+}
+.minhas-inscricoes__container-103 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 22px;
+  justify-content: safe flex-start;
+  width: 135.69px;
+}
+.minhas-inscricoes__text-49 {
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  min-height: 22px;
+  height: auto;
+  justify-content: center;
+  line-height: 22px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-104 {
+  align-items: safe flex-end;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 8px;
+  height: 52px;
+  justify-content: safe center;
+  width: auto; max-width: 100%;
+}
+.minhas-inscricoes__background-border-4 {
+  align-items: safe center;
+  background-color: rgb(255, 241, 242);
+  border-radius: 9999px;
+  box-shadow: inset 0 0 0 1px rgb(254, 205, 211);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 6px;
+  height: 26px;
+  justify-content: safe flex-start;
+  padding: 4px 12px 4px 12px;
+  width: 159.53px;
+}
+.minhas-inscricoes__container-105 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 13.33px;
+  justify-content: safe flex-start;
+  width: 13.33px;
+}
+.minhas-inscricoes__icon-26 {
+  display: block;
+  flex: 0 0 auto;
+  height: 13.33px;
+  width: 13.33px;
+}
+.minhas-inscricoes__text-50 {
+  color: rgb(159, 18, 57);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  min-height: 16px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.33px;
+  line-height: 16px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-106 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+  width: 161.95px;
+}
+.minhas-inscricoes__text-51 {
+  color: rgb(186, 26, 26);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__group-38 {
+  display: none;
+}
+.minhas-inscricoes__container-107 {
+  align-items: safe flex-end;
+  display: flex;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+  left: 0px;
+  position: absolute;
+  top: 0px;
+  width: 31px;
+}
+.minhas-inscricoes__footer {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: auto;
+  background-color: rgb(255, 255, 255);
+  box-shadow: inset 0 0 0 1px rgb(226, 232, 240);
+  flex-shrink: 0;
+  height: 72px;
+  padding: 24px 0px 24px 0px;
+}
+.minhas-inscricoes__container-108 {
+  align-items: safe center;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  height: 18px;
+  justify-content: safe center;
+  max-width: 1280px;
+  padding: 0px 24px 0px 24px;
+
+  margin: 0 auto;
+  width: 100%;
+}
+.minhas-inscricoes__container-109 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+  width: 365.33px;
+}
+.minhas-inscricoes__text-52 {
+  color: rgb(100, 116, 139);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: center;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__group-49 {
+  height: 81px;
+  left: 0px;
+  position: absolute;
+  top: 0px;
+  width: 100%;
+  z-index: 1000;
+}
+.minhas-inscricoes__group-44 {
+  height: 81px;
+  left: 0px;
+  position: absolute;
+  top: 0px;
+  width: 100%;
+}
+.minhas-inscricoes__header {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 81px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  -webkit-backdrop-filter: blur(6px);
+
+  backdrop-filter: blur(6px);
+  background-color: rgb(254, 243, 199);
+  box-shadow:
+    inset 0 0 0 1px rgb(252, 211, 77),
+    0px 1px 8px 0px rgba(0, 0, 0, 0.04);
+
+  flex-direction: column;
+}
+.minhas-inscricoes__container-110 {
+  align-self: stretch;
+  flex: 0 0 auto;
+  height: 80px;
+  max-width: 1280px;
+  position: relative;
+
+  margin: 0 auto;
+  width: 100%;
+}
+.minhas-inscricoes__nav {
+  height: 30px;
+  left: 645.7px;
+  position: absolute;
+  top: 25px;
+  width: 141px;
+}
+.minhas-inscricoes__container-111 {
+  align-items: safe center;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  height: 26px;
+  justify-content: safe flex-start;
+  left: 1230.4px;
+  padding: 4px 4px 4px 4px;
+  position: absolute;
+  top: 27px;
+  width: 25.6px;
+}
+.minhas-inscricoes__container-112 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+  width: 1px;
+}
+.minhas-inscricoes__container-113 {
+  align-items: safe flex-end;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+}
+.minhas-inscricoes__container-114 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 5.54px;
+  justify-content: safe flex-start;
+  width: 8.6px;
+}
+.minhas-inscricoes__nav-2 {
+  align-items: safe center;
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  height: 30px;
+  justify-content: safe flex-start;
+  left: 424px;
+  position: absolute;
+  top: 26px;
+  width: 465px;
+}
+.minhas-inscricoes__link {
+  align-items: safe flex-start;
+  border-radius: 9999px;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 30px;
+  justify-content: safe flex-start;
+  padding: 6px 16px 6px 16px;
+  width: 140px;
+}
+.minhas-inscricoes__explorar-eventos {
+  color: rgb(15, 23, 42);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.13px;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__nav-3 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 4px;
+  height: 30px;
+  justify-content: safe flex-start;
+  width: 146px;
+}
+.minhas-inscricoes__link-2 {
+  align-items: safe flex-start;
+  background-color: rgba(0, 168, 104, 0.2);
+  border-radius: 9999px;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 30px;
+  justify-content: safe flex-start;
+  padding: 6px 16px 6px 16px;
+  width: 146px;
+}
+.minhas-inscricoes__minhas-inscricoes-3 {
+  color: rgb(0, 109, 65);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.13px;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: left;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__button-5 {
+  align-items: safe center;
+  background-color: rgb(0, 168, 104);
+  border-radius: 12px;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 4px;
+  height: 30px;
+  justify-content: safe flex-start;
+  padding: 12px 24px 12px 24px;
+  width: 171px;
+}
+.minhas-inscricoes__container-115 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 9.97px;
+  justify-content: safe flex-start;
+  width: 9.97px;
+}
+.minhas-inscricoes__icon-27 {
+  display: block;
+  flex: 0 0 auto;
+  height: 9.97px;
+  width: 9.97px;
+}
+.minhas-inscricoes__container-116 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+  width: 110.97px;
+}
+.minhas-inscricoes__text-53 {
+  color: rgb(255, 255, 255);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.13px;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: center;
+  white-space: normal;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__nav-4 {
+  align-items: safe center;
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  height: 30px;
+  justify-content: safe flex-start;
+  left: 1065px;
+  position: absolute;
+  top: 26px;
+  width: 166.1px;
+}
+.minhas-inscricoes__frame-36 {
+  align-items: safe flex-start;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  gap: 10px;
+  height: 25px;
+  justify-content: safe flex-start;
+  width: 99.6px;
+}
+.minhas-inscricoes__container-117 {
+  align-self: stretch;
+  border-radius: 12px;
+  flex: 0 0 auto;
+  height: 25px;
+  position: relative;
+}
+.minhas-inscricoes__container-118 {
+  align-items: safe flex-start;
+  display: flex;
+  flex-direction: column;
+  height: 17px;
+  justify-content: safe flex-start;
+  left: 4px;
+  position: absolute;
+  top: 4px;
+  width: 75px;
+}
+.minhas-inscricoes__container-119 {
+  align-items: safe flex-end;
+  align-self: stretch;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 17px;
+  justify-content: safe flex-start;
+}
+.minhas-inscricoes__ola-camila {
+  color: rgb(15, 23, 42);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  min-height: 17px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.13px;
+  line-height: 17px;
+  overflow-wrap: break-word;
+  text-align: right;
+  white-space: nowrap;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__container-120 {
+  align-items: safe flex-start;
+  display: flex;
+  flex-direction: column;
+  height: 5.54px;
+  justify-content: safe flex-start;
+  left: 87px;
+  position: absolute;
+  top: 9.73px;
+  width: 8.6px;
+}
+.minhas-inscricoes__icon-28 {
+  display: block;
+  flex: 0 0 auto;
+  height: 5.54px;
+  width: 8.6px;
+}
+.minhas-inscricoes__button-sair {
+  align-items: safe center;
+  border-radius: 9999px;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: row;
+  gap: 4px;
+  height: 30px;
+  justify-content: safe flex-start;
+  padding: 6px 10px 6px 10px;
+  width: 62.5px;
+}
+.minhas-inscricoes__container-121 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 13.5px;
+  justify-content: safe flex-start;
+  width: 13.5px;
+}
+.minhas-inscricoes__icon-29 {
+  display: block;
+  flex: 0 0 auto;
+  height: 13.5px;
+  width: 13.5px;
+}
+.minhas-inscricoes__container-122 {
+  align-items: safe center;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: 18px;
+  justify-content: safe flex-start;
+  width: 25px;
+}
+.minhas-inscricoes__sair {
+  color: rgb(186, 26, 26);
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  font-family: "Plus Jakarta Sans", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  min-height: 18px;
+  height: auto;
+  justify-content: center;
+  letter-spacing: 0.13px;
+  line-height: 18px;
+  overflow-wrap: break-word;
+  text-align: center;
+  white-space: nowrap;
+  max-width: 100%;
+  width: fit-content;
+}
+.minhas-inscricoes__frame {
+  height: 66px;
+  left: 20px;
+  overflow: hidden;
+  position: absolute;
+  top: 10px;
+  width: 178px;
+}
+.minhas-inscricoes__vector {
+  display: block;
+  height: 16.72px;
+  left: 49.01px;
+  position: absolute;
+  top: 25.1px;
+  width: 49.93px;
+}
+.minhas-inscricoes__vector-2 {
+  display: block;
+  height: 11.77px;
+  left: 106.25px;
+  position: absolute;
+  top: 30.05px;
+  width: 65.56px;
+}
+.minhas-inscricoes__container-123 {
+  align-items: safe flex-end;
+  display: flex;
+  flex-direction: column;
+  height: 14.67px;
+  justify-content: safe flex-start;
+  left: 1250.4px;
+  position: absolute;
+  top: 39.11px;
+  width: 31px;
+}
+
+@media (max-width: 1240px) {
+  .minhas-inscricoes__main {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+@media (max-width: 768px) {
+  .minhas-inscricoes__container-4 {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .minhas-inscricoes__text-search-field,
+  .minhas-inscricoes__status-dropdown-filter,
+  .minhas-inscricoes__filter-action-buttons {
+    width: 100%;
+    flex: 1 1 100%;
+  }
+  .minhas-inscricoes__article-item-1-confirmada,
+  .minhas-inscricoes__article-item-2-pendente-de-pagamento,
+  .minhas-inscricoes__article-item-3-lista-de-espera,
+  .minhas-inscricoes__article-item-4-cancelada {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .minhas-inscricoes__container-45,
+  .minhas-inscricoes__container-65,
+  .minhas-inscricoes__container-85 {
+    width: 100%;
+    align-items: flex-start;
+  }
+}
+
+/* SGIE Layout Normalization, Inputs, and Ticket Modal */
+.minhas-inscricoes__main {
+  padding: 32px 24px 48px 24px !important;
+}
+
+.minhas-inscricoes__input-field {
+  width: 100%;
+  border: 1.5px solid #cbd5e1;
+  background-color: #ffffff;
+  padding: 10px 14px 10px 38px;
+  border-radius: 10px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  color: #0f172a;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.minhas-inscricoes__input-field:focus {
+  border-color: #006d41;
+  box-shadow: 0 0 0 3px rgba(0, 109, 65, 0.15);
+}
+
+.minhas-inscricoes__select-field {
+  width: 100%;
+  border: 1.5px solid #cbd5e1;
+  background-color: #ffffff;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 14px;
+  color: #0f172a;
+  outline: none;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.minhas-inscricoes__select-field:focus {
+  border-color: #006d41;
+  box-shadow: 0 0 0 3px rgba(0, 109, 65, 0.15);
+}
+
+/* Modal Overlay */
+.sgie-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.sgie-modal-card {
+  background-color: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  max-width: 480px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  padding: 24px;
+  box-sizing: border-box;
+  animation: modalFadeIn 0.25s ease-out;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.sgie-modal-close {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  font-size: 26px;
+  line-height: 1;
+  color: #64748b;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: color 0.2s, background-color 0.2s;
+}
+
+.sgie-modal-close:hover {
+  color: #0f172a;
+  background-color: #f1f5f9;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #ticket-imprimivel, #ticket-imprimivel * {
+    visibility: visible;
+  }
+  #ticket-imprimivel {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    margin: 0;
+    padding: 24px;
+  }
+}
+

@@ -193,7 +193,7 @@ function renderizarPaginaEvento(ev) {
         const btnParticipantes = document.getElementById('btn-consultar-participantes');
         if (btnParticipantes) {
             btnParticipantes.onclick = () => {
-                window.location.href = `../../inscricao/participantes.html?evento=${ev.id}`;
+                window.location.href = `../../inscricao/consulta-de-participantes/index.html?evento=${ev.id}`;
             };
         }
 
@@ -205,11 +205,11 @@ function renderizarPaginaEvento(ev) {
             const btnInscrever = document.getElementById('btn-realizar-inscricao');
             if (btnInscrever) {
                 if (ev.status === 'Inscrições abertas' && (ev.vagas_disponiveis === undefined || ev.vagas_disponiveis > 0)) {
-                    btnInscrever.href = `../../inscricao/inscricao.html?evento=${ev.id}`;
+                    btnInscrever.href = `../../inscricao/realizar-inscricao/index.html?evento=${ev.id}`;
                     btnInscrever.textContent = 'Realizar Inscrição no Evento';
                     btnInscrever.className = 'btn btn-primary';
                 } else if (ev.vagas_disponiveis === 0) {
-                    btnInscrever.href = `../../inscricao/inscricao.html?evento=${ev.id}`;
+                    btnInscrever.href = `../../inscricao/realizar-inscricao/index.html?evento=${ev.id}`;
                     btnInscrever.textContent = 'Entrar na Lista de Espera';
                     btnInscrever.className = 'btn btn-secondary';
                 } else {
