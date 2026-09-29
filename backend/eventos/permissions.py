@@ -46,10 +46,11 @@ class IsEventoOrganizadorOrReadOnly(BasePermission):
         if not (request.user and request.user.is_authenticated):
             return False
 
+        if request.method in SAFE_METHODS and (request.user.is_staff or request.user.is_superuser):
+            return True
+
         return bool(
-            request.user.is_staff
-            or request.user.is_superuser
-            or obj.usuario_representante_id == request.user.id
+            obj.usuario_representante_id == request.user.id
             or request.user.has_role(obj.id, Papel.ORGANIZADOR)
         )
 

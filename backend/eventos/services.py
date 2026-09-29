@@ -26,9 +26,6 @@ class EventoService:
         if not (usuario and usuario.is_authenticated and usuario.is_active):
             return False
 
-        if usuario.is_staff or usuario.is_superuser:
-            return True
-
         if evento.usuario_representante_id == usuario.id:
             return True
 
