@@ -113,6 +113,19 @@ async function carregarMeusEventos() {
         }
 
         const eventos = await response.json();
+        if (eventos.length === 0) {
+            select.innerHTML = '<option value="">Nenhum evento encontrado</option>';
+            const semEv = document.getElementById('sem-participantes');
+            if (semEv) {
+                semEv.style.display = 'block';
+                semEv.innerHTML = `
+                    <h3 style="font-size: 18px; font-weight: 700; color: #0f172a; margin: 0 0 8px 0;">Nenhum Evento Encontrado</h3>
+                    <p style="font-size: 14px; color: #64748b; margin: 0;">Você ainda não possui eventos cadastrados para visualizar participantes.</p>
+                `;
+            }
+            return;
+        }
+
         select.innerHTML = '<option value="">Selecione um evento...</option>';
 
         eventos.forEach(ev => {
@@ -155,10 +168,19 @@ async function carregarParticipantes() {
     if (!eventoSelecionadoId) {
         if (vazio) {
             vazio.style.display = 'block';
-            vazio.innerHTML = `
-                <h3 style="font-size: 18px; font-weight: 700; color: #0f172a; margin: 0 0 8px 0;">Selecione um Evento</h3>
-                <p style="font-size: 14px; color: #64748b; margin: 0;">Selecione um dos seus eventos no filtro acima para visualizar a lista de inscritos.</p>
-            `;
+            const selectEvento = document.getElementById('filtro-evento');
+            const semEventosCadastrados = selectEvento && selectEvento.options.length <= 1 && selectEvento.value === '' && selectEvento.options[0]?.text.includes('Nenhum evento');
+            if (semEventosCadastrados) {
+                vazio.innerHTML = `
+                    <h3 style="font-size: 18px; font-weight: 700; color: #0f172a; margin: 0 0 8px 0;">Nenhum Evento Encontrado</h3>
+                    <p style="font-size: 14px; color: #64748b; margin: 0;">Você ainda não possui eventos cadastrados para visualizar participantes.</p>
+                `;
+            } else {
+                vazio.innerHTML = `
+                    <h3 style="font-size: 18px; font-weight: 700; color: #0f172a; margin: 0 0 8px 0;">Selecione um Evento</h3>
+                    <p style="font-size: 14px; color: #64748b; margin: 0;">Selecione um dos seus eventos no filtro acima para visualizar a lista de inscritos.</p>
+                `;
+            }
         }
         if (lista) lista.style.display = 'none';
         if (contador) contador.textContent = '0 participantes encontrados';

@@ -128,7 +128,7 @@
                       <path d="M6 13.5 L6 9 L7.5 9 L7.5 10.5 L13.5 10.5 L13.5 12 L7.5 12 L7.5 13.5 Z M0 12 L0 10.5 L4.5 10.5 L4.5 12 Z M3 9 L3 7.5 L0 7.5 L0 6 L3 6 L3 4.5 L4.5 4.5 L4.5 9 Z M6 7.5 L6 6 L13.5 6 L13.5 7.5 Z M9 4.5 L9 0 L10.5 0 L10.5 1.5 L13.5 1.5 L13.5 3 L10.5 3 L10.5 4.5 Z M0 3 L0 1.5 L7.5 1.5 L7.5 3 Z" fill="rgb(255, 255, 255)" />
                     </svg>
                   </span>
-                  <span class="consulta-de-participantes__container-20"><p class="consulta-de-participantes__text-6">Filtrar</p></span>
+                  <span class="consulta-de-participantes__container-20"><span class="consulta-de-participantes__text-6">Filtrar</span></span>
                 </button>
                 <button type="button" class="consulta-de-participantes__button-2" id="btn-limpar-filtros" style="cursor: pointer;">
                   <span class="consulta-de-participantes__container-21">
@@ -136,13 +136,13 @@
                       <path d="M5.25 13.837 C3.737 13.65 2.484 12.991 1.491 11.859 C0.497 10.728 0 9.4 0 7.875 C0 7.05 0.163 6.259 0.488 5.503 C0.813 4.747 1.275 4.088 1.875 3.525 L2.944 4.594 C2.469 5.019 2.109 5.512 1.866 6.075 C1.622 6.637 1.5 7.238 1.5 7.875 C1.5 8.975 1.85 9.947 2.55 10.791 C3.25 11.634 4.15 12.15 5.25 12.337 L5.25 13.837 Z M6.75 13.837 L6.75 12.337 C7.838 12.137 8.734 11.619 9.441 10.781 C10.147 9.944 10.5 8.975 10.5 7.875 C10.5 6.625 10.063 5.563 9.188 4.688 C8.313 3.813 7.25 3.375 6 3.375 L5.944 3.375 L6.769 4.2 L5.719 5.25 L3.094 2.625 L5.719 0 L6.769 1.05 L5.944 1.875 L6 1.875 C7.675 1.875 9.094 2.456 10.256 3.619 C11.419 4.781 12 6.2 12 7.875 C12 9.387 11.503 10.709 10.509 11.841 C9.516 12.972 8.262 13.637 6.75 13.837 Z" fill="rgb(100, 116, 139)" />
                     </svg>
                   </span>
-                  <span class="consulta-de-participantes__container-22"><p class="consulta-de-participantes__text-7">Limpar</p></span>
+                  <span class="consulta-de-participantes__container-22"><span class="consulta-de-participantes__text-7">Limpar</span></span>
                 </button>
               </div>
 
               <!-- Filtro 1: Seletor de Evento -->
               <div class="consulta-de-participantes__filtro-1-seletor-de-evento" style="flex: 1 1 260px;">
-                <select id="filtro-evento" class="consulta-de-participantes__select-field" style="width: 100%; border: none; background: transparent; outline: none; font-family: inherit; font-size: 14px; font-weight: 600; color: #0f172a; cursor: pointer;">
+                <select id="filtro-evento" class="consulta-de-participantes__select-field">
                   <option value="">Carregando eventos...</option>
                 </select>
               </div>
@@ -150,14 +150,14 @@
               <!-- Filtro 2: Busca por Nome ou E-mail -->
               <div class="consulta-de-participantes__filtro-2-busca-por-nome-e-mail" style="flex: 1 1 240px; position: relative;">
                 <input type="text" id="filtro-busca" class="consulta-de-participantes__input-field" placeholder="Buscar por nome ou e-mail..." />
-                <svg viewBox="0 0 15 15" xmlns="http://www.w3.org/2000/svg" fill="none" class="consulta-de-participantes__icon-9" role="img" style="position: absolute; right: 14px; top: 12px; pointer-events: none;">
+                <svg viewBox="0 0 15 15" xmlns="http://www.w3.org/2000/svg" fill="none" class="consulta-de-participantes__icon-9" role="img" aria-label="Icon">
                   <path d="M13.833 15 L8.583 9.75 C8.167 10.083 7.688 10.347 7.146 10.542 C6.604 10.736 6.028 10.833 5.417 10.833 C3.903 10.833 2.622 10.309 1.573 9.26 C0.524 8.212 0 6.931 0 5.417 C0 3.903 0.524 2.622 1.573 1.573 C2.622 0.524 3.903 0 5.417 0 C6.931 0 8.212 0.524 9.26 1.573 C10.309 2.622 10.833 3.903 10.833 5.417 C10.833 6.028 10.736 6.604 10.542 7.146 C10.347 7.688 10.083 8.167 9.75 8.583 L15 13.833 Z M5.417 9.167 C6.458 9.167 7.344 8.802 8.073 8.073 C8.802 7.344 9.167 6.458 9.167 5.417 C9.167 4.375 8.802 3.49 8.073 2.76 C7.344 2.031 6.458 1.667 5.417 1.667 C4.375 1.667 3.49 2.031 2.76 2.76 C2.031 3.49 1.667 4.375 1.667 5.417 C1.667 6.458 2.031 7.344 2.76 8.073 C3.49 8.802 4.375 9.167 5.417 9.167 Z" fill="rgb(100, 116, 139)" />
                 </svg>
               </div>
 
               <!-- Filtro 3: Filtro de Situação -->
               <div class="consulta-de-participantes__filtro-3-filtro-de-situacao" style="flex: 0 0 200px;">
-                <select id="filtro-status" class="consulta-de-participantes__select-field" style="width: 100%; border: none; background: transparent; outline: none; font-family: inherit; font-size: 14px; font-weight: 600; color: #0f172a; cursor: pointer;">
+                <select id="filtro-status" class="consulta-de-participantes__select-field">
                   <option value="">Todas as Situações</option>
                   <option value="confirmada">Confirmadas</option>
                   <option value="pendente_pagamento">Pendentes</option>
