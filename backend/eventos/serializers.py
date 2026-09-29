@@ -15,6 +15,7 @@ from .models import (
 )
 from .services import EventoService
 from .validators import (
+    formatar_titulo_evento,
     validar_capacidade,
     validar_titulo_evento,
 )
@@ -140,12 +141,20 @@ class EventoCreateUpdateSerializer(serializers.ModelSerializer):
         fields = [
             'id','nome','descricao','data','hora_inicio','hora_fim','local_tipo','local',
             'modalidade', 'capacidade','status','categoria','categoria_personalizada','e_gratuito',
-            'preco','visibilidade','programacao_geral','organizadores','regra_submissao',
+            'necessita_comprovante','preco','visibilidade','programacao_geral','organizadores','regra_submissao',
         ]
         read_only_fields = ['id']
 
+    def to_internal_value(self, data):
+        if isinstance(data, dict) and 'nome' in data and data['nome']:
+            data = data.copy()
+            data['nome'] = formatar_titulo_evento(data['nome'])
+        return super().to_internal_value(data)
+
     @staticmethod
     def validate_nome(value):
+        if value:
+            value = formatar_titulo_evento(value)
         validar_titulo_evento(value)
         return value
 
