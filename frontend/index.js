@@ -147,7 +147,7 @@ function htmlCard(ev, user, logado) {
     const temVagas = Number.isFinite(ev.vagas_disponiveis);
     const esgotado = temVagas && ev.vagas_disponiveis <= 0 && ev.status !== 'Finalizado' && ev.status !== 'Cancelado';
     const dono = Boolean(
-        logado && user && user.id && ev.usuario_representante && String(ev.usuario_representante) === String(user.id)
+        logado && user && user.id && ev.usuario_representante && String(ev.usuario_representante).toLowerCase() === String(user.id).toLowerCase()
     );
     const gerencia = dono;
 

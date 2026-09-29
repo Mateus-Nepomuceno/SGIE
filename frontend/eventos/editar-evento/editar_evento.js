@@ -48,13 +48,14 @@ async function carregarDadosEvento(id) {
         const ev = await resp.json();
         const user = getUser();
 
-        // Verificação de Permissão
-        const ehRepresentante = Boolean(user && user.id && ev.usuario_representante && String(user.id) === String(ev.usuario_representante));
-        const ehStaff = Boolean(user && (user.acesso_admin || user.superusuario));
-        const ehEquipe = Boolean(user && user.id && ev.organizadores && ev.organizadores.some(o => String(o.usuario) === String(user.id)));
+        // Verificação de Permissão: apenas o dono (representante) pode editar
+        const ehRepresentante = Boolean(
+            user && user.id && ev.usuario_representante &&
+            String(user.id).toLowerCase() === String(ev.usuario_representante).toLowerCase()
+        );
 
-        if (!ehRepresentante && !ehStaff && !ehEquipe) {
-            mostrarErro('Você não possui autorização para editar este evento acadêmico.');
+        if (!ehRepresentante) {
+            mostrarErro('Você não possui autorização para editar este evento acadêmico. Apenas o organizador responsável pelo evento pode realizar alterações.');
             return;
         }
 

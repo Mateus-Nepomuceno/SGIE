@@ -85,10 +85,11 @@ function mostrarErro(mensagem) {
 function renderizarPaginaEvento(ev) {
     const user = getUser();
     const logado = Boolean(user && isAuthenticated());
-    const ehRepresentante = logado && user.id === ev.usuario_representante;
-    const ehStaff = logado && (user.acesso_admin || user.superusuario);
-    const ehEquipe = logado && ev.organizadores && ev.organizadores.some(o => o.usuario === user.id);
-    const ehGestor = ehRepresentante || ehStaff || ehEquipe;
+    const ehRepresentante = Boolean(
+        logado && user && user.id && ev.usuario_representante &&
+        String(user.id).toLowerCase() === String(ev.usuario_representante).toLowerCase()
+    );
+    const ehGestor = ehRepresentante;
 
     // 1. Título da Página
     document.title = `${ev.nome} — SGIE`;
@@ -198,8 +199,19 @@ function renderizarPaginaEvento(ev) {
         }
 
     } else {
-        // Visitante / Participante
+        // Visitante / Participante (Não é o dono do evento)
         if (painelGestao) painelGestao.style.display = 'none';
+
+        // Desabilita ações restritas ao coordenador/dono
+        const btnEditar = document.getElementById('btn-editar-evento');
+        if (btnEditar) btnEditar.onclick = null;
+        const btnCancelar = document.getElementById('btn-cancelar-evento');
+        if (btnCancelar) btnCancelar.onclick = null;
+        const btnFinalizar = document.getElementById('btn-finalizar-evento');
+        if (btnFinalizar) btnFinalizar.onclick = null;
+        const btnParticipantes = document.getElementById('btn-consultar-participantes');
+        if (btnParticipantes) btnParticipantes.onclick = null;
+
         if (bannerInscricaoPublica) {
             bannerInscricaoPublica.style.display = 'flex';
             const btnInscrever = document.getElementById('btn-realizar-inscricao');
@@ -208,10 +220,12 @@ function renderizarPaginaEvento(ev) {
                     btnInscrever.href = `../../inscricao/realizar-inscricao/index.html?evento=${ev.id}`;
                     btnInscrever.textContent = 'Realizar Inscrição no Evento';
                     btnInscrever.className = 'btn btn-primary';
+                    btnInscrever.style.display = 'inline-flex';
                 } else if (ev.vagas_disponiveis === 0) {
                     btnInscrever.href = `../../inscricao/realizar-inscricao/index.html?evento=${ev.id}`;
                     btnInscrever.textContent = 'Entrar na Lista de Espera';
                     btnInscrever.className = 'btn btn-secondary';
+                    btnInscrever.style.display = 'inline-flex';
                 } else {
                     btnInscrever.style.display = 'none';
                 }
