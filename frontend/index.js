@@ -49,6 +49,13 @@ document.addEventListener('DOMContentLoaded', () => {
     if (getUser() && isAuthenticated()) {
         $('tabs-nav').hidden = false;
         atualizarContadorMeusEventos();
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const tabParam = urlParams.get('tab');
+        if (tabParam === 'meus' || tabParam === 'meus-eventos') {
+            alternarAba('meus-eventos');
+            return;
+        }
     }
 
     $('tab-todos').addEventListener('click', () => alternarAba('todos'));
@@ -123,7 +130,7 @@ function mostrarVazio() {
     const meus = abaAtual === 'meus-eventos';
     $('titulo-vazio').textContent = meus ? 'Você ainda não cadastrou eventos' : 'Nenhum evento encontrado';
     $('desc-vazio').innerHTML = meus
-        ? 'Crie seu primeiro evento em <a href="eventos/criar_evento.html">Cadastrar Evento</a>.'
+        ? 'Crie seu primeiro evento em <a href="eventos/cadastrar-evento/index.html">Cadastrar Evento</a>.'
         : 'Tente ajustar os filtros aplicados.';
     $('sem-eventos').hidden = false;
 }
@@ -139,8 +146,10 @@ function renderizarEventos(eventos) {
 function htmlCard(ev, user, logado) {
     const temVagas = Number.isFinite(ev.vagas_disponiveis);
     const esgotado = temVagas && ev.vagas_disponiveis <= 0 && ev.status !== 'Finalizado' && ev.status !== 'Cancelado';
-    const dono = logado && (abaAtual === 'meus-eventos' || (ev.usuario_representante && ev.usuario_representante === user.id));
-    const gerencia = dono || (logado && usuarioEhStaff(user));
+    const dono = Boolean(
+        logado && user && user.id && ev.usuario_representante && String(ev.usuario_representante) === String(user.id)
+    );
+    const gerencia = dono;
 
     let [tom, deco] = TEMAS_CATEGORIA[ev.categoria] || ['green', 'globe'];
     if (esgotado) tom = 'gray';
@@ -164,10 +173,10 @@ function htmlCard(ev, user, logado) {
             ? '<li class="full"><span class="icon icon-alert-circle"></span>0 vagas disponíveis (Lista de espera)</li>'
             : `<li class="strong"><span class="icon icon-users"></span><span><b>${ev.vagas_disponiveis}</b> vagas disponíveis (de ${esc(ev.capacidade)})</span></li>`;
 
-    const detalhes = `eventos/detalhes_evento.html?id=${encodeURIComponent(ev.id)}`;
+    const detalhes = `eventos/detalhes-do-evento/index.html?id=${encodeURIComponent(ev.id)}`;
     let acoes;
     if (gerencia) {
-        acoes = `<a href="eventos/editar_evento.html?id=${encodeURIComponent(ev.id)}" class="btn btn-secondary"><span class="icon icon-pencil"></span>Editar</a>
+        acoes = `<a href="eventos/editar-evento/index.html?id=${encodeURIComponent(ev.id)}" class="btn btn-secondary"><span class="icon icon-pencil"></span>Editar</a>
                  <a href="${detalhes}" class="btn btn-primary"><span class="icon icon-settings"></span>Gerenciar</a>`;
     } else if (logado && !esgotado && ev.status === 'Inscrições abertas' && ev.inscricoes_abertas !== false) {
         acoes = `<a href="${detalhes}" class="btn btn-secondary btn-detalhes">Detalhes</a>

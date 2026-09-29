@@ -38,15 +38,14 @@ function getAppRoot() {
         const index = path.indexOf(modulo);
 
         if (index !== -1) {
-            const caminhoInterno = path.slice(index + modulo.length);
-            const partes = caminhoInterno.split('/').filter(Boolean);
+            const caminho = path.slice(index + 1);
+            const partes = caminho.split('/').filter(Boolean);
 
-            // +1 porque precisamos sair da pasta do módulo
-            const profundidade = partes.length > 1
-                ? partes.length
-                : 1;
+            if (partes.length > 0 && partes[partes.length - 1].includes('.')) {
+                partes.pop();
+            }
 
-            return '../'.repeat(profundidade);
+            return partes.length > 0 ? '../'.repeat(partes.length) : './';
         }
     }
 
@@ -272,7 +271,7 @@ function atualizarCabecalhoUsuario(activePage = '') {
         if (logado) {
             linksHtml += `
                 <li><a href="${resolveAppUrl('inscricao/minhas-inscricoes.html')}" class="nav-link ${ativo('minhas-inscricoes')}">Minhas Inscrições</a></li>
-                <li><a href="${resolveAppUrl('eventos/criar_evento.html')}" class="btn btn-sm btn-primary ${ativo('novo')}"><span class="icon icon-plus"></span>Cadastrar Evento</a></li>
+                <li><a href="${resolveAppUrl('eventos/cadastrar-evento/index.html')}" class="btn btn-sm btn-primary ${ativo('novo')}"><span class="icon icon-plus"></span>Cadastrar Evento</a></li>
             `;
         }
         navLinksArea.innerHTML = linksHtml;

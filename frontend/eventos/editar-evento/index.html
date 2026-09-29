@@ -1,0 +1,524 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Editar Evento — SGIE</title>
+    <link rel="stylesheet" href="../../styles.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <!-- Cabeçalho Padrão SGIE -->
+    <nav class="navbar">
+      <div class="navbar-container">
+        <a href="../../index.html" class="brand">
+          SGIE
+          <span class="brand-badge">Eventos</span>
+        </a>
+        <ul class="nav-links"></ul>
+        <div class="nav-user" id="nav-user-area"></div>
+      </div>
+    </nav>
+
+    <article class="editar-evento">
+      <div class="editar-evento__editar-evento">
+        <main class="editar-evento__main">
+          <div class="editar-evento__container">
+            
+            <!-- Cabeçalho da Página -->
+            <div class="editar-evento__cabecalho-da-pagina">
+              <div class="editar-evento__heading-1">
+                <h1 class="editar-evento__editar-evento-2" style="font-size: 28px; font-weight: 800; color: #0f172a;">Editar Evento</h1>
+              </div>
+              <div class="editar-evento__container-2">
+                <p class="editar-evento__simposio-de-inteligencia-artificial-e-etica-na-e" id="editar-subtitulo-codigo">
+                  Carregando identificador do evento...
+                </p>
+              </div>
+            </div>
+
+            <!-- Alerta Geral -->
+            <div id="mensagem-alerta" style="display: none; width: 100%; margin-bottom: 16px;"></div>
+
+            <!-- Banner Informativo de Regras SGIE -->
+            <div class="editar-evento__regras-e-prazos-rfs13">
+              <div class="editar-evento__margin">
+                <svg viewBox="0 0 22 19" xmlns="http://www.w3.org/2000/svg" fill="none" class="editar-evento__icon" role="img">
+                  <path d="M0 19 L11 0 L22 19 L0 19 Z M3.45 17 L18.55 17 L11 4 L3.45 17 Z M11 16 C10.4 16 10 15.6 10 15 C10 14.4 10.4 14 11 14 C11.6 14 12 14.4 12 15 C12 15.6 11.6 16 11 16 Z M10 13 L12 13 L12 8 L10 8 Z" fill="rgb(133, 83, 0)" />
+                </svg>
+              </div>
+              <div class="editar-evento__container-3">
+                <div class="editar-evento__container-4">
+                  <div class="editar-evento__container-5">
+                    <p class="editar-evento__atencao-regras-de-edicao-sgie" style="font-weight: 700;">Regras Regimentais de Edição SGIE</p>
+                  </div>
+                </div>
+                <div class="editar-evento__container-6">
+                  <p class="editar-evento__text">
+                    Eventos em "Rascunho" ou "Configuração" podem ser alterados livremente. Após a abertura de inscrições, a data de realização só pode ser alterada até <strong>1 semana antes</strong> da data de início. Alterações de horários e descrição são permitidas até <strong>1 hora antes</strong> do início das atividades.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Alertas Dinâmicos de Bloqueio de Prazos -->
+            <div class="editar-evento__alertas-dinamicos-de-bloqueio-de-prazos-rfs13">
+              <!-- Alerta Bloqueio de Data -->
+              <div class="editar-evento__background-shadow" id="alerta-bloqueio-data" style="display: none;">
+                <div class="editar-evento__container-7">
+                  <svg viewBox="0 0 15 16.667" xmlns="http://www.w3.org/2000/svg" fill="none" class="editar-evento__icon-2" role="img">
+                    <path d="M5.583 13.917 L4.417 12.75 L6.333 10.833 L4.417 8.917 L5.583 7.75 L7.5 9.667 L9.417 7.75 L10.583 8.917 L8.667 10.833 L10.583 12.75 L9.417 13.917 L7.5 12 Z M1.667 16.667 C0.8 16.667 0 15.867 0 15 L0 3.333 C0 2.467 0.8 1.667 1.667 1.667 L2.5 1.667 L2.5 0 L4.167 0 L4.167 1.667 L10.833 1.667 L10.833 0 L12.5 0 L12.5 1.667 L13.333 1.667 C14.2 1.667 15 2.467 15 3.333 L15 15 C15 15.867 14.2 16.667 13.333 16.667 Z" fill="rgb(186, 26, 26)" />
+                  </svg>
+                </div>
+                <div class="editar-evento__container-8">
+                  <p class="editar-evento__prazo-de-alteracao-de-data-expirado-limite-de-1">
+                    <span class="editar-evento__prazo-de-alteracao-de-data-expirado-limite-de-1-run-1">Prazo de alteração de data expirado:</span>
+                    <span class="editar-evento__prazo-de-alteracao-de-data-expirado-limite-de-1-run-2"> limite de 1 semana antes da data inicial atingido. Campo congelado para integridade acadêmica.</span>
+                  </p>
+                </div>
+              </div>
+
+              <!-- Alerta Bloqueio de Horário -->
+              <div class="editar-evento__background-shadow-2" id="alerta-bloqueio-horario" style="display: none;">
+                <div class="editar-evento__container-9">
+                  <svg viewBox="0 0 18.292 17.667" xmlns="http://www.w3.org/2000/svg" fill="none" class="editar-evento__icon-3" role="img">
+                    <path d="M9.417 1.5 C14.028 1.5 16.917 5.188 16.917 9.083 C16.917 13.333 13.25 16.5 9.417 16.5 C5.601 16.5 1.917 13.144 1.917 9.083 C1.917 5.087 5.292 1.5 9.417 1.5 Z" fill="rgb(186, 26, 26)" />
+                  </svg>
+                </div>
+                <div class="editar-evento__container-10">
+                  <p class="editar-evento__prazo-de-alteracao-de-horario-expirado-limite-re">
+                    <span class="editar-evento__prazo-de-alteracao-de-horario-expirado-limite-re-run-1">Prazo de alteração de horário expirado:</span>
+                    <span class="editar-evento__prazo-de-alteracao-de-horario-expirado-limite-re-run-2"> limite regimental de 1 hora antes atingido.</span>
+                  </p>
+                </div>
+              </div>
+
+              <!-- Alerta Bloqueio de Descrição -->
+              <div class="editar-evento__background-shadow-3" id="alerta-bloqueio-descricao" style="display: none;">
+                <div class="editar-evento__container-11">
+                  <svg viewBox="0 0 16.521 16.521" xmlns="http://www.w3.org/2000/svg" fill="none" class="editar-evento__icon-4" role="img">
+                    <path d="M11.792 8.25 L10.625 7.083 L12.333 5.375 L11.146 4.188 L9.438 5.896 L8.271 4.729 L12.333 0.667 Z" fill="rgb(186, 26, 26)" />
+                  </svg>
+                </div>
+                <div class="editar-evento__container-12">
+                  <p class="editar-evento__prazo-de-alteracao-de-descricao-expirado-limite">
+                    <span class="editar-evento__prazo-de-alteracao-de-descricao-expirado-limite-run-1">Prazo de alteração de descrição expirado:</span>
+                    <span class="editar-evento__prazo-de-alteracao-de-descricao-expirado-limite-run-2"> limite de 1 hora antes do início atingido.</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <form id="form-editar-evento" class="editar-evento__form-layout-principal-de-duas-colunas">
+              
+              <!-- Coluna Esquerda: Formulário Estruturado -->
+              <div class="editar-evento__coluna-da-esquerda-formulario-estruturado">
+                
+                <!-- Card 1: Informações Básicas -->
+                <div class="editar-evento__card-1-informacoes-basicas-do-evento">
+                  <div class="editar-evento__container-13">
+                    <div class="editar-evento__container-14">
+                      <svg viewBox="0 0 16 20" xmlns="http://www.w3.org/2000/svg" fill="none" class="editar-evento__icon-5" role="img">
+                        <path d="M4 16 L12 16 L12 14 L4 14 Z M4 12 L12 12 L12 10 L4 10 Z M2 20 C0.9 20 0 19.1 0 18 L0 2 C0 0.9 0.9 0 2 0 L10 0 L16 6 L16 18 C16 19.1 15.1 20 14 20 Z" fill="rgb(0, 168, 104)" />
+                      </svg>
+                    </div>
+                    <div class="editar-evento__container-15">
+                      <div class="editar-evento__heading-2">
+                        <h2 class="editar-evento__text-5" style="font-weight: 700; font-size: 16px;">Informações Básicas do Evento</h2>
+                      </div>
+                      <div class="editar-evento__container-16">
+                        <p class="editar-evento__text-6">Título, temática central e categorização institucional</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="editar-evento__container-17">
+                    <!-- Nome do Evento -->
+                    <div class="editar-evento__nome-do-evento">
+                      <div class="editar-evento__container-18">
+                        <label for="campo-nome" class="editar-evento__label" style="cursor: pointer;">
+                          <span class="editar-evento__text-7-run-1">Nome do Evento</span>
+                          <span class="editar-evento__text-7-run-2" style="color: red;">*</span>
+                        </label>
+                        <div class="editar-evento__container-19">
+                          <p class="editar-evento__text-8">Formatação em estilo Título</p>
+                        </div>
+                      </div>
+                      <div class="editar-evento__input">
+                        <input type="text" id="campo-nome" class="editar-evento__real-input" placeholder="Ex: Simpósio de Inteligência Artificial e Ética na Educação" required maxlength="100" autocomplete="off" />
+                      </div>
+                      <div class="editar-evento__container-21">
+                        <div class="editar-evento__container-22">
+                          <svg viewBox="0 0 13.333 13.333" xmlns="http://www.w3.org/2000/svg" fill="none" class="editar-evento__icon-6" role="img">
+                            <path d="M5.733 9.733 L10.433 5.033 L9.5 4.1 L5.733 7.867 L3.833 5.967 L2.9 6.9 L5.733 9.733 Z M6.667 13.333 C3.013 13.333 0 10.32 0 6.667 C0 3.013 3.013 0 6.667 0 C10.32 0 13.333 3.013 13.333 6.667 C13.333 10.32 10.32 13.333 6.667 13.333 Z" fill="rgb(0, 109, 65)" />
+                          </svg>
+                        </div>
+                        <div class="editar-evento__container-23">
+                          <p class="editar-evento__text-9" id="texto-capitalizacao">Capitalização automática identificada e válida para o catálogo.</p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Descrição do Evento -->
+                    <div class="editar-evento__descricao-do-evento">
+                      <div class="editar-evento__container-24">
+                        <label for="campo-descricao" class="editar-evento__label-2" style="cursor: pointer;">
+                          <span class="editar-evento__text-10-run-1">Descrição do Evento</span>
+                          <span class="editar-evento__text-10-run-2" style="color: red;">*</span>
+                        </label>
+                        <div class="editar-evento__container-25">
+                          <p class="editar-evento__text-11" id="contador-descricao">0 / 2000 caracteres</p>
+                        </div>
+                      </div>
+                      <div class="editar-evento__textarea">
+                        <textarea id="campo-descricao" class="editar-evento__real-textarea" rows="4" placeholder="Descreva os objetivos, temáticas e público-alvo..." required maxlength="2000"></textarea>
+                      </div>
+                      <div class="editar-evento__container-27">
+                        <p class="editar-evento__texto-de-exibicao-na-pagina-publica-do-evento-re">Texto de exibição na página pública do evento.</p>
+                      </div>
+                    </div>
+
+                    <!-- Categoria, Modalidade, Visibilidade -->
+                    <div class="editar-evento__grid-categoria-modalidade-visibilidade">
+                      <!-- Categoria -->
+                      <div class="editar-evento__container-28">
+                        <label for="campo-categoria" class="editar-evento__label-3" style="cursor: pointer;">
+                          <span class="editar-evento__categoria-run-1">Categoria</span>
+                          <span class="editar-evento__categoria-run-2" style="color: red;">*</span>
+                        </label>
+                        <div class="editar-evento__container-29">
+                          <select id="campo-categoria" class="editar-evento__real-select" required>
+                            <option value="Simpósio">Simpósio</option>
+                            <option value="Congresso">Congresso</option>
+                            <option value="Seminário">Seminário</option>
+                            <option value="Feira">Feira</option>
+                            <option value="Conferência">Conferência</option>
+                            <option value="Festival">Festival</option>
+                            <option value="Competição">Competição</option>
+                            <option value="Workshop">Workshop</option>
+                            <option value="Oficina">Oficina</option>
+                            <option value="Curso">Curso</option>
+                            <option value="Mini-curso">Mini-curso</option>
+                            <option value="Palestra">Palestra</option>
+                            <option value="Roda de Conversa">Roda de Conversa</option>
+                            <option value="Treinamento">Treinamento</option>
+                            <option value="Lançamento de Produto">Lançamento de Produto</option>
+                            <option value="Outro">Outro</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <!-- Modalidade -->
+                      <div class="editar-evento__container-32">
+                        <label for="campo-modalidade" class="editar-evento__label-4" style="cursor: pointer;">
+                          <span class="editar-evento__modalidade-run-1">Modalidade</span>
+                          <span class="editar-evento__modalidade-run-2" style="color: red;">*</span>
+                        </label>
+                        <div class="editar-evento__container-33">
+                          <select id="campo-modalidade" class="editar-evento__real-select" required>
+                            <option value="Presencial">Presencial</option>
+                            <option value="Híbrido">Híbrido</option>
+                            <option value="On-line">On-line</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <!-- Visibilidade -->
+                      <div class="editar-evento__container-36">
+                        <label for="campo-visibilidade" class="editar-evento__label-5" style="cursor: pointer;">
+                          <span class="editar-evento__visibilidade-run-1">Visibilidade</span>
+                          <span class="editar-evento__visibilidade-run-2" style="color: red;">*</span>
+                        </label>
+                        <div class="editar-evento__container-37">
+                          <select id="campo-visibilidade" class="editar-evento__real-select" required>
+                            <option value="Público">Público (Catálogo)</option>
+                            <option value="Privado">Privado</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Aviso de Antecedência SGIE -->
+                    <div class="editar-evento__box-aviso-antecedencia">
+                      <div class="editar-evento__container-40">
+                        <svg viewBox="0 0 15 15" xmlns="http://www.w3.org/2000/svg" fill="none" class="editar-evento__icon-10" role="img">
+                          <path d="M6.75 11.25 L8.25 11.25 L8.25 6.75 L6.75 6.75 Z M7.5 5.25 C7.713 5.25 7.891 5.178 8.034 5.034 C8.178 4.891 8.25 4.713 8.25 4.5 C8.25 4.287 8.178 4.109 8.034 3.966 C7.891 3.822 7.713 3.75 7.5 3.75 C7.287 3.75 7.109 3.822 6.966 3.966 C6.822 4.109 6.75 4.287 6.75 4.5 C6.75 4.713 6.822 4.891 6.966 5.034 C7.109 5.178 7.287 5.25 7.5 5.25 Z M7.5 15 C3.358 15 0 11.642 0 7.5 C0 3.358 3.358 0 7.5 0 C11.642 0 15 3.358 15 7.5 C15 11.642 11.642 15 7.5 15 Z" fill="rgb(133, 83, 0)" />
+                        </svg>
+                      </div>
+                      <div class="editar-evento__container-41">
+                        <p class="editar-evento__strong-regra-de-antecedencia-sgie">
+                          <span class="editar-evento__strong-regra-de-antecedencia-sgie-run-1">Regra de Antecedência SGIE:</span>
+                          <span class="editar-evento__strong-regra-de-antecedencia-sgie-run-2">Congresso (mínimo 3 meses), Simpósio (mínimo 2 meses), Seminário (mínimo 1 mês).</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Card 2: Informações Gerais (Data, Horários, Local) -->
+                <div class="editar-evento__card-2-informacoes-gerais-data-horarios-local-e">
+                  <div class="editar-evento__container-42">
+                    <div class="editar-evento__frame-1">
+                      <svg viewBox="0 0 18 20" xmlns="http://www.w3.org/2000/svg" fill="none" class="editar-evento__icon-11" role="img">
+                        <path d="M2 20 C0.9 20 0 19.1 0 18 L0 4 C0 2.9 0.9 2 2 2 L3 2 L3 0 L5 0 L5 2 L13 2 L13 0 L15 0 L15 2 L16 2 C17.1 2 18 2.9 18 4 L18 18 C18 19.1 17.1 20 16 20 Z" fill="rgb(0, 168, 104)" />
+                      </svg>
+                    </div>
+                    <div class="editar-evento__container-43">
+                      <div class="editar-evento__heading-2-2">
+                        <h2 class="editar-evento__informacoes-gerais" style="font-weight: 700; font-size: 16px;">Informações Gerais</h2>
+                      </div>
+                      <div class="editar-evento__container-44">
+                        <p class="editar-evento__text-12">Cronograma de realização, designação física e dimensionamento de público</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="editar-evento__container-45">
+                    <!-- Grade Data e Horários -->
+                    <div class="editar-evento__grid-data-e-horarios">
+                      <!-- Data de Realização -->
+                      <div class="editar-evento__container-46">
+                        <div class="editar-evento__container-47">
+                          <label for="campo-data" class="editar-evento__label-6" style="cursor: pointer;">
+                            <span class="editar-evento__text-13-run-1">Data de Realização</span>
+                            <span class="editar-evento__text-13-run-2" style="color: red;">*</span>
+                          </label>
+                          <div class="editar-evento__background" id="tag-data-congelada" style="display: none;">
+                            <p class="editar-evento__text-14">Congelado</p>
+                          </div>
+                        </div>
+                        <div class="editar-evento__input-2">
+                          <input type="date" id="campo-data" class="editar-evento__real-input" required />
+                        </div>
+                      </div>
+
+                      <!-- Horário Início -->
+                      <div class="editar-evento__container-49">
+                        <label for="campo-hora-inicio" class="editar-evento__label-7" style="cursor: pointer;">
+                          <span class="editar-evento__horario-de-inicio-run-1">Horário de Início</span>
+                          <span class="editar-evento__horario-de-inicio-run-2" style="color: red;">*</span>
+                        </label>
+                        <div class="editar-evento__input-3">
+                          <input type="time" id="campo-hora-inicio" class="editar-evento__real-input" value="08:30" required />
+                        </div>
+                      </div>
+
+                      <!-- Horário Término -->
+                      <div class="editar-evento__container-51">
+                        <label for="campo-hora-fim" class="editar-evento__label-8" style="cursor: pointer;">
+                          <span class="editar-evento__horario-de-termino-run-1">Horário de Término</span>
+                          <span class="editar-evento__horario-de-termino-run-2" style="color: red;">*</span>
+                        </label>
+                        <div class="editar-evento__input-4">
+                          <input type="time" id="campo-hora-fim" class="editar-evento__real-input" value="17:30" required />
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Local e Capacidade -->
+                    <div class="editar-evento__grid-local-e-capacidade">
+                      <!-- Tipo de Espaço -->
+                      <div class="editar-evento__container-53">
+                        <label for="campo-local-tipo" class="editar-evento__label-9" style="cursor: pointer;">
+                          <span class="editar-evento__tipo-de-espaco-run-1">Tipo de Espaço</span>
+                          <span class="editar-evento__tipo-de-espaco-run-2" style="color: red;">*</span>
+                        </label>
+                        <div class="editar-evento__container-54">
+                          <select id="campo-local-tipo" class="editar-evento__real-select" required>
+                            <option value="Auditório">Auditório</option>
+                            <option value="Sala">Sala</option>
+                            <option value="Laboratório">Laboratório</option>
+                            <option value="Outro">Outro</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <!-- Local / Designação no Campus -->
+                      <div class="editar-evento__container-57">
+                        <label for="campo-local" class="editar-evento__label-10" style="cursor: pointer;">
+                          <span class="editar-evento__local-designacao-no-campus-run-1">Local / Designação no Campus</span>
+                          <span class="editar-evento__local-designacao-no-campus-run-2" style="color: red;">*</span>
+                        </label>
+                        <div class="editar-evento__container-58">
+                          <div class="editar-evento__input-5">
+                            <input type="text" id="campo-local" class="editar-evento__real-input" placeholder="Ex: Auditório Darcy Ribeiro — Bloco B" required maxlength="255" />
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Capacidade -->
+                      <div class="editar-evento__container-61">
+                        <label for="campo-capacidade" class="editar-evento__label-11" style="cursor: pointer;">
+                          <span class="editar-evento__capacidade-1-10-000-run-1">Capacidade (1-10.000)</span>
+                          <span class="editar-evento__capacidade-1-10-000-run-2" style="color: red;">*</span>
+                        </label>
+                        <div class="editar-evento__container-62">
+                          <div class="editar-evento__input-6">
+                            <input type="number" id="campo-capacidade" class="editar-evento__real-input" min="1" max="10000" value="250" required />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Transmissão Online / Híbrida -->
+                    <div class="editar-evento__transmissao-online-hibrida" id="container-transmissao-virtual">
+                      <label for="campo-link-transmissao" class="editar-evento__label-12" style="cursor: pointer;">
+                        Ambiente Virtual / Link de Transmissão (Modalidade Híbrida / On-line)
+                      </label>
+                      <div class="editar-evento__container-67">
+                        <div class="editar-evento__input-7">
+                          <input type="url" id="campo-link-transmissao" class="editar-evento__real-input" placeholder="https://conferenciaweb.rnp.br/webconf/etica-ia-2025" />
+                        </div>
+                      </div>
+                      <div class="editar-evento__container-70">
+                        <p class="editar-evento__liberado-apenas-para-inscritos-confirmados-30-mi">Liberado apenas para inscritos confirmados 30 minutos antes do início do evento.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Card 3: Programação Geral -->
+                <div class="editar-evento__card-3-programacao-geral-do-evento">
+                  <div class="editar-evento__container-71">
+                    <div class="editar-evento__container-72">
+                      <svg viewBox="0 0 18 16" xmlns="http://www.w3.org/2000/svg" fill="none" class="editar-evento__icon-16" role="img">
+                        <path d="M6 15 L18 15 L18 13 L6 13 Z M6 9 L18 9 L18 7 L6 7 Z M6 3 L18 3 L18 1 L6 1 Z M2 16 C3.1 16 4 15.1 4 14 C4 12.9 3.1 12 2 12 C0.9 12 0 12.9 0 14 C0 15.1 0.9 16 2 16 Z" fill="rgb(0, 168, 104)" />
+                      </svg>
+                    </div>
+                    <div class="editar-evento__container-73">
+                      <div class="editar-evento__heading-2-3">
+                        <h2 class="editar-evento__text-16" style="font-weight: 700; font-size: 16px;">Programação Geral do Evento</h2>
+                      </div>
+                      <div class="editar-evento__container-74">
+                        <p class="editar-evento__text-17">Cronograma preliminar das palestras, mesas e credenciamento (Opcional)</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="editar-evento__container-75">
+                    <div class="editar-evento__textarea-2">
+                      <textarea id="campo-programacao" class="editar-evento__real-textarea" rows="6" placeholder="08:00 - Recepção e Credenciamento com entrega de crachás&#10;09:00 - Sessão Solene de Abertura"></textarea>
+                    </div>
+                    <div class="editar-evento__container-77">
+                      <p class="editar-evento__voce-podera-detalhar-palestrantes-e-salas-indivi">Você poderá detalhar palestrantes e salas individuais após salvar as alterações.</p>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <!-- Coluna Direita: Prévia Lateral -->
+              <div class="editar-evento__coluna-da-direita-painel-lateral-fixo-sticky-pre">
+                <div class="editar-evento__live-preview-simulation-card-mirroring-existing">
+                  <div class="editar-evento__container-78">
+                    <div class="editar-evento__container-79">
+                      <p class="editar-evento__text-18">PRÉVIA DO CATÁLOGO</p>
+                    </div>
+                    <div class="editar-evento__background-2">
+                      <p class="editar-evento__como-os-participantes-verao">Como os participantes verão</p>
+                    </div>
+                  </div>
+                  <div class="editar-evento__simulated-event-card">
+                    <header class="editar-evento__visual-card-header-with-graphic-and-badges">
+                      <div class="editar-evento__background-geometric-motif"></div>
+                      <div class="editar-evento__border"></div>
+                      <div class="editar-evento__container-80">
+                        <div class="editar-evento__overlay-shadow-overlayblur">
+                          <p class="editar-evento__text-19" id="preview-status">Inscrições abertas</p>
+                        </div>
+                        <div class="editar-evento__background-shadow-4">
+                          <p class="editar-evento__text-20" id="preview-preco">Gratuito</p>
+                        </div>
+                      </div>
+                      <div class="editar-evento__container-81">
+                        <div class="editar-evento__overlay-overlayblur">
+                          <p class="editar-evento__text-21" id="preview-categoria">SIMPÓSIO</p>
+                        </div>
+                      </div>
+                    </header>
+                    <div class="editar-evento__card-body">
+                      <div class="editar-evento__heading-4">
+                        <h3 class="editar-evento__simposio-de-inteligencia-artificial-e" id="preview-nome" style="font-size: 16px; font-weight: 700; color: #0f172a;">Simpósio de Inteligência Artificial e…</h3>
+                      </div>
+                      <div class="editar-evento__container-82">
+                        <p class="editar-evento__espaco-colaborativo-interdisciplinar-focado-em-d-2" id="preview-descricao">Espaço colaborativo interdisciplinar focado em discutir implicações normativas...</p>
+                      </div>
+                      <div class="editar-evento__container-83">
+                        <div class="editar-evento__container-84">
+                          <div class="editar-evento__container-85">
+                            <svg viewBox="0 0 12 13.333" xmlns="http://www.w3.org/2000/svg" fill="none" class="editar-evento__icon-17" role="img">
+                              <path d="M1.333 13.333 C0.6 13.333 0 12.733 0 12 L0 2.667 C0 1.933 0.6 1.333 1.333 1.333 L2 1.333 L2 0 L3.333 0 L3.333 1.333 L8.667 1.333 L8.667 0 L10 0 L10 1.333 L10.667 1.333 C11.4 1.333 12 1.933 12 2.667 L12 12 C12 12.733 11.4 13.333 10.667 13.333 Z" fill="rgb(0, 109, 65)" />
+                            </svg>
+                          </div>
+                          <div class="editar-evento__container-86">
+                            <p class="editar-evento__text-22" id="preview-data">Data a definir</p>
+                          </div>
+                        </div>
+                        <div class="editar-evento__container-87">
+                          <div class="editar-evento__container-88">
+                            <svg viewBox="0 0 13.333 13.333" xmlns="http://www.w3.org/2000/svg" fill="none" class="editar-evento__icon-18" role="img">
+                              <path d="M6.667 0 C2.987 0 0 2.987 0 6.667 C0 10.347 2.987 13.333 6.667 13.333 C10.347 13.333 13.333 10.347 13.333 6.667 C13.333 2.987 10.347 0 6.667 0 Z M6 3.333 L6 6.933 L8.867 9.8 L9.8 8.867 L7.333 6.4 L7.333 3.333 Z" fill="rgb(0, 109, 65)" />
+                            </svg>
+                          </div>
+                          <div class="editar-evento__container-89">
+                            <p class="editar-evento__text-23" id="preview-horario">08:30 às 17:30</p>
+                          </div>
+                        </div>
+                        <div class="editar-evento__container-90">
+                          <div class="editar-evento__container-91">
+                            <svg viewBox="0 0 16 15.333" xmlns="http://www.w3.org/2000/svg" fill="none" class="editar-evento__icon-19" role="img">
+                              <path d="M8 0 C4.687 0 2 2.687 2 6 C2 9.5 8 15.333 8 15.333 C8 15.333 14 9.5 14 6 C14 2.687 11.313 0 8 0 Z" fill="rgb(0, 109, 65)" />
+                            </svg>
+                          </div>
+                          <div class="editar-evento__container-92">
+                            <p class="editar-evento__text-24" id="preview-modalidade">Híbrido</p>
+                          </div>
+                        </div>
+                        <div class="editar-evento__container-93">
+                          <div class="editar-evento__container-94">
+                            <svg viewBox="0 0 14.667 10.667" xmlns="http://www.w3.org/2000/svg" fill="none" class="editar-evento__icon-20" role="img">
+                              <path d="M5.333 0 C2.387 0 0 2.387 0 5.333 C0 8.28 2.387 10.667 5.333 10.667 C8.28 10.667 10.667 8.28 10.667 5.333 C10.667 2.387 8.28 0 5.333 0 Z" fill="rgb(0, 109, 65)" />
+                            </svg>
+                          </div>
+                          <div class="editar-evento__container-95">
+                            <p class="editar-evento__text-25" id="preview-capacidade">250 vagas disponíveis</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="editar-evento__background-3">
+                        <p class="editar-evento__text-26">Prévia Atualizada</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="editar-evento__card-de-acoes" style="margin-top: 24px;">
+                  <button type="submit" id="btn-submit-edicao" class="editar-evento__button" style="cursor: pointer; width: 100%;">
+                    <span class="editar-evento__container-96"><p class="editar-evento__text-27">Salvar Alterações do Evento</p></span>
+                    <span class="editar-evento__container-97">
+                      <svg viewBox="0 0 13.333 13.333" xmlns="http://www.w3.org/2000/svg" fill="none" class="editar-evento__icon-21" role="img">
+                        <path d="M10.146 7.5 L0 7.5 L0 5.833 L10.146 5.833 L5.479 1.167 L6.667 0 L13.333 6.667 L6.667 13.333 L5.479 12.167 L10.146 7.5 Z" fill="rgb(255, 255, 255)" />
+                      </svg>
+                    </span>
+                  </button>
+                </div>
+              </div>
+
+            </form>
+          </div>
+        </main>
+
+        <!-- Rodapé Padrão SGIE -->
+        <footer class="footer">
+          <div class="container" style="padding-top: 0; padding-bottom: 0;">
+            <p>SGIE — Sistema de Gestão de Inscrições e Eventos Universitários</p>
+          </div>
+        </footer>
+      </div>
+    </article>
+
+    <!-- Scripts Globais e Locais -->
+    <script src="../../config.js"></script>
+    <script src="../../api.js"></script>
+    <script src="editar_evento.js"></script>
+  </body>
+</html>
