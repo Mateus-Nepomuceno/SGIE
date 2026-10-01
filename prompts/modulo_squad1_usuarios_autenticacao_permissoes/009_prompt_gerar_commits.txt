@@ -1,3 +1,0 @@
-<task>
-elabore uma lista completa e definitiva de comandos git para adicionar e commitar separadamente as mudanças
-</task>
