@@ -4,16 +4,12 @@
   "features": {
     "ghcr.io/devcontainers/features/git:1": {}
   },
-  "postCreateCommand": "pip install -r backend/requirements-dev.txt",
-  "forwardPorts": [8000, 5500],
+  "postCreateCommand": "pip install -r requirements-dev.txt",
+  "forwardPorts": [8000],
   "portsAttributes": {
     "8000": {
-      "label": "SGIE Backend API (Django)",
+      "label": "SGIE API",
       "onAutoForward": "silent"
-    },
-    "5500": {
-      "label": "SGIE Frontend (Five Server)",
-      "onAutoForward": "openBrowser"
     }
   },
   "customizations": {
@@ -21,20 +17,10 @@
       "extensions": [
         "ms-python.python",
         "ms-python.vscode-pylance",
-        "batisteo.vscode-django",
-        "yandeu.five-server"
+        "batisteo.vscode-django"
       ],
       "settings": {
-        "python.analysis.extraPaths": [
-          "./backend"
-        ],
-        "python.autoComplete.extraPaths": [
-          "./backend"
-        ],
-        "django.managePyPath": "backend/manage.py",
-        "fiveServer.root": "frontend",
-        "fiveServer.notify": false,
-        "fiveserver.notify": false
+        "django.managePyPath": "manage.py"
       }
     }
   }
