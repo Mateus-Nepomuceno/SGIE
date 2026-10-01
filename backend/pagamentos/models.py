@@ -8,6 +8,8 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+from core.models import ModeloUUID
+
 
 class StatusCobranca(models.TextChoices):
     PENDENTE = 'PENDENTE', _('Pendente')
@@ -55,13 +57,12 @@ class Canal(models.TextChoices):
     WHATSAPP = 'WHATSAPP', _('WhatsApp')
 
 
-class CategoriaPreco(models.Model):
+class CategoriaPreco(ModeloUUID):
     """
     Agrupa as regras de precificação baseadas no evento.
     Relacionamento: Sistema_de_Eventos -> CategoriaPreco
     """
 
-    id = models.BigAutoField(primary_key=True)
     evento = models.ForeignKey(
         'eventos.Evento',
         on_delete=models.CASCADE,
@@ -100,13 +101,12 @@ class CategoriaPreco(models.Model):
         return f'{self.nome} ({self.evento.nome})'
 
 
-class Lote(models.Model):
+class Lote(ModeloUUID):
     """
     Representa a disponibilidade e controle de vagas para uma determinada categoria de preço.
     Relacionamento: CategoriaPreco -> Lote
     """
 
-    id = models.BigAutoField(primary_key=True)
     categoria_preco = models.ForeignKey(
         CategoriaPreco,
         on_delete=models.CASCADE,
@@ -187,14 +187,13 @@ class Lote(models.Model):
         return self.quantidade_disponivel > 0
 
 
-class Cobranca(models.Model):
+class Cobranca(ModeloUUID):
     """
     Classe central de faturamento.
     Relacionamento: Sistema_de_Inscricoes -> Cobranca
     Gera Pagamento e possui IsencaoPagamento.
     """
 
-    id = models.BigAutoField(primary_key=True)
     inscricao = models.ForeignKey(
         'inscricao.Inscricao',
         on_delete=models.CASCADE,
@@ -252,14 +251,13 @@ class Cobranca(models.Model):
         return self.status == StatusCobranca.PENDENTE and timezone.now() > self.data_vencimento
 
 
-class IsencaoPagamento(models.Model):
+class IsencaoPagamento(ModeloUUID):
     """
     Define regras ou registros de isenção aplicados a uma cobrança.
     TOTAL: cobrança integralmente dispensada.
     PARCIAL: permanece saldo a pagar.
     """
 
-    id = models.BigAutoField(primary_key=True)
     cobranca = models.OneToOneField(
         Cobranca,
         on_delete=models.CASCADE,
@@ -312,6 +310,7 @@ class IsencaoPagamento(models.Model):
     class Meta:
         verbose_name = _('Isenção de Pagamento')
         verbose_name_plural = _('Isenções de Pagamento')
+        ordering = ['-criado_em']
 
     def __str__(self):
         return f'Isenção {self.tipo} - Cobrança #{self.cobranca_id}'
@@ -342,7 +341,7 @@ class IsencaoPagamento(models.Model):
         cobranca.save()
 
 
-class Pagamento(models.Model):
+class Pagamento(ModeloUUID):
     """
     Representa a transação financeira propriamente dita.
     Gerenciado pelo ServicoPagamento com intermédio de GatewayPagamento.
@@ -358,7 +357,6 @@ class Pagamento(models.Model):
         StatusPagamento.REEMBOLSADO: set(),
     }
 
-    id = models.BigAutoField(primary_key=True)
     cobranca = models.ForeignKey(
         Cobranca,
         on_delete=models.CASCADE,
@@ -462,13 +460,12 @@ class Pagamento(models.Model):
         self.save()
 
 
-class Reembolso(models.Model):
+class Reembolso(ModeloUUID):
     """
     Representa a devolução de um pagamento.
     Relacionamento: Pagamento 1 -> 0..1 Reembolso
     """
 
-    id = models.BigAutoField(primary_key=True)
     pagamento = models.OneToOneField(
         Pagamento,
         on_delete=models.CASCADE,
@@ -538,14 +535,13 @@ class Reembolso(models.Model):
             raise ValidationError({'valor': _('O valor do reembolso não pode ser superior ao valor do pagamento original.')})
 
 
-class Certificado(models.Model):
+class Certificado(ModeloUUID):
     """
     Representa o documento de participação.
     O certificado só é disponibilizado quando a inscrição atende às condições de participação.
     A presença é controlada pelo módulo de Inscrições/Participantes.
     """
 
-    id = models.BigAutoField(primary_key=True)
     inscricao = models.OneToOneField(
         'inscricao.Inscricao',
         on_delete=models.CASCADE,
@@ -592,13 +588,12 @@ class Certificado(models.Model):
         return f'Certificado {self.codigo_autenticacao} - Inscrição #{self.inscricao_id}'
 
 
-class Comunicacao(models.Model):
+class Comunicacao(ModeloUUID):
     """
     Gerencia envios ou notificações pós-evento para os participantes.
     Certificado fornece destinatários para Comunicação.
     """
 
-    id = models.BigAutoField(primary_key=True)
     destinatario = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
