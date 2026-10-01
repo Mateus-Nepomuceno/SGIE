@@ -19,7 +19,7 @@ class Inscricao(models.Model):
 
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pendente_pagamento')
     comprovante = models.FileField(upload_to='comprovantes/', null=True, blank=True)
-    dados_adicionais = models.JSONField(default=dict, blank=True, help_text="Respostas para campos personalizados")
+    dados_adicionais = models.JSONField(default=dict, blank=True, help_text='Respostas para campos personalizados')
 
     data_inscricao = models.DateTimeField(auto_now_add=True)
 
@@ -27,7 +27,7 @@ class Inscricao(models.Model):
         unique_together = ('usuario', 'evento')
 
     def __str__(self):
-        return f"{self.usuario.email} - {self.evento.nome} ({self.status})"
+        return f'{self.usuario.email} - {self.evento.nome} ({self.status})'
 
     def save(self, *args, **kwargs):
         self.full_clean()

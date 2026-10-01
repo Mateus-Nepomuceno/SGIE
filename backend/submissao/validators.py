@@ -18,10 +18,7 @@ def validar_titulo_submissao(valor: Optional[str]) -> None:
     texto = valor.strip()
     if len(texto) > TAMANHO_MAXIMO_TITULO_SUBMISSAO:
         raise ValidationError(
-            _(
-                'O título da submissão deve possuir no máximo %(maximo)d caracteres. '
-                'Tamanho atual: %(tamanho)d.'
-            ),
+            _('O título da submissão deve possuir no máximo %(maximo)d caracteres. Tamanho atual: %(tamanho)d.'),
             params={'maximo': TAMANHO_MAXIMO_TITULO_SUBMISSAO, 'tamanho': len(texto)},
         )
 
@@ -37,10 +34,7 @@ def validar_palavras_chave(valor: Optional[str]) -> None:
 
     if len(valor) > TAMANHO_MAXIMO_KEYWORDS:
         raise ValidationError(
-            _(
-                'As palavras-chave devem ter no máximo %(maximo)d caracteres. '
-                'Tamanho atual: %(tamanho)d.'
-            ),
+            _('As palavras-chave devem ter no máximo %(maximo)d caracteres. Tamanho atual: %(tamanho)d.'),
             params={'maximo': TAMANHO_MAXIMO_KEYWORDS, 'tamanho': len(valor)},
         )
 
@@ -135,9 +129,7 @@ def validar_arquivo_submissao(arquivo) -> None:
     tamanho = getattr(arquivo, 'size', None)
     if tamanho and tamanho > TAMANHO_MAXIMO_ARQUIVO_SUBMISSAO_BYTES:
         raise ValidationError(
-            _(
-                'O arquivo excede o tamanho máximo permitido de %(max_mb)d MB.'
-            ),
+            _('O arquivo excede o tamanho máximo permitido de %(max_mb)d MB.'),
             params={'max_mb': TAMANHO_MAXIMO_ARQUIVO_SUBMISSAO_MB},
             code='arquivo_tamanho_excedido',
         )

@@ -22,7 +22,6 @@ from .validators import (
 
 
 class EquipeOrganizadoraSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = EquipeOrganizadora
         fields = ['id', 'evento', 'nome', 'email_publico', 'papel_funcao']
@@ -32,13 +31,17 @@ class EquipeOrganizadoraSerializer(serializers.ModelSerializer):
 
 
 class RegraSubmissaoSerializer(serializers.ModelSerializer):
-
     periodo_aberto = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = RegraSubmissao
         fields = [
-            'id','evento','aceita_submissao','data_hora_inicio','data_hora_fim','periodo_aberto',
+            'id',
+            'evento',
+            'aceita_submissao',
+            'data_hora_inicio',
+            'data_hora_fim',
+            'periodo_aberto',
         ]
         extra_kwargs = {
             'evento': {'required': False},
@@ -51,18 +54,13 @@ class RegraSubmissaoSerializer(serializers.ModelSerializer):
 
         if aceita:
             if not inicio or not fim:
-                raise serializers.ValidationError(
-                    _('Eventos com submissão de trabalhos exigem definição de data/hora de início e fim.')
-                )
+                raise serializers.ValidationError(_('Eventos com submissão de trabalhos exigem definição de data/hora de início e fim.'))
             if fim <= inicio:
-                raise serializers.ValidationError(
-                    {'data_hora_fim': _('A data/hora de término da submissão deve ser posterior ao início.')}
-                )
+                raise serializers.ValidationError({'data_hora_fim': _('A data/hora de término da submissão deve ser posterior ao início.')})
         return attrs
 
 
 class EventoListSerializer(serializers.ModelSerializer):
-
     usuario_representante = serializers.PrimaryKeyRelatedField(read_only=True)
     status_display = serializers.CharField(source='get_status_display', read_only=True)
     modalidade_display = serializers.CharField(source='get_modalidade_display', read_only=True)
@@ -72,15 +70,32 @@ class EventoListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Evento
         fields = [
-            'id','usuario_representante','nome','descricao','data','hora_inicio','hora_fim','local_tipo','local',
-            'modalidade','modalidade_display','capacidade','status','status_display','categoria',
-            'categoria_display','categoria_personalizada','e_gratuito','preco','visibilidade',
-            'inscricoes_abertas','criado_em',
+            'id',
+            'usuario_representante',
+            'nome',
+            'descricao',
+            'data',
+            'hora_inicio',
+            'hora_fim',
+            'local_tipo',
+            'local',
+            'modalidade',
+            'modalidade_display',
+            'capacidade',
+            'status',
+            'status_display',
+            'categoria',
+            'categoria_display',
+            'categoria_personalizada',
+            'e_gratuito',
+            'preco',
+            'visibilidade',
+            'inscricoes_abertas',
+            'criado_em',
         ]
 
 
 class EventoDetailSerializer(serializers.ModelSerializer):
-
     status_display = serializers.CharField(source='get_status_display', read_only=True)
     modalidade_display = serializers.CharField(source='get_modalidade_display', read_only=True)
     categoria_display = serializers.CharField(source='get_categoria_display', read_only=True)
@@ -108,14 +123,49 @@ class EventoDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Evento
         fields = [
-            'id','usuario_representante','usuario_representante_nome','usuario_representante_email',
-            'nome','descricao','data','data_original','hora_inicio','hora_inicio_original','hora_fim',
-            'local_tipo','local','modalidade','modalidade_display','capacidade','status','status_display',
-            'categoria','categoria_display','categoria_personalizada','e_gratuito', 'necessita_comprovante','preco','visibilidade',
-            'programacao_geral','motivo_cancelamento','cancelado_em','inscricoes_abertas','is_curta_duracao',
-            'pode_alterar_data','pode_alterar_detalhes','pode_cancelar','limite_alteracao_data',
-            'limite_alteracao_detalhes','limite_cancelamento','limite_encerramento_inscricoes',
-            'organizadores','regra_submissao','criado_em','atualizado_em', 'vagas_ocupadas', 'vagas_disponiveis',
+            'id',
+            'usuario_representante',
+            'usuario_representante_nome',
+            'usuario_representante_email',
+            'nome',
+            'descricao',
+            'data',
+            'data_original',
+            'hora_inicio',
+            'hora_inicio_original',
+            'hora_fim',
+            'local_tipo',
+            'local',
+            'modalidade',
+            'modalidade_display',
+            'capacidade',
+            'status',
+            'status_display',
+            'categoria',
+            'categoria_display',
+            'categoria_personalizada',
+            'e_gratuito',
+            'necessita_comprovante',
+            'preco',
+            'visibilidade',
+            'programacao_geral',
+            'motivo_cancelamento',
+            'cancelado_em',
+            'inscricoes_abertas',
+            'is_curta_duracao',
+            'pode_alterar_data',
+            'pode_alterar_detalhes',
+            'pode_cancelar',
+            'limite_alteracao_data',
+            'limite_alteracao_detalhes',
+            'limite_cancelamento',
+            'limite_encerramento_inscricoes',
+            'organizadores',
+            'regra_submissao',
+            'criado_em',
+            'atualizado_em',
+            'vagas_ocupadas',
+            'vagas_disponiveis',
         ]
 
     def get_vagas_ocupadas(self, obj):
@@ -126,8 +176,8 @@ class EventoDetailSerializer(serializers.ModelSerializer):
         disponiveis = obj.capacidade - ocupadas
         return disponiveis if disponiveis > 0 else 0
 
-class EventoCreateUpdateSerializer(serializers.ModelSerializer):
 
+class EventoCreateUpdateSerializer(serializers.ModelSerializer):
     data = serializers.DateField(input_formats=['%Y-%m-%d', '%d/%m/%Y', '%d/%m/%y'])
     hora_inicio = serializers.TimeField(input_formats=['%H:%M', '%H:%M:%S'])
     hora_fim = serializers.TimeField(input_formats=['%H:%M', '%H:%M:%S'])
@@ -139,9 +189,26 @@ class EventoCreateUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Evento
         fields = [
-            'id','nome','descricao','data','hora_inicio','hora_fim','local_tipo','local',
-            'modalidade', 'capacidade','status','categoria','categoria_personalizada','e_gratuito',
-            'necessita_comprovante','preco','visibilidade','programacao_geral','organizadores','regra_submissao',
+            'id',
+            'nome',
+            'descricao',
+            'data',
+            'hora_inicio',
+            'hora_fim',
+            'local_tipo',
+            'local',
+            'modalidade',
+            'capacidade',
+            'status',
+            'categoria',
+            'categoria_personalizada',
+            'e_gratuito',
+            'necessita_comprovante',
+            'preco',
+            'visibilidade',
+            'programacao_geral',
+            'organizadores',
+            'regra_submissao',
         ]
         read_only_fields = ['id']
 
@@ -163,31 +230,23 @@ class EventoCreateUpdateSerializer(serializers.ModelSerializer):
         hora_fim = attrs.get('hora_fim', getattr(self.instance, 'hora_fim', None))
 
         if hora_inicio and hora_fim and hora_fim <= hora_inicio:
-            raise serializers.ValidationError(
-                {'hora_fim': _('O horário de fim deve ser estritamente posterior ao horário de início.')}
-            )
+            raise serializers.ValidationError({'hora_fim': _('O horário de fim deve ser estritamente posterior ao horário de início.')})
 
         e_gratuito = attrs.get('e_gratuito', getattr(self.instance, 'e_gratuito', True))
         preco = attrs.get('preco', getattr(self.instance, 'preco', 0.00))
 
         if not e_gratuito and preco <= 0:
-            raise serializers.ValidationError(
-                {'preco': _('Eventos pagos devem possuir valor de inscrição superior a R$ 0,00.')}
-            )
+            raise serializers.ValidationError({'preco': _('Eventos pagos devem possuir valor de inscrição superior a R$ 0,00.')})
 
         categoria = attrs.get('categoria', getattr(self.instance, 'categoria', CategoriaEvento.CONGRESSO))
         categoria_pers = attrs.get('categoria_personalizada', getattr(self.instance, 'categoria_personalizada', ''))
         if categoria == CategoriaEvento.OUTRO and not categoria_pers.strip():
-            raise serializers.ValidationError(
-                {'categoria_personalizada': _('Informe a categoria personalizada quando a opção "Outro" for selecionada.')}
-            )
+            raise serializers.ValidationError({'categoria_personalizada': _('Informe a categoria personalizada quando a opção "Outro" for selecionada.')})
 
         local_tipo = attrs.get('local_tipo', getattr(self.instance, 'local_tipo', LocalTipo.AUDITORIO))
         local_desc = attrs.get('local', getattr(self.instance, 'local', ''))
         if local_tipo == LocalTipo.OUTRO and not local_desc.strip():
-            raise serializers.ValidationError(
-                {'local': _('Informe a descrição do local quando a opção "Outro" for selecionada.')}
-            )
+            raise serializers.ValidationError({'local': _('Informe a descrição do local quando a opção "Outro" for selecionada.')})
 
         return attrs
 
@@ -222,7 +281,6 @@ class EventoCreateUpdateSerializer(serializers.ModelSerializer):
 
 
 class CancelarEventoSerializer(serializers.Serializer):
-
     motivo = serializers.CharField(
         required=False,
         allow_blank=True,

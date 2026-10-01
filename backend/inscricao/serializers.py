@@ -40,11 +40,27 @@ class MinhaInscricaoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Inscricao
         fields = [
-            'id', 'status', 'status_display', 'comprovante', 'dados_adicionais', 'data_inscricao',
-            'evento', 'evento_nome', 'evento_data', 'evento_hora_inicio', 'evento_local',
-            'evento_modalidade', 'evento_categoria', 'evento_status', 'evento_status_display',
-            'evento_e_gratuito', 'evento_preco', 'evento_necessita_comprovante',
-            'posicao_lista_espera', 'codigo_ingresso', 'pode_cancelar',
+            'id',
+            'status',
+            'status_display',
+            'comprovante',
+            'dados_adicionais',
+            'data_inscricao',
+            'evento',
+            'evento_nome',
+            'evento_data',
+            'evento_hora_inicio',
+            'evento_local',
+            'evento_modalidade',
+            'evento_categoria',
+            'evento_status',
+            'evento_status_display',
+            'evento_e_gratuito',
+            'evento_preco',
+            'evento_necessita_comprovante',
+            'posicao_lista_espera',
+            'codigo_ingresso',
+            'pode_cancelar',
         ]
 
     def get_posicao_lista_espera(self, obj):
@@ -60,7 +76,7 @@ class MinhaInscricaoSerializer(serializers.ModelSerializer):
     def get_codigo_ingresso(self, obj):
         if obj.status != 'confirmada':
             return None
-        return f"SGIE-{obj.evento_id:04d}-{obj.id:06d}"
+        return f'SGIE-{obj.evento_id:04d}-{obj.id:06d}'
 
     def get_pode_cancelar(self, obj):
         if obj.status not in {'confirmada', 'pendente_pagamento', 'lista_espera'}:
@@ -86,8 +102,13 @@ class ParticipanteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Inscricao
         fields = [
-            'id', 'status', 'status_display',
-            'participante_nome', 'participante_email',
-            'comprovante', 'dados_adicionais', 'data_inscricao',
+            'id',
+            'status',
+            'status_display',
+            'participante_nome',
+            'participante_email',
+            'comprovante',
+            'dados_adicionais',
+            'data_inscricao',
         ]
         read_only_fields = fields

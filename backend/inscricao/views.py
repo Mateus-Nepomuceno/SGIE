@@ -19,6 +19,7 @@ class InscricaoViewSet(viewsets.ModelViewSet):
     ViewSet RESTful para o gerenciamento de inscrições no SGIE.
     Unifica a criação, cancelamento e consulta pessoal (minhas inscrições).
     """
+
     queryset = Inscricao.objects.all()
     serializer_class = InscricaoSerializer
 
@@ -49,10 +50,7 @@ class InscricaoViewSet(viewsets.ModelViewSet):
         if serializer.is_valid():
             evento = serializer.validated_data['evento']
 
-            inscricoes_ocupadas = Inscricao.objects.filter(
-                evento=evento,
-                status__in=['confirmada', 'pendente_pagamento']
-            ).count()
+            inscricoes_ocupadas = Inscricao.objects.filter(evento=evento, status__in=['confirmada', 'pendente_pagamento']).count()
 
             status_inscricao = 'confirmada'
 
@@ -61,16 +59,9 @@ class InscricaoViewSet(viewsets.ModelViewSet):
             elif not evento.e_gratuito:
                 status_inscricao = 'pendente_pagamento'
 
-            inscricao = serializer.save(
-                usuario=request.user,
-                status=status_inscricao
-            )
+            inscricao = serializer.save(usuario=request.user, status=status_inscricao)
 
-            return Response({
-                "mensagem": "Inscrição processada com sucesso.",
-                "status": inscricao.status,
-                "inscricao_id": inscricao.id
-            }, status=status.HTTP_201_CREATED)
+            return Response({'mensagem': 'Inscrição processada com sucesso.', 'status': inscricao.status, 'inscricao_id': inscricao.id}, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -87,9 +78,7 @@ class InscricaoViewSet(viewsets.ModelViewSet):
         Suporta filtro opcional por status via ?status=confirmada
         e busca opcional pelo nome do evento via ?busca=termo.
         """
-        queryset = Inscricao.objects.filter(
-            usuario=request.user
-        ).select_related('evento').order_by('-data_inscricao')
+        queryset = Inscricao.objects.filter(usuario=request.user).select_related('evento').order_by('-data_inscricao')
 
         status_param = request.query_params.get('status', None)
         if status_param:
@@ -115,6 +104,7 @@ class ListaInscritosView(generics.ListAPIView):
     evento. Suporta filtro opcional por status via ?status=confirmada e
     busca opcional por nome/e-mail do participante via ?busca=termo.
     """
+
     serializer_class = ParticipanteSerializer
     permission_classes = [IsAuthenticated, IsOrganizadorDoEvento]
 
@@ -128,17 +118,13 @@ class ListaInscritosView(generics.ListAPIView):
         status_param = self.request.query_params.get('status', None)
         busca = self.request.query_params.get('busca', None)
 
-        queryset = Inscricao.objects.filter(
-            evento=evento
-        ).select_related('usuario').order_by('data_inscricao')
+        queryset = Inscricao.objects.filter(evento=evento).select_related('usuario').order_by('data_inscricao')
 
         if status_param:
             queryset = queryset.filter(status=status_param)
 
         if busca:
-            queryset = queryset.filter(
-                Q(usuario__nome_completo__icontains=busca) | Q(usuario__email__icontains=busca)
-            )
+            queryset = queryset.filter(Q(usuario__nome_completo__icontains=busca) | Q(usuario__email__icontains=busca))
 
         return queryset
 
@@ -160,25 +146,9 @@ class BuscarParticipanteCredenciamentoView(APIView):
         inscricoes = Inscricao.objects.filter(evento=evento).select_related('usuario')
 
         if query:
-            inscricoes = inscricoes.filter(
-                Q(id__exact=query if query.isdigit() else None) |
-                Q(usuario__nome_completo__icontains=query) |
-                Q(usuario__email__icontains=query)
-            )
+            inscricoes = inscricoes.filter(Q(id__exact=query if query.isdigit() else None) | Q(usuario__nome_completo__icontains=query) | Q(usuario__email__icontains=query))
 
-        data = [
-            {
-                'id': inc.id,
-                'usuario_nome': inc.usuario.nome_completo or inc.usuario.email,
-                'usuario_email': inc.usuario.email,
-                'status': inc.status,
-                'presenca_registrada': getattr(inc, 'presenca_registrada', False) or (
-                    inc.dados_adicionais.get('presenca_registrada', False)
-                    if isinstance(inc.dados_adicionais, dict) else False
-                )
-            }
-            for inc in inscricoes
-        ]
+        data = [{'id': inc.id, 'usuario_nome': inc.usuario.nome_completo or inc.usuario.email, 'usuario_email': inc.usuario.email, 'status': inc.status, 'presenca_registrada': getattr(inc, 'presenca_registrada', False) or (inc.dados_adicionais.get('presenca_registrada', False) if isinstance(inc.dados_adicionais, dict) else False)} for inc in inscricoes]
 
         return Response({'participantes': data}, status=status.HTTP_200_OK)
 
@@ -192,20 +162,14 @@ class RegistrarPresencaView(APIView):
         self.check_object_permissions(request, inscricao.evento)
 
         if inscricao.status != 'confirmada':
-            return Response(
-                {'error': 'Inscrição não apta para credenciamento!'},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+            return Response({'error': 'Inscrição não apta para credenciamento!'}, status=status.HTTP_400_BAD_REQUEST)
 
         ja_registrada = getattr(inscricao, 'presenca_registrada', False)
         if isinstance(inscricao.dados_adicionais, dict) and inscricao.dados_adicionais.get('presenca_registrada'):
             ja_registrada = True
 
         if ja_registrada:
-            return Response(
-                {'warning': 'Presença já havia sido registrada anteriormente!'},
-                status=status.HTTP_400_BAD_REQUEST
-            )
+            return Response({'warning': 'Presença já havia sido registrada anteriormente!'}, status=status.HTTP_400_BAD_REQUEST)
 
         inscricao.presenca_registrada = True
         if not isinstance(inscricao.dados_adicionais, dict):
@@ -215,7 +179,4 @@ class RegistrarPresencaView(APIView):
 
         nome_usuario = inscricao.usuario.nome_completo or inscricao.usuario.email
 
-        return Response(
-            {'success': f'Presença de {nome_usuario} registrada com sucesso!'},
-            status=status.HTTP_200_OK
-        )
+        return Response({'success': f'Presença de {nome_usuario} registrada com sucesso!'}, status=status.HTTP_200_OK)

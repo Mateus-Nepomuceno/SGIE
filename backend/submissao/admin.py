@@ -4,10 +4,10 @@ from django.utils.translation import gettext_lazy as _
 from .models import (
     Apresentacao,
     Area,
-    AtribuicaoAvaliacao,       # NOVO
+    AtribuicaoAvaliacao,  # NOVO
     Avaliacao,
-    Avaliador,                 # já deve estar
-    AvaliadorEvento,           # NOVO
+    Avaliador,  # já deve estar
+    AvaliadorEvento,  # NOVO
     Local,
     Submissao,
     SubmissaoAutor,
@@ -93,15 +93,11 @@ class SubmissaoAdmin(admin.ModelAdmin):
         ),
         (
             _('Classificação'),
-            {
-                'fields': ['tipo', 'area', 'status']
-            },
+            {'fields': ['tipo', 'area', 'status']},
         ),
         (
             _('Autoria'),
-            {
-                'fields': ['autor_principal']
-            },
+            {'fields': ['autor_principal']},
         ),
         (
             _('Datas'),
@@ -165,9 +161,7 @@ class SubmissaoVersaoAdmin(admin.ModelAdmin):
     fieldsets = [
         (
             _('Versão de Submissão'),
-            {
-                'fields': ['submissao', 'numero_versao', 'caminho_arquivo']
-            },
+            {'fields': ['submissao', 'numero_versao', 'caminho_arquivo']},
         ),
         (
             _('Datas'),
@@ -196,9 +190,7 @@ class AvaliacaoAdmin(admin.ModelAdmin):
     fieldsets = [
         (
             _('Avaliação'),
-            {
-                'fields': ['submissao', 'avaliador', 'status_parecer', 'pontuacao']
-            },
+            {'fields': ['submissao', 'avaliador', 'status_parecer', 'pontuacao']},
         ),
         (
             _('Observações'),
@@ -220,9 +212,7 @@ class LocalAdmin(admin.ModelAdmin):
     fieldsets = [
         (
             _('Informações do Local'),
-            {
-                'fields': ['evento', 'nome', 'descricao', 'capacidade']
-            },
+            {'fields': ['evento', 'nome', 'descricao', 'capacidade']},
         ),
         (
             _('Datas'),
@@ -247,16 +237,13 @@ class ApresentacaoAdmin(admin.ModelAdmin):
     fieldsets = [
         (
             _('Apresentação'),
-            {
-                'fields': ['submissao', 'local', 'inicio', 'duracao_minutos', 'fim']
-            },
+            {'fields': ['submissao', 'local', 'inicio', 'duracao_minutos', 'fim']},
         ),
         (
             _('Datas'),
             {'fields': ['criado_em', 'atualizado_em']},
         ),
     ]
-
 
 
 @admin.register(Avaliador)

@@ -35,6 +35,7 @@ SECULO_BASE = 2000
 # Helpers de Limpeza e Formatação
 # =============================================================================
 
+
 def limpar_digitos(valor: Optional[Union[str, int]]) -> str:
     """Remove caracteres não numéricos do valor fornecido."""
     if not valor:
@@ -45,6 +46,7 @@ def limpar_digitos(valor: Optional[Union[str, int]]) -> str:
 # =============================================================================
 # Validações Numéricas e Valores Financeiros
 # =============================================================================
+
 
 def validar_valor_minimo_positivo(valor: Optional[Decimal]) -> None:
     """
@@ -159,6 +161,7 @@ def validar_valor_reembolso(valor_reembolso: Optional[Decimal], valor_pagamento:
 # Validações de Cartão de Crédito e Débito (Luhn & Metadados)
 # =============================================================================
 
+
 def validar_numero_cartao(numero: Optional[str]) -> None:
     """
     Valida o número do cartão utilizando o Algoritmo de Luhn (Módulo 10)
@@ -252,6 +255,7 @@ def validar_dados_cartao(dados_cartao: Optional[Dict[str, Any]], exigir_completo
 # Validações de Pix e Gateway / Transação
 # =============================================================================
 
+
 def validar_payload_pix(payload: Optional[str]) -> None:
     """Valida o formato básico do payload copia-e-cola Pix (EMVCo BR Code)."""
     if not payload or not str(payload).strip():
@@ -278,6 +282,7 @@ def validar_transacao_id(transacao_id: Optional[str]) -> None:
 # =============================================================================
 # Validações de Prazos e Regras de Negócio de Estado
 # =============================================================================
+
 
 def validar_cobranca_elegivel_para_pagamento(cobranca) -> None:
     """Valida se uma cobrança possui status elegível e prazo vigente para pagamento."""

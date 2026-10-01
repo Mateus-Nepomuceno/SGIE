@@ -10,7 +10,6 @@ from eventos.services import EventoService
 
 
 class PermissoesEventoTestCase(APITestCase):
-
     def setUp(self):
         # 1. Usuário Dono / Representante (Organizador Homologado)
         self.dono = Usuario.objects.create_user(

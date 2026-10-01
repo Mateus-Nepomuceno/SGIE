@@ -13,14 +13,12 @@ from .validators import (
 
 
 class Modalidade(models.TextChoices):
-
     PRESENCIAL = 'Presencial', _('Presencial')
     ONLINE = 'On-line', _('On-line')
     HIBRIDO = 'Híbrido', _('Híbrido')
 
 
 class LocalTipo(models.TextChoices):
-
     AUDITORIO = 'Auditório', _('Auditório')
     SALA = 'Sala', _('Sala')
     LABORATORIO = 'Laboratório', _('Laboratório')
@@ -28,7 +26,6 @@ class LocalTipo(models.TextChoices):
 
 
 class CategoriaEvento(models.TextChoices):
-
     CONGRESSO = 'Congresso', _('Congresso')
     SIMPOSIO = 'Simpósio', _('Simpósio')
     SEMINARIO = 'Seminário', _('Seminário')
@@ -58,7 +55,6 @@ CATEGORIAS_CURTA_DURACAO = {
 
 
 class StatusEvento(models.TextChoices):
-
     RASCUNHO = 'Rascunho', _('Rascunho')
     CONFIGURACAO = 'Configuração', _('Configuração')
     PUBLICADO = 'Publicado', _('Publicado')
@@ -70,13 +66,11 @@ class StatusEvento(models.TextChoices):
 
 
 class VisibilidadeEvento(models.TextChoices):
-
     PUBLICO = 'Público', _('Público')
     PRIVADO = 'Privado', _('Privado')
 
 
 class Evento(models.Model):
-
     id = models.BigAutoField(primary_key=True)
 
     usuario_representante = models.ForeignKey(
@@ -251,27 +245,19 @@ class Evento(models.Model):
             validar_capacidade(self.capacidade)
 
         if self.hora_inicio and self.hora_fim and self.hora_fim <= self.hora_inicio:
-            raise ValidationError(
-                {'hora_fim': _('O horário de fim deve ser estritamente posterior ao horário de início.')}
-            )
+            raise ValidationError({'hora_fim': _('O horário de fim deve ser estritamente posterior ao horário de início.')})
 
         if not self.e_gratuito and self.preco <= 0:
-            raise ValidationError(
-                {'preco': _('Eventos pagos devem possuir valor de inscrição superior a R$ 0,00.')}
-            )
+            raise ValidationError({'preco': _('Eventos pagos devem possuir valor de inscrição superior a R$ 0,00.')})
 
         if self.e_gratuito and self.preco != 0:
             self.preco = 0.00
 
         if self.categoria == CategoriaEvento.OUTRO and not self.categoria_personalizada.strip():
-            raise ValidationError(
-                {'categoria_personalizada': _('Informe a categoria personalizada quando selecionar a opção "Outro".')}
-            )
+            raise ValidationError({'categoria_personalizada': _('Informe a categoria personalizada quando selecionar a opção "Outro".')})
 
         if self.local_tipo == LocalTipo.OUTRO and not self.local.strip():
-            raise ValidationError(
-                {'local': _('Informe a descrição do local quando selecionar a opção "Outro".')}
-            )
+            raise ValidationError({'local': _('Informe a descrição do local quando selecionar a opção "Outro".')})
 
     @property
     def data_inicio_completa(self) -> datetime:
@@ -351,7 +337,6 @@ class Evento(models.Model):
 
 
 class EquipeOrganizadora(models.Model):
-
     evento = models.ForeignKey(
         Evento,
         on_delete=models.CASCADE,
@@ -377,7 +362,6 @@ class EquipeOrganizadora(models.Model):
 
 
 class RegraSubmissao(models.Model):
-
     evento = models.OneToOneField(
         Evento,
         on_delete=models.CASCADE,
@@ -411,13 +395,9 @@ class RegraSubmissao(models.Model):
         super().clean()
         if self.aceita_submissao:
             if not self.data_hora_inicio or not self.data_hora_fim:
-                raise ValidationError(
-                    _('Eventos que aceitam submissão de trabalhos devem obrigatoriamente possuir data/hora de início e término.')
-                )
+                raise ValidationError(_('Eventos que aceitam submissão de trabalhos devem obrigatoriamente possuir data/hora de início e término.'))
             if self.data_hora_fim <= self.data_hora_inicio:
-                raise ValidationError(
-                    {'data_hora_fim': _('A data e horário de fim das submissões deve ser posterior ao início.')}
-                )
+                raise ValidationError({'data_hora_fim': _('A data e horário de fim das submissões deve ser posterior ao início.')})
 
     @property
     def periodo_aberto(self) -> bool:

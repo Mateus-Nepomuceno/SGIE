@@ -10,7 +10,6 @@ from .validators import validar_url
 
 
 class TipoSubmissao(models.TextChoices):
-
     ARTIGO = 'Artigo', _('Artigo')
     PALESTRA = 'Palestra', _('Palestra')
     MINICURSO = 'Minicurso', _('Minicurso')
@@ -19,7 +18,6 @@ class TipoSubmissao(models.TextChoices):
 
 
 class StatusSubmissao(models.TextChoices):
-
     RASCUNHO = 'Rascunho', _('Rascunho')
     SUBMETIDA = 'Submetida', _('Submetida')
     EM_AVALIACAO = 'Em avaliação', _('Em avaliação')
@@ -29,20 +27,17 @@ class StatusSubmissao(models.TextChoices):
 
 
 class TipoParticipacaoAutor(models.TextChoices):
-
     PRINCIPAL = 'Principal', _('Principal')
     COAUTOR = 'Coautor', _('Coautor')
 
 
 class StatusParecer(models.TextChoices):
-
     APROVADO = 'Aprovado', _('Aprovado')
     REJEITADO = 'Rejeitado', _('Rejeitado')
     NECESSITA_CORRECAO = 'Necessita correção', _('Necessita correção')
 
 
 class Area(models.Model):
-
     id = models.BigAutoField(primary_key=True)
 
     nome = models.CharField(
@@ -71,7 +66,6 @@ class Area(models.Model):
 
 
 class Submissao(models.Model):
-
     id = models.BigAutoField(primary_key=True)
 
     evento = models.ForeignKey(
@@ -171,14 +165,10 @@ class Submissao(models.Model):
 
         if self.tipo == TipoSubmissao.OUTRO and hasattr(self, 'tipo_personalizado'):
             if not getattr(self, 'tipo_personalizado', '').strip():
-                raise ValidationError(
-                    {'tipo_personalizado': _('Informe o tipo personalizado quando selecionar "Outro".')}
-                )
+                raise ValidationError({'tipo_personalizado': _('Informe o tipo personalizado quando selecionar "Outro".')})
 
         if self.status == StatusSubmissao.SUBMETIDA and not self.versoes.exists():
-            raise ValidationError(
-                _('Uma submissão não pode ser submetida sem um arquivo anexado.')
-            )
+            raise ValidationError(_('Uma submissão não pode ser submetida sem um arquivo anexado.'))
 
     @property
     def pode_editar(self) -> bool:
@@ -203,7 +193,6 @@ class Submissao(models.Model):
 
 
 class SubmissaoAutor(models.Model):
-
     id = models.BigAutoField(primary_key=True)
 
     submissao = models.ForeignKey(
@@ -227,12 +216,7 @@ class SubmissaoAutor(models.Model):
         default=TipoParticipacaoAutor.COAUTOR,
     )
 
-    ordem_autoria = models.PositiveIntegerField(
-        _('Ordem de Autoria'),
-        null=True,
-        blank=True,
-        help_text=_('Ordem de aparição nos certificados e documentos.')
-    )
+    ordem_autoria = models.PositiveIntegerField(_('Ordem de Autoria'), null=True, blank=True, help_text=_('Ordem de aparição nos certificados e documentos.'))
 
     lattes_url = models.URLField(
         _('Currículo Lattes'),
@@ -276,14 +260,11 @@ class SubmissaoAutor(models.Model):
         unique_together = [['submissao', 'usuario']]
 
     def __str__(self) -> str:
-        nome = getattr(self.usuario, 'nome_completo', None) or (
-            self.usuario.get_full_name() if hasattr(self.usuario, 'get_full_name') else str(self.usuario)
-        )
+        nome = getattr(self.usuario, 'nome_completo', None) or (self.usuario.get_full_name() if hasattr(self.usuario, 'get_full_name') else str(self.usuario))
         return f'{nome} ({self.get_tipo_participacao_display()}) - {self.submissao.titulo}'
 
 
 class SubmissaoVersao(models.Model):
-
     id = models.BigAutoField(primary_key=True)
 
     submissao = models.ForeignKey(
@@ -317,7 +298,6 @@ class SubmissaoVersao(models.Model):
 
 
 class Avaliacao(models.Model):
-
     id = models.BigAutoField(primary_key=True)
 
     submissao = models.ForeignKey(
@@ -369,29 +349,20 @@ class Avaliacao(models.Model):
         ]
 
     def __str__(self) -> str:
-        avaliador_nome = (
-            getattr(self.avaliador, 'nome_completo', None)
-            or (self.avaliador.get_full_name() if hasattr(self.avaliador, 'get_full_name') else str(self.avaliador))
-            if self.avaliador else 'Sem avaliador'
-        )
+        avaliador_nome = getattr(self.avaliador, 'nome_completo', None) or (self.avaliador.get_full_name() if hasattr(self.avaliador, 'get_full_name') else str(self.avaliador)) if self.avaliador else 'Sem avaliador'
         return f'Parecer de {avaliador_nome} - {self.submissao.titulo}'
 
     def clean(self):
         super().clean()
 
         if not self.observacoes.strip():
-            raise ValidationError(
-                {'observacoes': _('As observações são obrigatórias para emitir um parecer.')}
-            )
+            raise ValidationError({'observacoes': _('As observações são obrigatórias para emitir um parecer.')})
 
         if self.status_parecer == StatusParecer.NECESSITA_CORRECAO and self.pontuacao is None:
-            raise ValidationError(
-                {'pontuacao': _('A pontuação é obrigatória quando se solicita correção.')}
-            )
+            raise ValidationError({'pontuacao': _('A pontuação é obrigatória quando se solicita correção.')})
 
 
 class Local(models.Model):
-
     id = models.BigAutoField(primary_key=True)
 
     evento = models.ForeignKey(
@@ -433,7 +404,6 @@ class Local(models.Model):
 
 
 class Apresentacao(models.Model):
-
     id = models.BigAutoField(primary_key=True)
 
     submissao = models.ForeignKey(
@@ -479,14 +449,10 @@ class Apresentacao(models.Model):
         super().clean()
 
         if self.duracao_minutos <= 0:
-            raise ValidationError(
-                {'duracao_minutos': _('A duração deve ser maior que zero.')}
-            )
+            raise ValidationError({'duracao_minutos': _('A duração deve ser maior que zero.')})
 
         if self.submissao.status != StatusSubmissao.APROVADA:
-            raise ValidationError(
-                _('Apenas submissões aprovadas podem ter apresentações agendadas.')
-            )
+            raise ValidationError(_('Apenas submissões aprovadas podem ter apresentações agendadas.'))
 
         sobreposicoes = Apresentacao.objects.filter(
             local=self.local,
@@ -495,9 +461,7 @@ class Apresentacao(models.Model):
         ).exclude(pk=self.pk)
 
         if sobreposicoes.exists():
-            raise ValidationError(
-                _('Conflito de horário: outro trabalho já está agendado neste local neste horário.')
-            )
+            raise ValidationError(_('Conflito de horário: outro trabalho já está agendado neste local neste horário.'))
 
     @property
     def fim(self) -> models.DateTimeField:
@@ -505,9 +469,7 @@ class Apresentacao(models.Model):
         return self.inicio + timedelta(minutes=self.duracao_minutos)
 
 
-
 class Avaliador(models.Model):
-
     id = models.BigAutoField(primary_key=True)
 
     usuario = models.OneToOneField(
@@ -589,14 +551,12 @@ class Avaliador(models.Model):
 
 
 class StatusAtribuicao(models.TextChoices):
-
     PENDENTE = 'Pendente', _('Pendente')
     CONCLUIDA = 'Concluída', _('Concluída')
     CANCELADA = 'Cancelada', _('Cancelada')
 
 
 class AvaliadorEvento(models.Model):
-
     id = models.BigAutoField(primary_key=True)
 
     evento = models.ForeignKey(
@@ -633,7 +593,6 @@ class AvaliadorEvento(models.Model):
 
 
 class AtribuicaoAvaliacao(models.Model):
-
     id = models.BigAutoField(primary_key=True)
 
     submissao = models.OneToOneField(

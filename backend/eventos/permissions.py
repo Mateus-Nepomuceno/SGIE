@@ -27,20 +27,21 @@ class IsEventoOrganizadorOrReadOnly(BasePermission):
             return True
 
         if view.action == 'create':
-            return bool(
-                request.user
-                and request.user.is_authenticated
-                and (request.user.is_organizador() or request.user.is_staff or request.user.is_superuser)
-            )
+            return bool(request.user and request.user.is_authenticated and (request.user.is_organizador() or request.user.is_staff or request.user.is_superuser))
 
         return bool(request.user and request.user.is_authenticated)
 
     @override
     def has_object_permission(self, request, view, obj: Evento):
-        if request.method in SAFE_METHODS and obj.visibilidade == VisibilidadeEvento.PUBLICO and obj.status not in {
-            StatusEvento.RASCUNHO,
-            StatusEvento.CONFIGURACAO,
-        }:
+        if (
+            request.method in SAFE_METHODS
+            and obj.visibilidade == VisibilidadeEvento.PUBLICO
+            and obj.status
+            not in {
+                StatusEvento.RASCUNHO,
+                StatusEvento.CONFIGURACAO,
+            }
+        ):
             return True
 
         if not (request.user and request.user.is_authenticated):
@@ -49,10 +50,7 @@ class IsEventoOrganizadorOrReadOnly(BasePermission):
         if request.method in SAFE_METHODS and (request.user.is_staff or request.user.is_superuser):
             return True
 
-        return bool(
-            obj.usuario_representante_id == request.user.id
-            or request.user.has_role(obj.id, Papel.ORGANIZADOR)
-        )
+        return bool(obj.usuario_representante_id == request.user.id or request.user.has_role(obj.id, Papel.ORGANIZADOR))
 
 
 class IsEventoSubResourceOrganizadorOrReadOnly(BasePermission):

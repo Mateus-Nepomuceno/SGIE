@@ -224,19 +224,8 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
     @override
     def validate(self, attrs):
-        identificador = (
-            attrs.get('identificador')
-            or attrs.get('email')
-            or attrs.get('username')
-            or attrs.get('cpf')
-            or (self.initial_data.get('identificador') if hasattr(self, 'initial_data') else None)
-        )
-        password = (
-            attrs.get('password')
-            or attrs.get('senha')
-            or (self.initial_data.get('senha') if hasattr(self, 'initial_data') else None)
-            or (self.initial_data.get('password') if hasattr(self, 'initial_data') else None)
-        )
+        identificador = attrs.get('identificador') or attrs.get('email') or attrs.get('username') or attrs.get('cpf') or (self.initial_data.get('identificador') if hasattr(self, 'initial_data') else None)
+        password = attrs.get('password') or attrs.get('senha') or (self.initial_data.get('senha') if hasattr(self, 'initial_data') else None) or (self.initial_data.get('password') if hasattr(self, 'initial_data') else None)
 
         if not identificador or not password:
             raise serializers.ValidationError(_('Identificador (E-mail ou CPF) e senha são obrigatórios.'))

@@ -33,7 +33,6 @@ from .services import EventoService
 
 
 class EventoViewSet(viewsets.ModelViewSet):
-
     permission_classes = [IsEventoOrganizadorOrReadOnly]
     parser_classes = [JSONParser, FormParser]
 
@@ -48,11 +47,16 @@ class EventoViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        queryset = Evento.objects.all().select_related(
-            'usuario_representante',
-            'regra_submissao',
-        ).prefetch_related(
-            'organizadores',
+        queryset = (
+            Evento.objects
+            .all()
+            .select_related(
+                'usuario_representante',
+                'regra_submissao',
+            )
+            .prefetch_related(
+                'organizadores',
+            )
         )
 
         if not (user and user.is_authenticated):
@@ -65,12 +69,7 @@ class EventoViewSet(viewsets.ModelViewSet):
                 ativo=True,
             ).values_list('evento_id', flat=True)
 
-            queryset = queryset.filter(
-                Q(visibilidade=VisibilidadeEvento.PUBLICO)
-                & ~Q(status__in=[StatusEvento.RASCUNHO, StatusEvento.CONFIGURACAO])
-                | Q(usuario_representante=user)
-                | Q(id__in=papeis_evento_ids)
-            ).distinct()
+            queryset = queryset.filter(Q(visibilidade=VisibilidadeEvento.PUBLICO) & ~Q(status__in=[StatusEvento.RASCUNHO, StatusEvento.CONFIGURACAO]) | Q(usuario_representante=user) | Q(id__in=papeis_evento_ids)).distinct()
 
         params = self.request.query_params
 
@@ -99,9 +98,7 @@ class EventoViewSet(viewsets.ModelViewSet):
 
         busca = params.get('search')
         if busca:
-            queryset = queryset.filter(
-                Q(nome__icontains=busca) | Q(descricao__icontains=busca) | Q(local__icontains=busca)
-            )
+            queryset = queryset.filter(Q(nome__icontains=busca) | Q(descricao__icontains=busca) | Q(local__icontains=busca))
 
         data_inicio = params.get('data_inicio')
         if data_inicio:
@@ -124,9 +121,7 @@ class EventoViewSet(viewsets.ModelViewSet):
             ativo=True,
         ).values_list('evento_id', flat=True)
 
-        eventos = self.get_queryset().filter(
-            Q(usuario_representante=user) | Q(id__in=papeis_evento_ids)
-        ).distinct().order_by('-criado_em')
+        eventos = self.get_queryset().filter(Q(usuario_representante=user) | Q(id__in=papeis_evento_ids)).distinct().order_by('-criado_em')
 
         serializer = EventoListSerializer(eventos, many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -217,7 +212,6 @@ class EventoViewSet(viewsets.ModelViewSet):
 
 
 class EquipeOrganizadoraViewSet(viewsets.ModelViewSet):
-
     queryset = EquipeOrganizadora.objects.all()
     serializer_class = EquipeOrganizadoraSerializer
     permission_classes = [IsEventoSubResourceOrganizadorOrReadOnly]
@@ -231,7 +225,6 @@ class EquipeOrganizadoraViewSet(viewsets.ModelViewSet):
 
 
 class RegraSubmissaoViewSet(viewsets.ModelViewSet):
-
     queryset = RegraSubmissao.objects.all()
     serializer_class = RegraSubmissaoSerializer
     permission_classes = [IsEventoSubResourceOrganizadorOrReadOnly]

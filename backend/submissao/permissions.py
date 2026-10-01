@@ -6,7 +6,6 @@ from rest_framework.permissions import SAFE_METHODS, BasePermission
 from usuarios.models import Papel
 
 from .models import Submissao
-from .models import Avaliador
 
 
 class CanCreateSubmissaoPermission(BasePermission):
@@ -35,24 +34,12 @@ class IsSubmissaoAutorOrReadOnly(BasePermission):
     @override
     def has_object_permission(self, request, view, obj: Submissao):
         if request.method in SAFE_METHODS:
-            return bool(
-                obj.autor_principal_id == request.user.id
-                or obj.evento.usuario_representante_id == request.user.id
-                or request.user.is_staff
-                or request.user.is_superuser
-                or request.user.has_role(obj.evento.id, Papel.ORGANIZADOR)
-            )
+            return bool(obj.autor_principal_id == request.user.id or obj.evento.usuario_representante_id == request.user.id or request.user.is_staff or request.user.is_superuser or request.user.has_role(obj.evento.id, Papel.ORGANIZADOR))
 
         if not (request.user and request.user.is_authenticated):
             return False
 
-        return bool(
-            request.user.is_staff
-            or request.user.is_superuser
-            or obj.autor_principal_id == request.user.id
-            or obj.evento.usuario_representante_id == request.user.id
-            or request.user.has_role(obj.evento.id, Papel.ORGANIZADOR)
-        )
+        return bool(request.user.is_staff or request.user.is_superuser or obj.autor_principal_id == request.user.id or obj.evento.usuario_representante_id == request.user.id or request.user.has_role(obj.evento.id, Papel.ORGANIZADOR))
 
 
 class IsAvaliadorOrReadOnly(BasePermission):
@@ -67,23 +54,12 @@ class IsAvaliadorOrReadOnly(BasePermission):
     @override
     def has_object_permission(self, request, view, obj):
         if request.method in SAFE_METHODS:
-            return bool(
-                obj.submissao.evento.usuario_representante_id == request.user.id
-                or request.user.is_staff
-                or request.user.is_superuser
-                or request.user.has_role(obj.submissao.evento.id, Papel.ORGANIZADOR)
-                or request.user == obj.avaliador
-            )
+            return bool(obj.submissao.evento.usuario_representante_id == request.user.id or request.user.is_staff or request.user.is_superuser or request.user.has_role(obj.submissao.evento.id, Papel.ORGANIZADOR) or request.user == obj.avaliador)
 
         if not (request.user and request.user.is_authenticated):
             return False
 
-        return bool(
-            request.user.is_staff
-            or request.user.is_superuser
-            or obj.submissao.evento.usuario_representante_id == request.user.id
-            or request.user.has_role(obj.submissao.evento.id, Papel.ORGANIZADOR)
-        )
+        return bool(request.user.is_staff or request.user.is_superuser or obj.submissao.evento.usuario_representante_id == request.user.id or request.user.has_role(obj.submissao.evento.id, Papel.ORGANIZADOR))
 
 
 class IsOrganiadorEventoOrReadOnly(BasePermission):
@@ -113,7 +89,6 @@ class IsOrganiadorEventoOrReadOnly(BasePermission):
         return request.user.has_role(evento.id, Papel.ORGANIZADOR)
 
 
-
 class IsAvaliadorDonoOrReadOnly(BasePermission):
     message = _('Apenas o próprio avaliador ou a administração pode alterar este perfil.')
 
@@ -127,8 +102,4 @@ class IsAvaliadorDonoOrReadOnly(BasePermission):
     def has_object_permission(self, request, view, obj):
         if request.method in SAFE_METHODS:
             return True
-        return bool(
-            request.user.is_staff
-            or request.user.is_superuser
-            or obj.usuario_id == request.user.id
-        )
+        return bool(request.user.is_staff or request.user.is_superuser or obj.usuario_id == request.user.id)

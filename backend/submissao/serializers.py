@@ -8,12 +8,12 @@ from rest_framework import serializers
 from .models import (
     Apresentacao,
     Area,
-    AtribuicaoAvaliacao,     # NOVO
+    AtribuicaoAvaliacao,  # NOVO
     Avaliacao,
-    Avaliador,               # já deve estar
-    AvaliadorEvento,         # NOVO
+    Avaliador,  # já deve estar
+    AvaliadorEvento,  # NOVO
     Local,
-    StatusAtribuicao,        # NOVO (se for usar choices no serializer)
+    StatusAtribuicao,  # NOVO (se for usar choices no serializer)
     Submissao,
     SubmissaoAutor,
     SubmissaoVersao,
@@ -30,7 +30,6 @@ from .validators import (
 
 
 class AreaSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Area
         fields = ['id', 'nome', 'descricao', 'criado_em', 'atualizado_em']
@@ -38,7 +37,6 @@ class AreaSerializer(serializers.ModelSerializer):
 
 
 class SubmissaoVersaoSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = SubmissaoVersao
         fields = ['id', 'submissao', 'numero_versao', 'caminho_arquivo', 'criado_em']
@@ -49,7 +47,6 @@ class SubmissaoVersaoSerializer(serializers.ModelSerializer):
 
 
 class SubmissaoAutorSerializer(serializers.ModelSerializer):
-
     submissao = serializers.PrimaryKeyRelatedField(
         required=False,
         allow_null=True,
@@ -101,7 +98,6 @@ class SubmissaoAutorSerializer(serializers.ModelSerializer):
 
 
 class AvaliacaoSerializer(serializers.ModelSerializer):
-
     avaliador_nome = serializers.CharField(source='avaliador.nome_completo', read_only=True)
     avaliador_email = serializers.CharField(source='avaliador.email', read_only=True)
     status_parecer_display = serializers.CharField(source='get_status_parecer_display', read_only=True)
@@ -128,7 +124,6 @@ class AvaliacaoSerializer(serializers.ModelSerializer):
 
 
 class LocalSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Local
         fields = [
@@ -147,7 +142,6 @@ class LocalSerializer(serializers.ModelSerializer):
 
 
 class ApresentacaoSerializer(serializers.ModelSerializer):
-
     local_nome = serializers.CharField(source='local.nome', read_only=True)
     fim = serializers.SerializerMethodField()
 
@@ -174,7 +168,6 @@ class ApresentacaoSerializer(serializers.ModelSerializer):
 
 
 class SubmissaoListSerializer(serializers.ModelSerializer):
-
     status_display = serializers.CharField(source='get_status_display', read_only=True)
     tipo_display = serializers.CharField(source='get_tipo_display', read_only=True)
     area_nome = serializers.CharField(source='area.nome', read_only=True)
@@ -203,9 +196,7 @@ class SubmissaoListSerializer(serializers.ModelSerializer):
         ]
 
 
-
 class SubmissaoCreateUpdateSerializer(serializers.ModelSerializer):
-
     autores = SubmissaoAutorSerializer(many=True, required=False)
     arquivo = serializers.FileField(
         required=False,
@@ -288,9 +279,7 @@ class SubmissaoCreateUpdateSerializer(serializers.ModelSerializer):
             try:
                 validar_arquivo_submissao(value)
             except DjangoValidationError as exc:
-                raise serializers.ValidationError(
-                    exc.message_dict if hasattr(exc, 'message_dict') else exc.messages
-                )
+                raise serializers.ValidationError(exc.message_dict if hasattr(exc, 'message_dict') else exc.messages)
         return value
 
     def validate_lattes_url(self, value):
@@ -298,9 +287,7 @@ class SubmissaoCreateUpdateSerializer(serializers.ModelSerializer):
             try:
                 validar_url(value)
             except DjangoValidationError as exc:
-                raise serializers.ValidationError(
-                    exc.message_dict if hasattr(exc, 'message_dict') else exc.messages
-                )
+                raise serializers.ValidationError(exc.message_dict if hasattr(exc, 'message_dict') else exc.messages)
         return value
 
     def validate_linkedin_url(self, value):
@@ -308,17 +295,13 @@ class SubmissaoCreateUpdateSerializer(serializers.ModelSerializer):
             try:
                 validar_url(value)
             except DjangoValidationError as exc:
-                raise serializers.ValidationError(
-                    exc.message_dict if hasattr(exc, 'message_dict') else exc.messages
-                )
+                raise serializers.ValidationError(exc.message_dict if hasattr(exc, 'message_dict') else exc.messages)
         return value
 
     def validate(self, attrs):
         tipo = attrs.get('tipo', getattr(self.instance, 'tipo', TipoSubmissao.ARTIGO))
         if tipo == TipoSubmissao.OUTRO:
-            raise serializers.ValidationError(
-                _('O tipo "Outro" ainda não é suportado nesta versão do sistema.')
-            )
+            raise serializers.ValidationError(_('O tipo "Outro" ainda não é suportado nesta versão do sistema.'))
         return attrs
 
     def to_internal_value(self, data):
@@ -346,10 +329,7 @@ class SubmissaoCreateUpdateSerializer(serializers.ModelSerializer):
             'lattes_url': validated_data.pop('lattes_url', ''),
             'linkedin_url': validated_data.pop('linkedin_url', ''),
             'afiliacao_institucional': validated_data.pop('afiliacao_institucional', ''),
-            'maior_titulacao': (
-                validated_data.pop('maior_titulacao', '')
-                or validated_data.pop('maiór_titulacao', '')
-            ),
+            'maior_titulacao': (validated_data.pop('maior_titulacao', '') or validated_data.pop('maiór_titulacao', '')),
         }
 
         evento = validated_data.get('evento')
@@ -369,9 +349,7 @@ class SubmissaoCreateUpdateSerializer(serializers.ModelSerializer):
             )
             return submissao
         except DjangoValidationError as exc:
-            raise serializers.ValidationError(
-                exc.message_dict if hasattr(exc, 'message_dict') else exc.messages
-            )
+            raise serializers.ValidationError(exc.message_dict if hasattr(exc, 'message_dict') else exc.messages)
         except Exception as exc:
             raise serializers.ValidationError(str(exc))
 
@@ -391,30 +369,24 @@ class SubmissaoCreateUpdateSerializer(serializers.ModelSerializer):
         try:
             instance.full_clean()
         except DjangoValidationError as exc:
-            raise serializers.ValidationError(
-                exc.message_dict if hasattr(exc, 'message_dict') else exc.messages
-            )
+            raise serializers.ValidationError(exc.message_dict if hasattr(exc, 'message_dict') else exc.messages)
 
         instance.save()
         return instance
 
 
 class SubmeterSubmissaoSerializer(serializers.Serializer):
-
     arquivo = serializers.FileField(required=True, help_text=_('Arquivo PDF ou DOCX da submissão.'))
 
     def validate_arquivo(self, value):
         try:
             validar_arquivo_submissao(value)
         except DjangoValidationError as exc:
-            raise serializers.ValidationError(
-                exc.message_dict if hasattr(exc, 'message_dict') else exc.messages
-            )
+            raise serializers.ValidationError(exc.message_dict if hasattr(exc, 'message_dict') else exc.messages)
         return value
 
 
 class AprovarSubmissaoSerializer(serializers.Serializer):
-
     observacoes = serializers.CharField(
         required=False,
         allow_blank=True,
@@ -424,7 +396,6 @@ class AprovarSubmissaoSerializer(serializers.Serializer):
 
 
 class RejeitarSubmissaoSerializer(serializers.Serializer):
-
     observacoes = serializers.CharField(
         required=True,
         max_length=500,
@@ -433,7 +404,6 @@ class RejeitarSubmissaoSerializer(serializers.Serializer):
 
 
 class SolicitarCorrecaoSerializer(serializers.Serializer):
-
     observacoes = serializers.CharField(
         required=True,
         max_length=1000,
@@ -449,9 +419,7 @@ class SolicitarCorrecaoSerializer(serializers.Serializer):
     )
 
 
-
 class AvaliadorSerializer(serializers.ModelSerializer):
-
     usuario_nome = serializers.CharField(source='usuario.nome_completo', read_only=True)
     usuario_email = serializers.CharField(source='usuario.email', read_only=True)
     areas_nomes = serializers.SerializerMethodField()
@@ -495,7 +463,6 @@ class AvaliadorSerializer(serializers.ModelSerializer):
 
 
 class AvaliadorEventoSerializer(serializers.ModelSerializer):
-
     avaliador_nome = serializers.CharField(source='avaliador.usuario.nome_completo', read_only=True)
     avaliador_email = serializers.CharField(source='avaliador.usuario.email', read_only=True)
     avaliador_areas_nomes = serializers.SerializerMethodField()
@@ -523,7 +490,6 @@ class AvaliadorEventoSerializer(serializers.ModelSerializer):
 
 
 class AtribuicaoAvaliacaoSerializer(serializers.ModelSerializer):
-
     avaliador_nome = serializers.CharField(source='avaliador.usuario.nome_completo', read_only=True)
     avaliador_email = serializers.CharField(source='avaliador.usuario.email', read_only=True)
     status_display = serializers.CharField(source='get_status_display', read_only=True)
@@ -546,11 +512,7 @@ class AtribuicaoAvaliacaoSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'criado_em', 'atualizado_em']
 
 
-
-
-
 class SubmissaoDetailSerializer(serializers.ModelSerializer):
-
     status_display = serializers.CharField(source='get_status_display', read_only=True)
     tipo_display = serializers.CharField(source='get_tipo_display', read_only=True)
     area_nome = serializers.CharField(source='area.nome', read_only=True)

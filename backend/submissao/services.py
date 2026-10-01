@@ -12,11 +12,11 @@ import random
 
 from .models import (
     Apresentacao,
-    AtribuicaoAvaliacao,      # NOVO
+    AtribuicaoAvaliacao,  # NOVO
     Avaliacao,
-    AvaliadorEvento,          # NOVO
+    AvaliadorEvento,  # NOVO
     Local,
-    StatusAtribuicao,         # NOVO
+    StatusAtribuicao,  # NOVO
     StatusParecer,
     StatusSubmissao,
     Submissao,
@@ -30,7 +30,6 @@ logger = logging.getLogger(__name__)
 
 
 class SubmissaoService:
-
     @staticmethod
     def usuario_pode_editar_submissao(usuario: Usuario, submissao: Submissao) -> bool:
         if not (usuario and usuario.is_authenticated and usuario.is_active):
@@ -44,8 +43,6 @@ class SubmissaoService:
 
         return submissao.evento.usuario_representante_id == usuario.id
 
-
-    
     @staticmethod
     def usuario_pode_avaliar_submissao(usuario: Usuario, submissao: Submissao) -> bool:
         if not (usuario and usuario.is_authenticated and usuario.is_active):
@@ -63,7 +60,6 @@ class SubmissaoService:
             return True
 
         return False
-    
 
     @classmethod
     @transaction.atomic
@@ -136,10 +132,7 @@ class SubmissaoService:
         lattes_url = perfil_principal.get('lattes_url', '')
         linkedin_url = perfil_principal.get('linkedin_url', '')
         afiliacao_institucional = perfil_principal.get('afiliacao_institucional', '')
-        maior_titulacao = (
-            perfil_principal.get('maior_titulacao')
-            or perfil_principal.get('maiór_titulacao', '')
-        )
+        maior_titulacao = perfil_principal.get('maior_titulacao') or perfil_principal.get('maiór_titulacao', '')
 
         SubmissaoAutor.objects.create(
             submissao=submissao,
@@ -174,10 +167,7 @@ class SubmissaoService:
                     continue
 
                 coautor_dict.pop('submissao', None)
-                titulacao = (
-                    coautor_dict.pop('maior_titulacao', None)
-                    or coautor_dict.pop('maiór_titulacao', '')
-                )
+                titulacao = coautor_dict.pop('maior_titulacao', None) or coautor_dict.pop('maiór_titulacao', '')
                 tipo_part = coautor_dict.pop('tipo_participacao', TipoParticipacaoAutor.COAUTOR)
                 ordem = coautor_dict.pop('ordem_autoria', None) or ordem_atual
                 ordem_atual = max(ordem_atual, ordem) + 1
@@ -229,8 +219,6 @@ class SubmissaoService:
         logger.info(f'Submissão {submissao.id} atualizada por usuário {usuario.id}')
         return submissao
 
-
-
     @classmethod
     @transaction.atomic
     def submeter_trabalho(cls, submissao: Submissao, arquivo, usuario: Usuario) -> SubmissaoVersao:
@@ -238,9 +226,7 @@ class SubmissaoService:
             raise PermissionDenied(_('Você não tem permissão para submeter este trabalho.'))
 
         if not submissao.pode_submeter:
-            raise ValidationError(
-                _('A submissão não pode ser enviada neste momento. Verifique o status e o período de submissão.')
-            )
+            raise ValidationError(_('A submissão não pode ser enviada neste momento. Verifique o status e o período de submissão.'))
 
         validar_arquivo_submissao(arquivo)
 
@@ -262,8 +248,6 @@ class SubmissaoService:
 
         logger.info(f'Trabalho {submissao.id} submetido em versão {numero_versao} por usuário {usuario.id}')
         return versao
-
-
 
     @classmethod
     @transaction.atomic
@@ -301,8 +285,6 @@ class SubmissaoService:
 
         logger.info(f'Avaliação criada para submissão {submissao.id} por avaliador {avaliador.id}')
         return avaliacao
-
-
 
     @classmethod
     @transaction.atomic
@@ -372,9 +354,7 @@ class SubmissaoService:
             raise PermissionDenied(_('Você não tem permissão para agendar apresentações desta submissão.'))
 
         if submissao.status != StatusSubmissao.APROVADA:
-            raise ValidationError(
-                _('Apenas submissões aprovadas podem ter apresentações agendadas.')
-            )
+            raise ValidationError(_('Apenas submissões aprovadas podem ter apresentações agendadas.'))
 
         apresentacao = Apresentacao(
             submissao=submissao,
@@ -388,7 +368,6 @@ class SubmissaoService:
 
         logger.info(f'Apresentação agendada para submissão {submissao.id} por usuário {usuario.id}')
         return apresentacao
-
 
     @classmethod
     @transaction.atomic
@@ -423,10 +402,7 @@ class SubmissaoService:
         if not pool:
             submissao.sem_avaliador_disponivel = True
             submissao.save(update_fields=['sem_avaliador_disponivel'])
-            logger.warning(
-                f'Nenhum avaliador disponível para submissão {submissao.id} '
-                f'(evento {submissao.evento_id}, área {submissao.area_id})'
-            )
+            logger.warning(f'Nenhum avaliador disponível para submissão {submissao.id} (evento {submissao.evento_id}, área {submissao.area_id})')
             return None
 
         # 5. Sorteia
@@ -444,8 +420,5 @@ class SubmissaoService:
         submissao.sem_avaliador_disponivel = False
         submissao.save(update_fields=['sem_avaliador_disponivel'])
 
-        logger.info(
-            f'Avaliador {escolhido.avaliador_id} sorteado para submissão {submissao.id}'
-        )
+        logger.info(f'Avaliador {escolhido.avaliador_id} sorteado para submissão {submissao.id}')
         return atribuicao
-

@@ -9,10 +9,7 @@ def criar_inscricao_servico(usuario, evento, comprovante=None, dados_adicionais=
     validar_periodo_inscricao(evento)
     validar_inscricao_duplicada(usuario, evento, Inscricao)
 
-    inscricoes_ocupadas = Inscricao.objects.filter(
-        evento=evento,
-        status__in=['confirmada', 'pendente_pagamento']
-    ).count()
+    inscricoes_ocupadas = Inscricao.objects.filter(evento=evento, status__in=['confirmada', 'pendente_pagamento']).count()
 
     status_inscricao = 'confirmada'
 
@@ -21,12 +18,7 @@ def criar_inscricao_servico(usuario, evento, comprovante=None, dados_adicionais=
     elif not getattr(evento, 'e_gratuito'):
         status_inscricao = 'pendente_pagamento'
 
-    inscricao = Inscricao(
-        usuario=usuario,
-        evento=evento,
-        status=status_inscricao,
-        dados_adicionais=dados_adicionais or {}
-    )
+    inscricao = Inscricao(usuario=usuario, evento=evento, status=status_inscricao, dados_adicionais=dados_adicionais or {})
 
     if comprovante:
         inscricao.comprovante = comprovante
@@ -36,18 +28,12 @@ def criar_inscricao_servico(usuario, evento, comprovante=None, dados_adicionais=
 
 
 def processar_fila_espera(evento):
-    vagas_ocupadas = Inscricao.objects.filter(
-        evento=evento,
-        status__in=['confirmada', 'pendente_pagamento']
-    ).count()
+    vagas_ocupadas = Inscricao.objects.filter(evento=evento, status__in=['confirmada', 'pendente_pagamento']).count()
 
     vagas_livres = evento.capacidade - vagas_ocupadas
 
     if vagas_livres > 0:
-        proximos = Inscricao.objects.filter(
-            evento=evento,
-            status='lista_espera'
-        ).order_by('data_inscricao')[:vagas_livres]
+        proximos = Inscricao.objects.filter(evento=evento, status='lista_espera').order_by('data_inscricao')[:vagas_livres]
 
         for inscricao in proximos:
             inscricao.status = 'confirmada' if getattr(evento, 'e_gratuito') else 'pendente_pagamento'

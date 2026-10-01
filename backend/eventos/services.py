@@ -20,7 +20,6 @@ logger = logging.getLogger(__name__)
 
 
 class EventoService:
-
     @staticmethod
     def usuario_pode_gerenciar_evento(usuario: Usuario, evento: Evento) -> bool:
         if not (usuario and usuario.is_authenticated and usuario.is_active):
@@ -113,21 +112,14 @@ class EventoService:
         nova_data = dados.get('data')
         if nova_data and str(nova_data) != str(evento.data):
             if not evento.pode_alterar_data():
-                raise ValidationError(
-                    _('A data do evento só pode ser alterada até 1 semana antes da data definida inicialmente.')
-                )
+                raise ValidationError(_('A data do evento só pode ser alterada até 1 semana antes da data definida inicialmente.'))
 
-        alterou_horario = (
-            ('hora_inicio' in dados and str(dados['hora_inicio']) != str(evento.hora_inicio))
-            or ('hora_fim' in dados and str(dados['hora_fim']) != str(evento.hora_fim))
-        )
+        alterou_horario = ('hora_inicio' in dados and str(dados['hora_inicio']) != str(evento.hora_inicio)) or ('hora_fim' in dados and str(dados['hora_fim']) != str(evento.hora_fim))
         alterou_descricao = 'descricao' in dados and dados['descricao'] != evento.descricao
         alterou_programacao = 'programacao_geral' in dados and dados['programacao_geral'] != evento.programacao_geral
 
         if (alterou_horario or alterou_descricao or alterou_programacao) and not evento.pode_alterar_detalhes():
-            raise ValidationError(
-                _('Horário, descrição e programação só podem ser modificados até 1 hora antes do início do evento.')
-            )
+            raise ValidationError(_('Horário, descrição e programação só podem ser modificados até 1 hora antes do início do evento.'))
 
         for campo, valor_campo in dados.items():
             valor_final = formatar_titulo_evento(valor_campo) if (campo == 'nome' and valor_campo) else valor_campo
@@ -168,14 +160,10 @@ class EventoService:
             raise PermissionDenied(_('Você não possui permissão para abrir inscrições neste evento.'))
 
         if evento.status != StatusEvento.PUBLICADO:
-            raise ValidationError(
-                _('O evento precisa estar no estado "Publicado" para abrir inscrições.')
-            )
+            raise ValidationError(_('O evento precisa estar no estado "Publicado" para abrir inscrições.'))
 
         if timezone.now() >= evento.limite_encerramento_inscricoes:
-            raise ValidationError(
-                _('Não é possível abrir inscrições: o prazo de encerramento automático (15 minutos antes do início) já foi alcançado.')
-            )
+            raise ValidationError(_('Não é possível abrir inscrições: o prazo de encerramento automático (15 minutos antes do início) já foi alcançado.'))
 
         evento.status = StatusEvento.INSCRICOES_ABERTAS
         evento.save(update_fields=['status', 'atualizado_em'])
@@ -194,12 +182,8 @@ class EventoService:
 
         if not evento.pode_cancelar():
             if evento.is_curta_duracao:
-                raise ValidationError(
-                    _('Eventos de curta duração (Oficinas, Palestras, Treinamentos, etc.) só podem ser cancelados com até 1 hora de antecedência.')
-                )
-            raise ValidationError(
-                _('O cancelamento de eventos em geral deve ser realizado com no mínimo 1 semana de antecedência da data inicial.')
-            )
+                raise ValidationError(_('Eventos de curta duração (Oficinas, Palestras, Treinamentos, etc.) só podem ser cancelados com até 1 hora de antecedência.'))
+            raise ValidationError(_('O cancelamento de eventos em geral deve ser realizado com no mínimo 1 semana de antecedência da data inicial.'))
 
         evento.status = StatusEvento.CANCELADO
         evento.motivo_cancelamento = motivo or _('Cancelado pelo organizador.')

@@ -15,10 +15,10 @@ from django.core.exceptions import PermissionDenied
 from .models import (
     Apresentacao,
     Area,
-    AtribuicaoAvaliacao,      # NOVO
+    AtribuicaoAvaliacao,  # NOVO
     Avaliacao,
-    Avaliador,                # já deve estar
-    AvaliadorEvento,          # NOVO
+    Avaliador,  # já deve estar
+    AvaliadorEvento,  # NOVO
     Local,
     Submissao,
     SubmissaoAutor,
@@ -35,10 +35,10 @@ from .serializers import (
     ApresentacaoSerializer,
     AprovarSubmissaoSerializer,
     AreaSerializer,
-    AtribuicaoAvaliacaoSerializer,      # NOVO
+    AtribuicaoAvaliacaoSerializer,  # NOVO
     AvaliacaoSerializer,
-    AvaliadorEventoSerializer,          # NOVO
-    AvaliadorSerializer,                # já deve estar
+    AvaliadorEventoSerializer,  # NOVO
+    AvaliadorSerializer,  # já deve estar
     LocalSerializer,
     RejeitarSubmissaoSerializer,
     SolicitarCorrecaoSerializer,
@@ -55,7 +55,6 @@ from .services import SubmissaoService
 
 
 class AreaViewSet(viewsets.ModelViewSet):
-
     permission_classes = [IsOrganiadorEventoOrReadOnly]
     parser_classes = [JSONParser, FormParser]
     queryset = Area.objects.all()
@@ -67,7 +66,6 @@ class AreaViewSet(viewsets.ModelViewSet):
 
 
 class SubmissaoViewSet(viewsets.ModelViewSet):
-
     permission_classes = [IsSubmissaoAutorOrReadOnly]
     parser_classes = [JSONParser, FormParser, MultiPartParser]
 
@@ -87,24 +85,28 @@ class SubmissaoViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        queryset = Submissao.objects.all().select_related(
-            'evento',
-            'area',
-            'autor_principal',
-        ).prefetch_related(
-            'autores',
-            'versoes',
-            'avaliacoes',
-            'apresentacoes',
-        ).select_related('atribuicao_avaliacao__avaliador__usuario')   # NOVO
+        queryset = (
+            Submissao.objects
+            .all()
+            .select_related(
+                'evento',
+                'area',
+                'autor_principal',
+            )
+            .prefetch_related(
+                'autores',
+                'versoes',
+                'avaliacoes',
+                'apresentacoes',
+            )
+            .select_related('atribuicao_avaliacao__avaliador__usuario')
+        )  # NOVO
 
         if not (user and user.is_authenticated):
             return queryset.none()
 
         if not (user.is_staff or user.is_superuser):
-            queryset = queryset.filter(
-                Q(autor_principal=user) | Q(evento__usuario_representante=user)
-            ).distinct()
+            queryset = queryset.filter(Q(autor_principal=user) | Q(evento__usuario_representante=user)).distinct()
 
         evento = self.request.query_params.get('evento') or self.request.query_params.get('evento_id')
         if evento:
@@ -235,7 +237,6 @@ class SubmissaoViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-
     @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
     def sortear_avaliador(self, request, pk=None):
         """Sorteia (ou refaz o sorteio de) um avaliador para esta submissão."""
@@ -243,12 +244,7 @@ class SubmissaoViewSet(viewsets.ModelViewSet):
 
         # Só organizador/staff pode forçar sorteio
         user = request.user
-        if not (
-            user.is_staff
-            or user.is_superuser
-            or submissao.evento.usuario_representante_id == user.id
-            or user.has_role(submissao.evento_id, Papel.ORGANIZADOR)
-        ):
+        if not (user.is_staff or user.is_superuser or submissao.evento.usuario_representante_id == user.id or user.has_role(submissao.evento_id, Papel.ORGANIZADOR)):
             return Response(
                 {'detail': 'Apenas organizadores do evento podem sortear avaliadores.'},
                 status=status.HTTP_403_FORBIDDEN,
@@ -272,7 +268,6 @@ class SubmissaoViewSet(viewsets.ModelViewSet):
 
 
 class SubmissaoAutorViewSet(viewsets.ModelViewSet):
-
     permission_classes = [IsSubmissaoAutorOrReadOnly]
     parser_classes = [JSONParser, FormParser]
     serializer_class = SubmissaoAutorSerializer
@@ -287,13 +282,10 @@ class SubmissaoAutorViewSet(viewsets.ModelViewSet):
         if user.is_staff or user.is_superuser:
             return queryset
 
-        return queryset.filter(
-            Q(submissao__autor_principal=user) | Q(submissao__evento__usuario_representante=user)
-        ).distinct()
+        return queryset.filter(Q(submissao__autor_principal=user) | Q(submissao__evento__usuario_representante=user)).distinct()
 
 
 class SubmissaoVersaoViewSet(viewsets.ReadOnlyModelViewSet):
-
     parser_classes = [JSONParser, FormParser]
     serializer_class = SubmissaoVersaoSerializer
 
@@ -307,13 +299,10 @@ class SubmissaoVersaoViewSet(viewsets.ReadOnlyModelViewSet):
         if user.is_staff or user.is_superuser:
             return queryset
 
-        return queryset.filter(
-            Q(submissao__autor_principal=user) | Q(submissao__evento__usuario_representante=user)
-        ).distinct()
+        return queryset.filter(Q(submissao__autor_principal=user) | Q(submissao__evento__usuario_representante=user)).distinct()
 
 
 class AvaliacaoViewSet(viewsets.ModelViewSet):
-
     permission_classes = [IsAvaliadorOrReadOnly]
     parser_classes = [JSONParser, FormParser]
     serializer_class = AvaliacaoSerializer
@@ -328,14 +317,10 @@ class AvaliacaoViewSet(viewsets.ModelViewSet):
         if user.is_staff or user.is_superuser:
             return queryset
 
-        return queryset.filter(
-            Q(submissao__evento__usuario_representante=user)
-            | Q(avaliador=user)
-        ).distinct()
+        return queryset.filter(Q(submissao__evento__usuario_representante=user) | Q(avaliador=user)).distinct()
 
 
 class LocalViewSet(viewsets.ModelViewSet):
-
     permission_classes = [IsOrganiadorEventoOrReadOnly]
     parser_classes = [JSONParser, FormParser]
     serializer_class = LocalSerializer
@@ -346,7 +331,6 @@ class LocalViewSet(viewsets.ModelViewSet):
 
 
 class ApresentacaoViewSet(viewsets.ModelViewSet):
-
     permission_classes = [IsOrganiadorEventoOrReadOnly]
     parser_classes = [JSONParser, FormParser]
     serializer_class = ApresentacaoSerializer
@@ -361,13 +345,10 @@ class ApresentacaoViewSet(viewsets.ModelViewSet):
         if user.is_staff or user.is_superuser:
             return queryset
 
-        return queryset.filter(
-            Q(submissao__autor_principal=user) | Q(submissao__evento__usuario_representante=user)
-        ).distinct()
+        return queryset.filter(Q(submissao__autor_principal=user) | Q(submissao__evento__usuario_representante=user)).distinct()
 
 
 class AvaliadorViewSet(viewsets.ModelViewSet):
-
     serializer_class = AvaliadorSerializer
     parser_classes = [JSONParser, FormParser]
     permission_classes = [IsAuthenticated]
@@ -391,25 +372,19 @@ class AvaliadorViewSet(viewsets.ModelViewSet):
 
 
 class AvaliadorEventoViewSet(viewsets.ModelViewSet):
-
     serializer_class = AvaliadorEventoSerializer
     parser_classes = [JSONParser, FormParser]
     permission_classes = [IsOrganiadorEventoOrReadOnly]
 
     def get_queryset(self):
         user = self.request.user
-        queryset = AvaliadorEvento.objects.all().select_related(
-            'evento', 'avaliador__usuario'
-        ).prefetch_related('avaliador__areas')
+        queryset = AvaliadorEvento.objects.all().select_related('evento', 'avaliador__usuario').prefetch_related('avaliador__areas')
 
         if not (user and user.is_authenticated):
             return queryset.none()
 
         if not (user.is_staff or user.is_superuser):
-            queryset = queryset.filter(
-                Q(evento__usuario_representante=user)
-                | Q(evento__submissoes__autor_principal=user)
-            ).distinct()
+            queryset = queryset.filter(Q(evento__usuario_representante=user) | Q(evento__submissoes__autor_principal=user)).distinct()
 
         evento = self.request.query_params.get('evento') or self.request.query_params.get('evento_id')
         if evento:
@@ -428,12 +403,7 @@ class AvaliadorEventoViewSet(viewsets.ModelViewSet):
 
         # Só o organizador do evento (ou staff) pode vincular
         user = self.request.user
-        if not (
-            user.is_staff
-            or user.is_superuser
-            or evento.usuario_representante_id == user.id
-            or user.has_role(evento.id, Papel.ORGANIZADOR)
-        ):
+        if not (user.is_staff or user.is_superuser or evento.usuario_representante_id == user.id or user.has_role(evento.id, Papel.ORGANIZADOR)):
             raise PermissionDenied('Apenas organizadores do evento podem vincular avaliadores.')
 
         serializer.save()
