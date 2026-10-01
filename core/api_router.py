@@ -1,0 +1,10 @@
+from django.urls import include, path
+
+urlpatterns = [
+    path('auth/', include('core.auth')),
+    path('', include('usuarios.urls')),
+    path('', include('eventos.urls')),
+    path('', include('inscricao.urls')),
+    path('', include('pagamentos.urls')),
+    path('', include('submissao.urls')),
+]
