@@ -1,4 +1,6 @@
 import logging
+import random
+import uuid
 from typing import Any, Dict, Optional
 
 from django.core.exceptions import PermissionDenied, ValidationError
@@ -7,8 +9,6 @@ from django.utils.translation import gettext_lazy as _
 
 from eventos.models import Evento
 from usuarios.models import Usuario
-
-import random
 
 from .models import (
     Apresentacao,
@@ -67,7 +67,7 @@ class SubmissaoService:
         cls,
         usuario: Usuario,
         evento_id: int,
-        area_id: int,
+        area_id: Any,
         dados_submissao: Dict[str, Any],
         arquivo: Optional[Any] = None,
         autores_dados: Optional[list] = None,
@@ -157,7 +157,7 @@ class SubmissaoService:
                     user_id = coautor_dict.pop('usuario_id', None)
                     if user_id:
                         usuario_coautor = Usuario.objects.filter(id=user_id).first()
-                elif isinstance(usuario_coautor, (int, str)) and not isinstance(usuario_coautor, Usuario):
+                elif isinstance(usuario_coautor, (int, str, uuid.UUID)) and not isinstance(usuario_coautor, Usuario):
                     usuario_coautor = Usuario.objects.filter(id=usuario_coautor).first()
 
                 if not usuario_coautor or usuario_coautor.id == usuario.id:

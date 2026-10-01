@@ -506,8 +506,6 @@ class AtribuicaoAvaliacaoSerializer(serializers.ModelSerializer):
             'status_display',
             'criado_em',
             'atualizado_em',
-            'atribuicao_avaliacao',
-            'sem_avaliador_disponivel',
         ]
         read_only_fields = ['id', 'criado_em', 'atualizado_em']
 
@@ -557,6 +555,8 @@ class SubmissaoDetailSerializer(serializers.ModelSerializer):
             'versoes',
             'avaliacoes',
             'apresentacoes',
+            'atribuicao_avaliacao',
+            'sem_avaliador_disponivel',
             'criado_em',
             'atualizado_em',
         ]

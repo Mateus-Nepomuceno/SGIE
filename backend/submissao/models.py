@@ -6,6 +6,8 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
+from core.models import ModeloUUID
+
 from .validators import validar_url
 
 
@@ -37,9 +39,7 @@ class StatusParecer(models.TextChoices):
     NECESSITA_CORRECAO = 'Necessita correção', _('Necessita correção')
 
 
-class Area(models.Model):
-    id = models.BigAutoField(primary_key=True)
-
+class Area(ModeloUUID):
     nome = models.CharField(
         _('Nome da Área'),
         max_length=150,
@@ -65,9 +65,7 @@ class Area(models.Model):
         return self.nome
 
 
-class Submissao(models.Model):
-    id = models.BigAutoField(primary_key=True)
-
+class Submissao(ModeloUUID):
     evento = models.ForeignKey(
         'eventos.Evento',
         on_delete=models.CASCADE,
@@ -192,9 +190,7 @@ class Submissao(models.Model):
         return False
 
 
-class SubmissaoAutor(models.Model):
-    id = models.BigAutoField(primary_key=True)
-
+class SubmissaoAutor(ModeloUUID):
     submissao = models.ForeignKey(
         Submissao,
         on_delete=models.CASCADE,
@@ -264,9 +260,7 @@ class SubmissaoAutor(models.Model):
         return f'{nome} ({self.get_tipo_participacao_display()}) - {self.submissao.titulo}'
 
 
-class SubmissaoVersao(models.Model):
-    id = models.BigAutoField(primary_key=True)
-
+class SubmissaoVersao(ModeloUUID):
     submissao = models.ForeignKey(
         Submissao,
         on_delete=models.CASCADE,
@@ -297,9 +291,7 @@ class SubmissaoVersao(models.Model):
         return f'{self.submissao.titulo} (v{self.numero_versao})'
 
 
-class Avaliacao(models.Model):
-    id = models.BigAutoField(primary_key=True)
-
+class Avaliacao(ModeloUUID):
     submissao = models.ForeignKey(
         Submissao,
         on_delete=models.CASCADE,
@@ -362,9 +354,7 @@ class Avaliacao(models.Model):
             raise ValidationError({'pontuacao': _('A pontuação é obrigatória quando se solicita correção.')})
 
 
-class Local(models.Model):
-    id = models.BigAutoField(primary_key=True)
-
+class Local(ModeloUUID):
     evento = models.ForeignKey(
         'eventos.Evento',
         on_delete=models.CASCADE,
@@ -403,9 +393,7 @@ class Local(models.Model):
         return self.nome
 
 
-class Apresentacao(models.Model):
-    id = models.BigAutoField(primary_key=True)
-
+class Apresentacao(ModeloUUID):
     submissao = models.ForeignKey(
         Submissao,
         on_delete=models.CASCADE,
@@ -469,9 +457,7 @@ class Apresentacao(models.Model):
         return self.inicio + timedelta(minutes=self.duracao_minutos)
 
 
-class Avaliador(models.Model):
-    id = models.BigAutoField(primary_key=True)
-
+class Avaliador(ModeloUUID):
     usuario = models.OneToOneField(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -556,9 +542,7 @@ class StatusAtribuicao(models.TextChoices):
     CANCELADA = 'Cancelada', _('Cancelada')
 
 
-class AvaliadorEvento(models.Model):
-    id = models.BigAutoField(primary_key=True)
-
+class AvaliadorEvento(ModeloUUID):
     evento = models.ForeignKey(
         'eventos.Evento',
         on_delete=models.CASCADE,
@@ -592,9 +576,7 @@ class AvaliadorEvento(models.Model):
         return f'{nome} — {self.evento.nome}'
 
 
-class AtribuicaoAvaliacao(models.Model):
-    id = models.BigAutoField(primary_key=True)
-
+class AtribuicaoAvaliacao(ModeloUUID):
     submissao = models.OneToOneField(
         Submissao,
         on_delete=models.CASCADE,

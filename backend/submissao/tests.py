@@ -10,7 +10,16 @@ from rest_framework.test import APIClient
 from eventos.models import CategoriaEvento, Evento, RegraSubmissao, StatusEvento
 from usuarios.models import Usuario
 
-from .models import Area, Local, StatusSubmissao, Submissao, SubmissaoAutor, SubmissaoVersao, TipoParticipacaoAutor, TipoSubmissao, Avaliador
+from .models import (
+    Area,
+    Local,
+    StatusSubmissao,
+    Submissao,
+    SubmissaoAutor,
+    SubmissaoVersao,
+    TipoParticipacaoAutor,
+    TipoSubmissao,
+)
 from .services import SubmissaoService
 
 
